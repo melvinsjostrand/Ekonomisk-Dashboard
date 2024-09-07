@@ -24,7 +24,6 @@ const PieChart: React.FC<PieChartProps> = ({payments}) => {
       }
       return acc;
     }, {} as Record<string, number>);
-
     
   const labels = Object.keys(aggregatedPayments);
   const dataValues = Object.values(aggregatedPayments);
