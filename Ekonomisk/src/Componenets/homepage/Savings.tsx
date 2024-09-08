@@ -1,4 +1,4 @@
-import { Box,Text,Progress } from '@chakra-ui/react';
+import { Box,Text,Progress, Button } from '@chakra-ui/react';
 import PieChart from './PieChart';
 
 
@@ -40,6 +40,9 @@ const Savings = ({totalSaved, saveGoal, payments }: Props) => {
             {totalSaved} / {saveGoal}
           </Text>
         </Box>
+      </Box>
+      <Box border="1px">
+        <Button alignItems='center'>Räkningar</Button>
       </Box>
       <PieChart payments={payments} />
     </Box>
