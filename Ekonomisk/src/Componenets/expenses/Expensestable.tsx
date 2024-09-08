@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
+import ChangeValue from "./ChangeValue";
+import { Button } from "@chakra-ui/react";
 import sharedData from "../hooks/data";
 import { pay } from "../BaseTable";
 
@@ -9,11 +11,11 @@ interface Props {
   remaining: number;
 }
 
-const Tables = ({ sum, payments, remaining }: Props) => {
+const Expensestables = ({ sum, payments, remaining }: Props) => {
   const [cash, setCash] = useState({
-    ...sharedData,
-    totalSpent: 0,
-    remaining: 0,
+    ...sharedData, // Initial copy of sharedData
+    totalSpent: 0, // This will be calculated
+    remaining: 0, // This will be calculated
   });
 
   useEffect(() => {
@@ -34,9 +36,15 @@ const Tables = ({ sum, payments, remaining }: Props) => {
     <BaseTable
       sum={sum}
       payments={payments}
-      remaining={cash.remaining} // Use dynamic calculated remaining value
+      remaining={cash.remaining} 
+      renderExtraColumn={(payment, index) => (
+        <>
+          <ChangeValue category={payment.category} />
+          <Button>Remove</Button>
+        </>
+      )}
     />
   );
 };
 
-export default Tables;
+export default Expensestables;

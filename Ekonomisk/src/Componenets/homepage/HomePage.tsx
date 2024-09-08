@@ -5,22 +5,9 @@ import PieChart from "./PieChart";
 import { useEffect, useState } from "react";
 import { Progress } from "@chakra-ui/react";
 import Savings from "./Savings";
+import sharedData from "../hooks/data";
 
 const HomePage = () => {
-  const [cash, setCash] = useState({
-    sum: 3000,
-    payment: [
-      { category: "Transport", amount: 200 },
-      { category: "Mat och dagligvaror", amount: 300 },
-      { category: "Hälsa och välmående", amount: 400 },
-      { category: "Kläder och accessoarer", amount: 90 },
-      { category: "Fritid och underhållning", amount: 42 },
-      { category: "Kläder och accessoarer", amount: 40 },
-    ],
-    totalSpent: 0,
-    remaining: 0,
-    saveGoal:4000,
-  });
 
   const [error, setError] = useState<string | null>(null);
   const [save, setSave] = useState({
@@ -29,12 +16,18 @@ const HomePage = () => {
     Saving: 5500,
   });
 
+    const [cash, setCash] = useState({
+      ...sharedData, // Initial copy of sharedData
+      totalSpent: 0, // This will be calculated
+      remaining: 0, // This will be calculated
+    });
+
   useEffect(() => {
-    const totalSpent = cash.payment.reduce(
+    const totalSpent = sharedData.payment.reduce(
       (acc, payment) => acc + payment.amount,
       0
     );
-    const remaining = cash.sum - totalSpent;
+    const remaining = sharedData.sum - totalSpent;
 
     setCash((prevState) => ({
       ...prevState,
@@ -44,7 +37,7 @@ const HomePage = () => {
 
     if (remaining < 0)
       return setError("Error: You have spent more than your budget!");
-  }, [cash.payment, cash.sum]);
+  }, [sharedData.payment, sharedData.sum]);
 
 
   return (
@@ -66,17 +59,15 @@ const HomePage = () => {
           <Savings
             userName={save.userName}
             totalSaved={save.Saving}
-            saveGoal={cash.saveGoal}
-            payments={cash.payment}
+            saveGoal={sharedData.saveGoal}
+            payments={sharedData.payment}
           />
         </GridItem>
         <GridItem area="main">
           <Tables
-            sum={cash.sum}
-            payments={cash.payment}
-            remaining={cash.remaining}
-            totalSpent={cash.totalSpent}
-            saveGaol={cash.saveGoal}
+            sum={sharedData.sum}
+            payments={sharedData.payment}
+            remaining={sharedData.remaining}
           />
           {error && (
             <Text color="red.500" textAlign="center">
