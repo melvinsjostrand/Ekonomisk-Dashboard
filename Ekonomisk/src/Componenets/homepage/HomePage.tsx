@@ -1,14 +1,15 @@
-import { Box, Center, Grid, GridItem, Show, Text } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Show, Text } from "@chakra-ui/react";
 import NavBar from "../NavBar";
 import Tables from "./Table";
-import PieChart from "../PieChart";
+import PieChart from "./PieChart";
 import { useEffect, useState } from "react";
+import { Progress } from "@chakra-ui/react";
+import Savings from "./Savings";
 
 const HomePage = () => {
   const [cash, setCash] = useState({
     sum: 3000,
     payment: [
-      { category: "Boende", amount: 100 },
       { category: "Transport", amount: 200 },
       { category: "Mat och dagligvaror", amount: 300 },
       { category: "Hälsa och välmående", amount: 400 },
@@ -18,13 +19,14 @@ const HomePage = () => {
     ],
     totalSpent: 0,
     remaining: 0,
+    saveGoal:4000,
   });
 
   const [error, setError] = useState<string | null>(null);
   const [save, setSave] = useState({
     userId: 1,
     userName: "Dan Abrahmov",
-    Saving: 200,
+    Saving: 5500,
   });
 
   useEffect(() => {
@@ -43,11 +45,13 @@ const HomePage = () => {
     if (remaining < 0)
       return setError("Error: You have spent more than your budget!");
   }, [cash.payment, cash.sum]);
+
+
   return (
     <>
       <Grid
         templateAreas={{
-          base: `'nav' 'main'`,
+          base: `'nav' 'main' 'aside'`,
           lg: `'nav nav' 'main aside'`,
         }}
         templateColumns={{
@@ -58,21 +62,21 @@ const HomePage = () => {
         <GridItem area="nav">
           <NavBar />
         </GridItem>
-        <Show above="lg">
-          <GridItem area="aside">
-            <Box border="1px" borderColor="gray.200">
-              <Text textAlign="center">Dan Abrahmov </Text>
-              <Text textAlign="center">Total saved : {save.Saving}</Text>
-            </Box>
-            <PieChart payments={cash.payment} />
-          </GridItem>
-        </Show>
+        <GridItem area="aside">
+          <Savings
+            userName={save.userName}
+            totalSaved={save.Saving}
+            saveGoal={cash.saveGoal}
+            payments={cash.payment}
+          />
+        </GridItem>
         <GridItem area="main">
           <Tables
             sum={cash.sum}
             payments={cash.payment}
             remaining={cash.remaining}
             totalSpent={cash.totalSpent}
+            saveGaol={cash.saveGoal}
           />
           {error && (
             <Text color="red.500" textAlign="center">

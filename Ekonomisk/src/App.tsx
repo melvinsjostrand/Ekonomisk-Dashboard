@@ -8,7 +8,7 @@ import Login from "./Componenets/Loginpage/Login";
 function App() {
  return (
    <>
-     <Login onSubmit={handleLogin} />
+     <HomePage />
    </>
  );
 }

@@ -5,7 +5,8 @@ interface Props {
   sum: number;
   payments: pay[];
   totalSpent: number;
-  remaining: number;
+  remaining: number; 
+  saveGaol: number
 }
 
 interface pay {
@@ -14,7 +15,7 @@ interface pay {
 }
 
 
-const Tables = ({sum, payments, remaining }: Props) => {
+const Tables = ({ sum, payments, remaining }: Props) => {
   return (
     <TableContainer>
       <Table variant="simple" size="lg" border="1px" borderColor="gray.200">
@@ -40,6 +41,6 @@ const Tables = ({sum, payments, remaining }: Props) => {
       </Table>
     </TableContainer>
   );
-}
+};
 
 export default Tables

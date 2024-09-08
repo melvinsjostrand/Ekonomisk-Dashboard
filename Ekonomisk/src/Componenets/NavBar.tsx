@@ -3,7 +3,7 @@ import ColorModeSwitch from "./ColorModeSwitch";
 import logo from "../assets/logo.png";
 
 const NavBar = () => {
- 
+ const userName = "Dan Abrahmov";
   return (
     <HStack justifyContent="space-between">
       <Image boxSize="80px" src={logo} />
@@ -11,17 +11,15 @@ const NavBar = () => {
       <HStack>
         <Box>
           <WrapItem>
-            <HStack>
-              <Avatar name="Dan Abrahmov" />
-              <Text>Dan Abrahmov</Text>
-            </HStack>
-            <VStack align="end">
-              <Button colorScheme="red" size="sm" mt={2}>
+            <VStack spacing={1}>
+              <Avatar name={userName} />
+              <Button size='1px'>
                 Logout
               </Button>
             </VStack>
           </WrapItem>
         </Box>
+        <Text>{userName}</Text>
         <ColorModeSwitch />
       </HStack>
     </HStack>
