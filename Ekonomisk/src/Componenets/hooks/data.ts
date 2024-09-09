@@ -6,7 +6,7 @@ const sharedData = {
     { id: 3, category: "Hälsa och välmående", amount: 400 },
     { id: 4, category: "Kläder och accessoarer", amount: 90 },
     { id: 5, category: "Fritid och underhållning", amount: 42 },
-    { id: 6, category: "Kläder och accessoarer", amount: 40 },
+    { id: 6, category: "Kläder och accessoarer", amount: 40, },
   ],
   totalSpent: 0,
   remaining: 0,

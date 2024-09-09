@@ -1,30 +1,45 @@
-import React from 'react'
+import { useState } from 'react'
 import Expensestables from './Expensestable';
 import sharedData from '../hooks/data';
+import { Grid, GridItem } from '@chakra-ui/react';
+import NavBar from '../NavBar';
+import Sorting from './Sorting';
+
 
 
 
 const Expenses = () => {
-    interface Props {
-  sum: number;
-  payments: pay[];
-  totalSpent: number;
-  remaining: number; 
-  saveGaol: number
-}
+  const [sortOrder, setSortOrder] = useState<string>("");
+  const filteredPayments = sortOrder
+    ? sharedData.payment.filter((payment) => payment.category === sortOrder)
+    : sharedData.payment;
 
-interface pay {
-  category: string;
-  amount: number
-}
-
-console.log(sharedData);
+  console.log(sharedData);
   return (
-    <Expensestables
-      sum={sharedData.sum}
-      payments={sharedData.payment}
-      remaining={sharedData.remaining}
-    />
+    <>
+      <Grid
+        templateAreas={{
+          base: `'nav''aside' 'main' `,
+        }}
+      >
+        <GridItem area="nav">
+          <NavBar />
+        </GridItem>
+        <GridItem area="aside">
+          <Sorting
+            sortOrder={sortOrder}
+            onSelectSortOrder={(order) => setSortOrder(order)}
+          />
+        </GridItem>
+        <GridItem area="main">
+          <Expensestables
+            sum={sharedData.sum}
+            payments={filteredPayments}
+            remaining={sharedData.remaining}
+          />
+        </GridItem>
+      </Grid>
+    </>
   );
 }
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
-import { Button } from "@chakra-ui/react";
+import { Button} from "@chakra-ui/react";
 import sharedData from "../hooks/data";
 import { pay } from "../BaseTable";
 
@@ -11,7 +11,7 @@ interface Props {
   remaining: number;
 }
 
-const Expensestables = ({ sum, payments, remaining }: Props) => {
+const Expensestables = ({ sum, payments }: Props) => {
   const [cash, setCash] = useState({
     ...sharedData, // Initial copy of sharedData
     totalSpent: 0, // This will be calculated
@@ -33,17 +33,19 @@ const Expensestables = ({ sum, payments, remaining }: Props) => {
   }, [sharedData.payment, sharedData.sum]);
 
   return (
-    <BaseTable
-      sum={sum}
-      payments={payments}
-      remaining={cash.remaining} 
-      renderExtraColumn={(payment, index) => (
-        <>
-          <ChangeValue category={payment.category} />
-          <Button>Remove</Button>
-        </>
-      )}
-    />
+    <>
+      <BaseTable
+        sum={sum}
+        payments={payments}
+        remaining={cash.remaining}
+        renderExtraColumn={(payment) => (
+          <>
+            <ChangeValue category={payment.category} />
+            <Button>Remove</Button>
+          </>
+        )}
+      />
+    </>
   );
 };
 

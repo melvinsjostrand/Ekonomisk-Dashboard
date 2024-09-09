@@ -1,9 +1,8 @@
-import { Box, Grid, GridItem, Show, Text } from "@chakra-ui/react";
+import {Grid, GridItem,Text } from "@chakra-ui/react";
 import NavBar from "../NavBar";
 import Tables from "./Table";
-import PieChart from "./PieChart";
 import { useEffect, useState } from "react";
-import { Progress } from "@chakra-ui/react";
+
 import Savings from "./Savings";
 import sharedData from "../hooks/data";
 
@@ -17,9 +16,9 @@ const HomePage = () => {
   });
 
     const [cash, setCash] = useState({
-      ...sharedData, // Initial copy of sharedData
-      totalSpent: 0, // This will be calculated
-      remaining: 0, // This will be calculated
+      ...sharedData,
+      totalSpent: 0, 
+      remaining: 0,
     });
 
   useEffect(() => {

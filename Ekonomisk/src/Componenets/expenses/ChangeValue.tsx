@@ -1,16 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-    Button,
-    color,
-    HStack,
-    Input,
+  Button,
+  HStack,
+  Input,
   Popover,
   PopoverAnchor,
-  PopoverBody,
-  PopoverContent,
   PopoverTrigger,
-  Radio,
-  RadioGroup,
   useBoolean,
 } from "@chakra-ui/react";
 import sharedData from '../hooks/data';
@@ -22,7 +17,15 @@ type ChangeValueProps = {
 const ChangeValue: React.FC<ChangeValueProps> = ({ category }) => {
   const [isEditing, setIsEditing] = useBoolean();
   const payment = sharedData.payment.find((p) => p.category === category);
-  const defaultPaymentAmount = payment?.amount || 0; // If no match, default to 0
+  const [inputValue, setInputValue] = useState<number>(payment?.amount || 0);
+
+    useEffect(() => {
+      setInputValue(payment?.amount || 0); // Update inputValue when payment changes
+    }, [payment]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(Number(e.target.value)); // Update state when input changes
+    };
   return (
     <Popover
       isOpen={isEditing}
@@ -39,7 +42,8 @@ const ChangeValue: React.FC<ChangeValueProps> = ({ category }) => {
             w="auto"
             display="inline-flex"
             isDisabled={!isEditing}
-            defaultValue={defaultPaymentAmount}
+            value={inputValue}
+            onChange={handleInputChange}
           />
         </PopoverAnchor>
 
