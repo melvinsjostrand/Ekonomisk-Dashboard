@@ -1,8 +1,6 @@
-import HomePage from "./Componenets/homepage/HomePage";
-import Login from "./Componenets/Loginpage/Login";
 import Expenses from "./Componenets/expenses/Expenses";
-import ChangeValue from "./Componenets/expenses/ChangeValue";
-
+import HomePage from "./Componenets/homepage/HomePage";
+import LoginForm from "./Componenets/Loginpage/Login";
  const handleLogin = (email: string, password: string) => {
    console.log(email, password);
  };
@@ -10,7 +8,7 @@ import ChangeValue from "./Componenets/expenses/ChangeValue";
 function App() {
  return (
    <>
-     <Expenses></Expenses>
+     <HomePage />
    </>
  );
 }

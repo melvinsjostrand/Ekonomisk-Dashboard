@@ -1,6 +1,6 @@
 import {HStack, Image, WrapItem, Avatar , Text, Box, VStack, Button} from "@chakra-ui/react";
 import ColorModeSwitch from "./ColorModeSwitch";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 
 const NavBar = () => {
  const userName = "Dan Abrahmov";

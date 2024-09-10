@@ -1,5 +1,5 @@
 import {Grid, GridItem,Text } from "@chakra-ui/react";
-import NavBar from "../NavBar";
+import NavBar from "../Nav/NavBar";
 import Tables from "./Table";
 import { useEffect, useState } from "react";
 
@@ -59,8 +59,8 @@ const HomePage = () => {
             userName={save.userName}
             totalSaved={save.Saving}
             saveGoal={sharedData.saveGoal}
-            payments={sharedData.payment}
-          />
+            payments={sharedData.payment} 
+            prevsave={4000}         />
         </GridItem>
         <GridItem area="main">
           <Tables

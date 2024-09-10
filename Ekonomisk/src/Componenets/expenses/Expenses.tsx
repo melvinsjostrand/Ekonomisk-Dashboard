@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Expensestables from './Expensestable';
 import sharedData from '../hooks/data';
 import { Grid, GridItem } from '@chakra-ui/react';
-import NavBar from '../NavBar';
+import NavBar from '../Nav/NavBar';
 import Sorting from './Sorting';
 
 

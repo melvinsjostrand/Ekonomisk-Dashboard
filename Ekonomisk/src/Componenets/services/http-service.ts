@@ -29,6 +29,17 @@ class HttpService {
   update<T extends Entity>(entity: T) {
     return apiClient.patch(this.endpoint + "/" + entity.id, entity);
   }
+
+  login<T>(){
+        const controller = new AbortController();
+        const request = apiClient.get<T[]>(this.endpoint, {
+          signal: controller.signal,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        return { request, cancel: () => controller.abort };
+  }
 }
 const create = (endpoint: string) => new HttpService(endpoint);
 

@@ -7,6 +7,7 @@ import {
   Th,
   Tr,
 } from "@chakra-ui/react";
+import CompExample from "./alert";
 
 interface BaseTableProps {
   sum: number;
@@ -38,8 +39,11 @@ const BaseTable: React.FC<BaseTableProps> = ({
 
           {payments.map((payment, index) => (
             <Tr key={index}>
-              <Td>{payment.category}</Td>
-              <Td>{payment.amount}</Td>
+              <Td>
+                {payment.category}
+                  <CompExample />
+              </Td>
+              <Td>{payment.amount}kr</Td>
               {renderExtraColumn && (
                 <Td>{renderExtraColumn(payment, index)}</Td>
               )}

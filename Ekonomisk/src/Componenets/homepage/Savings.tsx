@@ -7,11 +7,12 @@ interface Props {
   totalSaved: number;
   saveGoal: number;
   payments: { category: string; amount: number }[];
+  prevsave: number;
 }
 
-const Savings = ({totalSaved, saveGoal, payments }: Props) => {
-
+const Savings = ({ totalSaved, saveGoal, payments, prevsave }: Props) => {
   const savingPercentage = (totalSaved / saveGoal) * 100;
+  const totalsavings = (totalSaved+prevsave);
   return (
     <Box>
       <Box border="1px">
@@ -37,12 +38,13 @@ const Savings = ({totalSaved, saveGoal, payments }: Props) => {
             fontWeight="bold"
             color="white"
           >
-            {totalSaved} / {saveGoal}
+            {totalsavings} / {saveGoal}
           </Text>
         </Box>
+        <Text textAlign="center">Savings previously {prevsave}</Text>
       </Box>
       <Box border="1px">
-        <Button alignItems='center'>Räkningar</Button>
+        <Button alignItems="center">Räkningar</Button>
       </Box>
       <PieChart payments={payments} />
     </Box>
