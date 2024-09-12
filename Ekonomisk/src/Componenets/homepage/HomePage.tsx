@@ -2,18 +2,13 @@ import {Grid, GridItem,Text } from "@chakra-ui/react";
 import NavBar from "../Nav/NavBar";
 import Tables from "./Table";
 import { useEffect, useState } from "react";
-
+import User from "../hooks/user";
 import Savings from "./Savings";
 import sharedData from "../hooks/data";
 
 const HomePage = () => {
-
+console.log(sharedData);
   const [error, setError] = useState<string | null>(null);
-  const [save, setSave] = useState({
-    userId: 1,
-    userName: "Dan Abrahmov",
-    Saving: 5500,
-  });
 
     const [cash, setCash] = useState({
       ...sharedData,
@@ -56,11 +51,9 @@ const HomePage = () => {
         </GridItem>
         <GridItem area="aside">
           <Savings
-            userName={save.userName}
-            totalSaved={save.Saving}
             saveGoal={sharedData.saveGoal}
-            payments={sharedData.payment} 
-            prevsave={4000}         />
+            payments={sharedData.payment}
+            prevsave={4000} userName={User[0].name} totalSaved={User[0].totalSaving}         />
         </GridItem>
         <GridItem area="main">
           <Tables

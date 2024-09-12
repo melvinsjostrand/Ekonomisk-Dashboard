@@ -9,7 +9,7 @@ interface Props {
   remaining: number;
 }
 
-const Tables = ({ sum, payments, remaining }: Props) => {
+const Tables = ({ sum, payments }: Props) => {
   const [cash, setCash] = useState({
     ...sharedData,
     totalSpent: 0,
@@ -34,7 +34,7 @@ const Tables = ({ sum, payments, remaining }: Props) => {
     <BaseTable
       sum={sum}
       payments={payments}
-      remaining={cash.remaining} // Use dynamic calculated remaining value
+      remaining={cash.remaining}
     />
   );
 };
