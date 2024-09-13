@@ -9,7 +9,7 @@ import CreateForm from "./Componenets/Account/CreateAcc";
 function App() {
  return (
    <>
-     <HomePage/>
+     <Expenses/>
    </>
  );
 }

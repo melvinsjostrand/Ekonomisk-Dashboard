@@ -19,6 +19,7 @@ interface BaseTableProps {
 export interface pay {
   category: string;
   amount: number;
+  desc?: string[];
 }
 
 const BaseTable: React.FC<BaseTableProps> = ({
@@ -41,7 +42,9 @@ const BaseTable: React.FC<BaseTableProps> = ({
             <Tr key={index}>
               <Td>
                 {payment.category}
-                  <CompExample />
+                <CompExample
+                  desc={payment.desc || ["No description available"]}
+                />
               </Td>
               <Td>{payment.amount}kr</Td>
               {renderExtraColumn && (

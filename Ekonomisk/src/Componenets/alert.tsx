@@ -1,6 +1,10 @@
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, CloseButton, useDisclosure } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, CloseButton, ListItem, UnorderedList, useDisclosure } from "@chakra-ui/react";
 
-function CompExample() {
+
+interface Props{
+  desc:string[];
+}
+function CompExample({desc} : Props) {
   const {
     isOpen: isVisible,
     onClose,
@@ -12,7 +16,13 @@ function CompExample() {
       <AlertIcon />
       <Box>
         <AlertTitle>Description</AlertTitle>
-        <AlertDescription></AlertDescription>
+        <AlertDescription>
+          <UnorderedList>
+            {desc.map((item, index) => (
+              <ListItem key={index}>{item}</ListItem>
+            ))}
+          </UnorderedList>
+        </AlertDescription>
       </Box>
       <CloseButton
         alignSelf="flex-start"
