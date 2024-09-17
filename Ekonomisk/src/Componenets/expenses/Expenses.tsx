@@ -6,6 +6,7 @@ import NavBar from "../Nav/NavBar";
 import Sorting from "./Sorting";
 import MaxSpent from "./MaxSpent";
 import User from "../hooks/user";
+import AddExpenses from "./AddExpenses";
 
 const Expenses = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
@@ -40,6 +41,7 @@ const Expenses = () => {
             sortOrder={sortOrder}
             onSelectSortOrder={(order) => setSortOrder(order)}
           />
+          <AddExpenses />
           <Expensestables
             sum={sharedData.sum}
             payments={filteredPayments}

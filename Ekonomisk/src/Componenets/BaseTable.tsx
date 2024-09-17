@@ -35,7 +35,7 @@ const BaseTable: React.FC<BaseTableProps> = ({
           <Tr>
             <Th>Category</Th>
             <Th>Total Sum {sum}</Th>
-            {renderExtraColumn && <Th>Actions</Th>}
+            {renderExtraColumn && <Th>Manage</Th>}
           </Tr>
 
           {payments.map((payment, index) => (
