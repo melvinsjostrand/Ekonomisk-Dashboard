@@ -1,28 +1,47 @@
-import {HStack, Image, WrapItem, Avatar , Text, Box, VStack, Button} from "@chakra-ui/react";
+import {
+  HStack,
+  Image,
+  WrapItem,
+  Avatar,
+  Text,
+  Box,
+  VStack,
+  Button,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import ColorModeSwitch from "./ColorModeSwitch";
 import logo from "../../assets/logo.png";
-import User from "../hooks/user";
-const NavBar = () => {
- const userName = "";
-  return (
-    <HStack justifyContent="space-between">
-      <Image boxSize="80px" src={logo} />
 
-      <HStack>
+const NavBar = () => {
+  const userName = "";
+  const logoSize = useBreakpointValue({ base: "60px", md: "80px" });
+  const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
+
+  return (
+    <HStack
+      spacing={4}
+      justifyContent="space-between"
+      p={4}
+      wrap="wrap"
+    >
+      <Image boxSize={logoSize} src={logo} alt="Logo" />
+
+      <HStack spacing={4} alignItems="center">
         <Box>
           <WrapItem>
-            <VStack spacing={1}>
+            <VStack spacing={1} align="start">
               {userName ? (
                 <>
-                <Avatar name={userName} /><Button size='1px'>Logout</Button>
+                  <Avatar name={userName} size="sm" />
+                  <Button size={buttonSize}>Logout</Button>
                 </>
-              ):(
-                <Button>Login</Button>
+              ) : (
+                <Button size={buttonSize}>Login</Button>
               )}
             </VStack>
           </WrapItem>
         </Box>
-        <Text>{userName}</Text>
+        <Text display={{ base: "none", md: "block" }}>{userName}</Text>
         <ColorModeSwitch />
       </HStack>
     </HStack>

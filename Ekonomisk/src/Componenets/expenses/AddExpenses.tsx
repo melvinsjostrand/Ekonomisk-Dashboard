@@ -6,25 +6,20 @@ import {
   FormLabel,
   Input,
   Select,
-  VStack,
   IconButton,
   HStack,
-  Tag,
-  TagCloseButton,
-  TagLabel,
   Collapse
 } from "@chakra-ui/react";
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 
 const categories = [
-  "Boende",
-  "Transport",
-  "Mat och dagligvaror",
-  "Hälsa och välmående",
-  "Fritid och underhållning",
-  "Kläder och accessoarer",
-  "Personlig utveckling",
-  "Övrigt",
+    "Housing",
+    "Transport",
+    "Food",
+    "Health",
+    "Entertainment",
+    "Accessories",
+    "Other",
 ];
 
 const AddExpenses = () => {
@@ -59,7 +54,7 @@ const AddExpenses = () => {
 
       {isFormVisible && (
         <Box>
-          <FormControl id="category" mb={4}>
+          <FormControl id="category" mb={4} isRequired>
             <FormLabel>Category</FormLabel>
             <Select
               value={category}
@@ -73,7 +68,7 @@ const AddExpenses = () => {
               ))}
             </Select>
           </FormControl>
-          <FormControl id="amount" mb={4}>
+          <FormControl id="amount" mb={4} isRequired>
             <FormLabel>Amount</FormLabel>
             <Input
               type="number"
@@ -105,6 +100,7 @@ const AddExpenses = () => {
                     aria-label="Remove description"
                     icon={<CloseIcon />}
                     onClick={() => removeDescription(index)}
+                    color="red"
                   />
                 </HStack>
               ))}
@@ -113,13 +109,14 @@ const AddExpenses = () => {
               </Button>
             </FormControl>
           </Collapse>
-
-          <Button colorScheme="teal" onClick={handleSubmit}>
-            Submit
-          </Button>
-          <Button ml={4} onClick={() => setIsFormVisible(false)}>
-            Close Form
-          </Button>
+          <Box>
+            <Button colorScheme="teal" onClick={handleSubmit}>
+              Submit
+            </Button>
+            <Button ml={4} onClick={() => setIsFormVisible(false)}>
+              Close Form
+            </Button>
+          </Box>
         </Box>
       )}
     </Box>

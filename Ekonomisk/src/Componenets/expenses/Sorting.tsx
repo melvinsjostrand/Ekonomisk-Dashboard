@@ -9,11 +9,13 @@ interface Props {
 const Sorting = ({ onSelectSortOrder, sortOrder }: Props) => {
     const sortOrders = [
       { value: "", label: "Relevance" },
+      { value: "Housing", label: "Housing" },
       { value: "Transport", label: "Transport" },
-      { value: "Mat och dagligvaror", label: "Mat och dagligvaror" },
-      { value: "Hälsa och välmående", label: "Hälsa och välmående" },
-      { value: "Kläder och accessoarer", label: "Kläder och accessoarer" },
-      { value: "Fritid och underhållning", label: "Fritid och underhållning" },
+      { value: "Food", label: "Food" },
+      { value: "Health", label: "Health" },
+      { value: "Entertainment", label: "Entertainment" },
+      { value: "Accessories", label: "Accessories" },
+      { value: "Other", label: "Other"}
     ];
 
       const currentSortOrder = sortOrders.find(

@@ -11,7 +11,7 @@ import {
 import sharedData from '../hooks/data';
 
 type ChangeValueProps = {
-  category: string; // Use 'category' as the identifier
+  category: string;
 };
 
 const ChangeValue: React.FC<ChangeValueProps> = ({ category }) => {
@@ -46,12 +46,11 @@ const ChangeValue: React.FC<ChangeValueProps> = ({ category }) => {
             onChange={handleInputChange}
           />
         </PopoverAnchor>
-
-        <PopoverTrigger>
-          <Button h="40px" colorScheme="pink">
-            {isEditing ? "Save" : "Edit"}
-          </Button>
-        </PopoverTrigger>
+          <PopoverTrigger>
+            <Button h="40px" colorScheme="pink">
+              {isEditing ? "Save" : "Edit"}
+            </Button>
+          </PopoverTrigger>
       </HStack>
     </Popover>
   );

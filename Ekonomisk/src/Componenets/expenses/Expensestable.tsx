@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
-import { Button} from "@chakra-ui/react";
+import { Button, Hide, Text} from "@chakra-ui/react";
 import sharedData from "../hooks/data";
 import { pay } from "../BaseTable";
 
@@ -45,6 +45,11 @@ const Expensestables = ({ sum, payments }: Props) => {
           </>
         )}
       />
+      <Hide above="lg">
+        <Text px={2}>
+          If you want to remove expenses you need to be on a Computer
+        </Text>
+      </Hide>
     </>
   );
 };

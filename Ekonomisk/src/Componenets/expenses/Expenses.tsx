@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Expensestables from "./Expensestable";
 import sharedData from "../hooks/data";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Button, Grid, GridItem } from "@chakra-ui/react";
 import NavBar from "../Nav/NavBar";
 import Sorting from "./Sorting";
 import MaxSpent from "./MaxSpent";

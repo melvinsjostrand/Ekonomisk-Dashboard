@@ -2,42 +2,32 @@ import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 
 const config: ThemeConfig = {
   initialColorMode: "dark",
+  useSystemColorMode:false
 };
 
-const colors = {
-  brand: {
-    50: "#d1fae5",
-    100: "#a7f3d0",
-    200: "#6ee7b7",
-    300: "#34d399",
-    400: "#10b981",
-    500: "#059669",
-    600: "#047857",
-    700: "#065f46",
-    800: "#064e3b",
-    900: "#032b20",
-  },
-  dark: {
-    bg: "#1A202C", 
-    cardBg: "#2D3748", 
-    text: "#E2E8F0", 
-    primary: "#81E6D9", 
-  },
+const breakpoints = {
+  sm: "30em", // 480px
+  md: "48em", // 768px
+  lg: "62em", // 992px
+  xl: "80em", // 1280px
 };
+
 
 const theme = extendTheme({
+  breakpoints,
   config,
-  colors,
-  fonts: {
-    heading: `'Poppins', sans-serif`,
-    body: `'Inter', sans-serif`,
-  },
   styles: {
-    global: {
+    global: (props: any) => ({
       body: {
-        bg: "dark.bg", 
-        color: "dark.text", 
+        bg: props.colorMode === "dark" ? "gray.900" : "gray.100",
+        color: props.colorMode === "dark" ? "white" : "black",
       },
+    }),
+  },
+  colors: {
+    brand: {
+      100: "#f7fafc",
+      900: "#1a202c",
     },
   },
 });
