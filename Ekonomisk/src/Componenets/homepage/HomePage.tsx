@@ -46,14 +46,11 @@ console.log(sharedData);
           lg: "3fr 1fr",
         }}
       >
-        <GridItem area="nav">
-          <NavBar />
-        </GridItem>
         <GridItem area="aside">
           <Savings
             saveGoal={sharedData.saveGoal}
             payments={sharedData.payment}
-            prevsave={4000} userName={User[0].name} totalSaved={User[0].totalSaving}         />
+            prevsave={4000} userName={User[0].name} totalSaved={User[0].totalSaving}/>
         </GridItem>
         <GridItem area="main">
           <Tables

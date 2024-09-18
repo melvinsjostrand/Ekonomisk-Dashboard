@@ -28,7 +28,7 @@ const AddExpenses = () => {
   const [descriptions, setDescriptions] = useState<string[]>([]);
   const [isAddingDescription, setIsAddingDescription] =
     useState<boolean>(false);
-  const [isFormVisible, setIsFormVisible] = useState<boolean>(true);
+  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
 
   const addDescription = () => setDescriptions([...descriptions, ""]);
   const removeDescription = (index: number) => {

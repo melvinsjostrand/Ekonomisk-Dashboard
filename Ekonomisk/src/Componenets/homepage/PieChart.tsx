@@ -15,7 +15,7 @@ interface PieChartProps {
   payments: Pay[];
 }
 
-const PieChart: React.FC<PieChartProps> = ({payments}) => {
+const PieChart = ({ payments }: PieChartProps) => {
   const aggregatedPayments = payments.reduce((acc, { category, amount }) => {
     if (acc[category]) {
       acc[category] += amount;
@@ -30,18 +30,18 @@ const PieChart: React.FC<PieChartProps> = ({payments}) => {
 
   const backgroundColors = labels.map(
     (category) => categoryColors[category] || "#CCCCCC"
-  ); 
+  );
   const borderColors = backgroundColors.map((color) =>
     color.replace("0.2", "1")
-  ); 
+  );
 
   const data = {
     labels,
     datasets: [
       {
         data: dataValues,
-        backgroundColor:backgroundColors,
-        borderColor:borderColors,
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
         borderWidth: 1,
       },
     ],
@@ -49,7 +49,8 @@ const PieChart: React.FC<PieChartProps> = ({payments}) => {
   return (
     <Box
       width={{ base: "100%", sm: "400px" }}
-      height={{ base: "auto", sm: "400px" }}>
+      height={{ base: "auto", sm: "400px" }}
+    >
       <Pie data={data} />
     </Box>
   );

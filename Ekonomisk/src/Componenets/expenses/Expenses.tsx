@@ -27,9 +27,6 @@ const Expenses = () => {
           lg: "3fr 1fr",
         }}
       >
-        <GridItem area="nav">
-          <NavBar />
-        </GridItem>
         <GridItem area="aside">
           <MaxSpent
             spending={sharedData.payment}

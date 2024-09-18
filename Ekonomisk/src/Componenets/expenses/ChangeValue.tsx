@@ -14,18 +14,18 @@ type ChangeValueProps = {
   category: string;
 };
 
-const ChangeValue: React.FC<ChangeValueProps> = ({ category }) => {
+const ChangeValue = ({ category }: ChangeValueProps) => {
   const [isEditing, setIsEditing] = useBoolean();
   const payment = sharedData.payment.find((p) => p.category === category);
   const [inputValue, setInputValue] = useState<number>(payment?.amount || 0);
 
-    useEffect(() => {
-      setInputValue(payment?.amount || 0); // Update inputValue when payment changes
-    }, [payment]);
+  useEffect(() => {
+    setInputValue(payment?.amount || 0); // Update inputValue when payment changes
+  }, [payment]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(Number(e.target.value)); // Update state when input changes
-    };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(Number(e.target.value)); // Update state when input changes
+  };
   return (
     <Popover
       isOpen={isEditing}
@@ -46,11 +46,11 @@ const ChangeValue: React.FC<ChangeValueProps> = ({ category }) => {
             onChange={handleInputChange}
           />
         </PopoverAnchor>
-          <PopoverTrigger>
-            <Button h="40px" colorScheme="pink">
-              {isEditing ? "Save" : "Edit"}
-            </Button>
-          </PopoverTrigger>
+        <PopoverTrigger>
+          <Button h="40px" colorScheme="pink">
+            {isEditing ? "Save" : "Edit"}
+          </Button>
+        </PopoverTrigger>
       </HStack>
     </Popover>
   );

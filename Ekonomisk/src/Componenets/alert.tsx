@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, CloseButto
 interface Props{
   desc:string[];
 }
-function CompExample({desc} : Props) {
+function Description({desc} : Props) {
   const {
     isOpen: isVisible,
     onClose,
@@ -39,4 +39,4 @@ function CompExample({desc} : Props) {
   );
 }
 
-export default CompExample
+export default Description;

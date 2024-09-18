@@ -10,14 +10,14 @@ import {
   Tr,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import CompExample from "./alert";
+import Description from "./alert";
 import categoryColors from "./hooks/categoryColors";
 
 interface BaseTableProps {
   sum: number;
   payments: pay[];
   remaining: number;
-  renderExtraColumn?: (payment: pay, index: number) => React.ReactNode; // Optional extra column rendering
+  renderExtraColumn?: (payment: pay, index: number) => React.ReactNode;
 }
 
 export interface pay {
@@ -26,12 +26,12 @@ export interface pay {
   desc?: string[];
 }
 
-const BaseTable: React.FC<BaseTableProps> = ({
+const BaseTable = ({
   sum,
   payments,
   remaining,
   renderExtraColumn,
-}) => {
+}: BaseTableProps) => {
   const tableSize = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   const tableFontSize = useBreakpointValue({ base: "s", md: "sm", lg: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -47,14 +47,14 @@ const BaseTable: React.FC<BaseTableProps> = ({
         <Tbody>
           <Tr>
             <Th fontSize={tableFontSize}>Category</Th>
-            <Th fontSize={tableFontSize}>Income {sum}</Th>
+            <Th fontSize={tableFontSize}>Income {sum}Kr</Th>
             {!isMobile && renderExtraColumn && (
               <Th fontSize={tableFontSize}>Manage</Th>
             )}
           </Tr>
 
           {payments.map((payment, index) => {
-            const categoryColor = categoryColors[payment.category] || "#CCC"; // Fallback color
+            const categoryColor = categoryColors[payment.category] || "#CCC";
 
             return (
               <Tr key={index}>
@@ -69,7 +69,7 @@ const BaseTable: React.FC<BaseTableProps> = ({
                   />
                   {payment.category}
                   <Show above="lg">
-                    <CompExample
+                    <Description
                       desc={payment.desc || ["No description available"]}
                     />
                   </Show>
