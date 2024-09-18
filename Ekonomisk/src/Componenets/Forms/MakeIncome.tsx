@@ -88,7 +88,6 @@ const MakeIncome = ({ onSubmit } :MakeIncomeProps) => {
       boxShadow="lg"
     >
       <Heading textAlign="center" mb="6" fontSize={{ base: "2xl", md: "3xl" }}>
-        <RxAvatar />
         Enter Income and Category Limits
       </Heading>
 
