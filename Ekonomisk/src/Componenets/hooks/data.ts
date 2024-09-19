@@ -3,7 +3,7 @@ import User from "./user";
 const sharedData = {
   userId: User[0].Id,
   Id: 1,
-  sum: 3000,
+  sum: 6000,
   payment: [
     { id: 1, category: "Housing", amount: 700, desc: ["Bus", "Taxi"] },
     { id: 2, category: "Transport", amount: 300, desc: ["Kött"] },

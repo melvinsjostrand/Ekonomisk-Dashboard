@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,6 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
 import categoryColors from "../hooks/categoryColors";
+import sharedData from "../hooks/data";
+import User from "../hooks/user";
 
 interface MakeIncomeProps {
   onSubmit: (income: number, categoryLimits: Record<string, number>) => void;
@@ -29,12 +31,23 @@ const categories = [
   "Other",
 ];
 
-const MakeIncome = ({ onSubmit } :MakeIncomeProps) => {
+const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
   const [income, setIncome] = useState<number>(0);
   const [categoryLimits, setCategoryLimits] = useState<Record<string, number>>(
     {}
   );
   const toast = useToast();
+
+  useEffect(() => {
+    // Fetch user data based on the shared userId
+    const currentUser = User.find((user) => user.Id === sharedData.userId);
+
+    if (currentUser) {
+      console.log(currentUser);
+      setIncome(sharedData.sum || currentUser.totalSaving);
+      setCategoryLimits(currentUser.Limits);
+    }
+  }, []);
 
   const handleLimitChange = (category: string, value: string) => {
     setCategoryLimits((prevLimits) => ({
