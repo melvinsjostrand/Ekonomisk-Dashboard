@@ -13,7 +13,12 @@ import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
 interface CreateFormProps {
-  onSubmit: (email: string, password: string, Name: string, PastSavings:number) => void;
+  onSubmit: (
+    Name: string,
+    email: string,
+    password: string,
+    PastSavings: number
+  ) => void;
 }
 
 const CreateForm = ({onSubmit,}: CreateFormProps) => {
@@ -28,7 +33,7 @@ const CreateForm = ({onSubmit,}: CreateFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    onSubmit(email, password, Name, PastSavings);
+    onSubmit(Name, email, password, PastSavings);
   };
 
   return (

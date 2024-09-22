@@ -7,26 +7,46 @@ import CreateAcc from "../Forms/CreateAcc";
 import MakeIncome from "../Forms/MakeIncome";
 
  const handleLogin = (email: string, password: string) => {
-   console.log(email, password);
+    const data = {
+      email,
+      password,
+    };
+   console.log(JSON.stringify(data));
  };
  const handleCreate = (
+   Name: string,
    email: string,
    password: string,
-   Name: string,
-   PastSaving:number
+   PastSaving: number
  ) => {
-   console.log(email, password, Name, PastSaving);
+   const data = {
+     Name,
+     email,
+     password,
+     PastSaving,
+   };
+   console.log(JSON.stringify(data));
  };
 
+const handleIncome = (
+  income: number,
+  categoryLimits: Record<string, number>
+) => {
+  const userId = 1; 
 
-  const handleIncome = (
-    income: number,
-    categoryLimits: Record<string, number>
-  ) => {
-
-    console.log("Income:", income);
-    console.log("Category Limits:", categoryLimits);
+  const data = {
+    userId,
+    income,
+    limits: Object.entries(categoryLimits).map(([category, spendLimit]) => ({
+      userId,
+      category,
+      spendLimit,
+    })),
   };
+
+  console.log(JSON.stringify(data, null, 2));
+};
+
 
 const Layout = () => (
     <>

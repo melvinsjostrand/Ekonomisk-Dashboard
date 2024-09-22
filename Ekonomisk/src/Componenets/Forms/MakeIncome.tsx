@@ -39,7 +39,6 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
   const toast = useToast();
 
   useEffect(() => {
-    // Fetch user data based on the shared userId
     const currentUser = User.find((user) => user.Id === sharedData.userId);
 
     if (currentUser) {
@@ -142,6 +141,10 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
                 </HStack>
               </GridItem>
             ))}
+            <FormControl>
+              <FormLabel>Save goal</FormLabel>
+              <Input></Input>
+            </FormControl>
           </Grid>
 
           <Box

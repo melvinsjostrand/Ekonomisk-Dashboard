@@ -1,6 +1,5 @@
-import { Box,Text,Progress, Button } from '@chakra-ui/react';
-import PieChart from './PieChart';
-
+import { Box, Text, Progress, Button } from "@chakra-ui/react";
+import PieChart from "./PieChart";
 
 interface Props {
   userName: string;
@@ -12,7 +11,7 @@ interface Props {
 
 const Savings = ({ totalSaved, saveGoal, payments, prevsave }: Props) => {
   const savingPercentage = (totalSaved / saveGoal) * 100;
-  const totalsavings = (totalSaved+prevsave);
+  const totalsavings = totalSaved + prevsave;
   return (
     <Box>
       <Box border="1px">
@@ -43,12 +42,9 @@ const Savings = ({ totalSaved, saveGoal, payments, prevsave }: Props) => {
         </Box>
         <Text textAlign="center">Savings previously {prevsave}</Text>
       </Box>
-      <Box border="1px">
-        <Button alignItems="center">Räkningar</Button>
-      </Box>
       <PieChart payments={payments} />
     </Box>
   );
 };
 
-export default Savings
+export default Savings;

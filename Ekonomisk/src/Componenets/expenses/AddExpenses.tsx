@@ -11,6 +11,7 @@ import {
   Collapse
 } from "@chakra-ui/react";
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
+import { image } from "framer-motion/client";
 
 const categories = [
     "Housing",
@@ -25,10 +26,12 @@ const categories = [
 const AddExpenses = () => {
   const [category, setCategory] = useState<string>("");
   const [amount, setAmount] = useState<number | "">("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [descriptions, setDescriptions] = useState<string[]>([]);
-  const [isAddingDescription, setIsAddingDescription] =
-    useState<boolean>(false);
+  const [isAddingDescription, setIsAddingDescription] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
+  const [base64Image, setBase64Image] = useState<string | null>(null);
 
   const addDescription = () => setDescriptions([...descriptions, ""]);
   const removeDescription = (index: number) => {
@@ -41,9 +44,32 @@ const AddExpenses = () => {
     setDescriptions(newDescriptions);
   };
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        setSelectedFile(file);
+        setPreview(URL.createObjectURL(file));
+
+        // Convert the image to base64
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setBase64Image(reader.result as string); 
+        };
+        console.log(reader.result);
+        reader.readAsDataURL(file); 
+      }
+    };
+
   const handleSubmit = () => {
     // Handle form submission, e.g., add expense to a list or send to an API
-    console.log({ category, amount, descriptions });
+
+       const data = {
+          image: base64Image,
+          category,
+          amount,
+          descriptions
+       };
+    console.log(JSON.stringify(data));
   };
 
   return (
@@ -76,7 +102,14 @@ const AddExpenses = () => {
               onChange={(e) => setAmount(Number(e.target.value))}
             />
           </FormControl>
-
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+          {preview && (
+            <img
+              src={preview}
+              alt="Selected"
+              style={{ maxWidth: "200px", marginTop: "10px" }}
+            />
+          )}
           <Button
             mb={4}
             onClick={() => setIsAddingDescription(!isAddingDescription)}
@@ -104,6 +137,7 @@ const AddExpenses = () => {
                   />
                 </HStack>
               ))}
+
               <Button leftIcon={<AddIcon />} onClick={addDescription}>
                 Add Description
               </Button>
