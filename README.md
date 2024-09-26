@@ -1,2 +1,2 @@
-Cd ekonomisk
-Npm run dev
+1. Cd ekonomisk
+2. Npm run dev
