@@ -1,5 +1,4 @@
-import {Grid, GridItem,Text } from "@chakra-ui/react";
-import NavBar from "../Nav/NavBar";
+import { Grid, GridItem, Text } from "@chakra-ui/react";
 import Tables from "./Table";
 import { useEffect, useState } from "react";
 import User from "../hooks/user";
@@ -7,14 +6,14 @@ import Savings from "./Savings";
 import sharedData from "../hooks/data";
 
 const HomePage = () => {
-console.log(sharedData);
+  console.log(sharedData);
   const [error, setError] = useState<string | null>(null);
 
-    const [cash, setCash] = useState({
-      ...sharedData,
-      totalSpent: 0, 
-      remaining: 0,
-    });
+  const [cash, setCash] = useState({
+    ...sharedData,
+    totalSpent: 0,
+    remaining: 0,
+  });
 
   useEffect(() => {
     const totalSpent = sharedData.payment.reduce(
@@ -33,7 +32,6 @@ console.log(sharedData);
       return setError("Error: You have spent more than your budget!");
   }, [sharedData.payment, sharedData.sum]);
 
-
   return (
     <>
       <Grid
@@ -50,7 +48,10 @@ console.log(sharedData);
           <Savings
             saveGoal={sharedData.saveGoal}
             payments={sharedData.payment}
-            prevsave={4000} userName={User[0].name} totalSaved={User[0].totalSaving}/>
+            prevsave={4000}
+            userName={User[0].name}
+            totalSaved={User[0].totalSaving}
+          />
         </GridItem>
         <GridItem area="main">
           <Tables

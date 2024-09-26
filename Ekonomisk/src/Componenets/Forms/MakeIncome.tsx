@@ -12,7 +12,6 @@ import {
   GridItem,
   HStack,
 } from "@chakra-ui/react";
-import { RxAvatar } from "react-icons/rx";
 import categoryColors from "../hooks/categoryColors";
 import sharedData from "../hooks/data";
 import User from "../hooks/user";
@@ -36,6 +35,7 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
   const [categoryLimits, setCategoryLimits] = useState<Record<string, number>>(
     {}
   );
+  const [showSaveGoal, setSaveGoal] = useState<number>();
   const toast = useToast();
 
   useEffect(() => {
@@ -45,6 +45,7 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
       console.log(currentUser);
       setIncome(sharedData.sum || currentUser.totalSaving);
       setCategoryLimits(currentUser.Limits);
+      setSaveGoal(sharedData.saveGoal);
     }
   }, []);
 
@@ -143,7 +144,8 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
             ))}
             <FormControl>
               <FormLabel>Save goal</FormLabel>
-              <Input></Input>
+
+              <Input value={showSaveGoal}></Input>
             </FormControl>
           </Grid>
 
