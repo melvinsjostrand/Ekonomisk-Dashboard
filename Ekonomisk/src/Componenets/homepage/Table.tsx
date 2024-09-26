@@ -1,41 +1,39 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
-import sharedData from "../hooks/data";
-import { pay } from "../BaseTable";
+import useBaseTable from "../hooks/UseBaseTable";
+import { pay } from "../hooks/UseBaseTable";
 
-interface Props {
-  sum: number;
-  payments: pay[];
-  remaining: number;
-}
-
-const Tables = ({ sum, payments }: Props) => {
-  const [cash, setCash] = useState({
-    ...sharedData,
+const Tables = () => {
+  const { data: baseTable, isLoading, error } = useBaseTable();
+  const [cash, setCash] = useState<CashState>({
+    sum: 0,
+    payments: [],
     totalSpent: 0,
     remaining: 0,
   });
 
   useEffect(() => {
-    const totalSpent = sharedData.payment.reduce(
-      (acc, payment) => acc + payment.amount,
-      0
-    );
-    const remainingAmount = sharedData.sum - totalSpent;
+    if (baseTable) {
+      const totalSpent = baseTable.payments.reduce(
+        (acc, payment) => acc + payment.amount,
+        0
+      );
+      const remainingAmount = baseTable.sum - totalSpent;
 
-    setCash((prevState) => ({
-      ...prevState,
-      totalSpent: totalSpent,
-      remaining: remainingAmount,
-    }));
-  }, [sharedData.payment, sharedData.sum]);
+      setCash({
+        sum: baseTable.sum,
+        payments: baseTable.payments,
+        totalSpent: totalSpent,
+        remaining: remainingAmount,
+      });
+    }
+  }, [baseTable]);
+
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <BaseTable
-      sum={sum}
-      payments={payments}
-      remaining={cash.remaining}
-    />
+<div></div>
   );
 };
 

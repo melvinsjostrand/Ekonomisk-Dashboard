@@ -12,27 +12,26 @@ import {
 } from "@chakra-ui/react";
 import Description from "./alert";
 import categoryColors from "./hooks/categoryColors";
-
-interface BaseTableProps {
-  sum: number;
-  payments: pay[];
-  remaining: number;
-  renderExtraColumn?: (payment: pay, index: number) => React.ReactNode;
-}
-
-export interface pay {
-  category: string;
-  amount: number;
-  desc?: string[];
-  image?: string;
-}
+import useBaseTable, { pay } from "./hooks/UseBaseTable";
 
 const BaseTable = ({
-  sum,
-  payments,
-  remaining,
   renderExtraColumn,
-}: BaseTableProps) => {
+}: {
+  renderExtraColumn?: (payment: pay, index: number) => React.ReactNode;
+}) => {
+  // Fetching data using the hook
+  const { data: BaseTable, error, isLoading } = useBaseTable();
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+
+  const { sum, payments, remaining } = BaseTable || {
+    sum: 0,
+    payments: [],
+    remaining: 0,
+  };
+
   const tableSize = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   const tableFontSize = useBreakpointValue({ base: "s", md: "sm", lg: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -48,7 +47,7 @@ const BaseTable = ({
         <Tbody>
           <Tr>
             <Th fontSize={tableFontSize}>Category</Th>
-            <Th fontSize={tableFontSize}>Income {sum}Kr</Th>
+            <Th fontSize={tableFontSize}>Income {sum} Kr</Th>
             {!isMobile && renderExtraColumn && (
               <Th fontSize={tableFontSize}>Manage</Th>
             )}
@@ -76,7 +75,7 @@ const BaseTable = ({
                     />
                   </Show>
                 </Td>
-                <Td fontSize={tableFontSize}>{payment.amount}kr</Td>
+                <Td fontSize={tableFontSize}>{payment.amount} kr</Td>
                 {!isMobile && renderExtraColumn && (
                   <Td>{renderExtraColumn(payment, index)}</Td>
                 )}
@@ -87,7 +86,7 @@ const BaseTable = ({
         <Tfoot>
           <Tr>
             <Th fontSize={tableFontSize}>Remaining Balance</Th>
-            <Th fontSize={tableFontSize}>{remaining}</Th>
+            <Th fontSize={tableFontSize}>{remaining} Kr</Th>
           </Tr>
         </Tfoot>
       </Table>
