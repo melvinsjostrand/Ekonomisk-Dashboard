@@ -15,6 +15,7 @@ import {
 import categoryColors from "../hooks/categoryColors";
 import sharedData from "../hooks/data";
 import User from "../hooks/user";
+import useMakeIncome from "../hooks/UseMakeIncome";
 
 interface MakeIncomeProps {
   onSubmit: (income: number, categoryLimits: Record<string, number>) => void;
@@ -38,13 +39,15 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
   const [showSaveGoal, setSaveGoal] = useState<number>();
   const toast = useToast();
 
+   const mutation = useMakeIncome();
+
   useEffect(() => {
     const currentUser = User.find((user) => user.Id === sharedData.userId);
 
     if (currentUser) {
       console.log(currentUser);
       setIncome(sharedData.sum || currentUser.totalSaving);
-      setCategoryLimits(currentUser.Limits);
+      setCategoryLimits(currentUser.Limits || {});
       setSaveGoal(sharedData.saveGoal);
     }
   }, []);
@@ -56,9 +59,13 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
     }));
   };
 
-  const getTotalLimits = () => {
-    return Object.values(categoryLimits).reduce((acc, limit) => acc + limit, 0);
-  };
+const getTotalLimits = () => {
+  console.log("Category Limits:", categoryLimits); // Log the category limits
+  return Object.values(categoryLimits || {}).reduce(
+    (acc, limit) => acc + limit,
+    0
+  );
+};
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,7 +84,34 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
           isClosable: true,
         });
       } else {
-        onSubmit(income, categoryLimits);
+        mutation.mutate(
+          {
+            userId: sharedData.userId,
+            income,
+            categoryLimits,
+            saveGoal: showSaveGoal, 
+          },
+          {
+            onSuccess: () => {
+              toast({
+                title: "Success",
+                description: "Income and limits saved successfully!",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+              });
+            },
+            onError: () => {
+              toast({
+                title: "Error",
+                description: "There was an error saving the data.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+              });
+            },
+          }
+        );
       }
     } else {
       toast({

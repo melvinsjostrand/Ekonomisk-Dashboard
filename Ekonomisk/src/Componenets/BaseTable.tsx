@@ -12,26 +12,21 @@ import {
 } from "@chakra-ui/react";
 import Description from "./alert";
 import categoryColors from "./hooks/categoryColors";
-import useBaseTable, { pay } from "./hooks/UseBaseTable";
+import { pay } from "./hooks/UseBaseTable"; // Make sure to import pay correctly
+
+interface BaseTableProps {
+  sum: number;
+  payments: pay[];
+  remaining: number;
+  renderExtraColumn?: (payment: pay, index: number) => React.ReactNode;
+}
 
 const BaseTable = ({
+  sum,
+  payments,
+  remaining,
   renderExtraColumn,
-}: {
-  renderExtraColumn?: (payment: pay, index: number) => React.ReactNode;
-}) => {
-  // Fetching data using the hook
-  const { data: BaseTable, error, isLoading } = useBaseTable();
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
-
-  const { sum, payments, remaining } = BaseTable || {
-    sum: 0,
-    payments: [],
-    remaining: 0,
-  };
-
+}: BaseTableProps) => {
   const tableSize = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   const tableFontSize = useBreakpointValue({ base: "s", md: "sm", lg: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });

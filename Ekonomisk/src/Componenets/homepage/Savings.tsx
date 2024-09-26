@@ -1,22 +1,23 @@
-import { Box, Text, Progress, Button } from "@chakra-ui/react";
+import { Box, Text, Progress } from "@chakra-ui/react";
 import PieChart from "./PieChart";
+import useSavings from "../hooks/useSavings"; // Adjust the import according to your file structure
 
-interface Props {
-  userName: string;
-  totalSaved: number;
-  saveGoal: number;
-  payments: { category: string; amount: number }[];
-  prevsave: number;
-}
+const Savings = () => {
+  const { data, isLoading, error } = useSavings(); // Use the hook
 
-const Savings = ({ totalSaved, saveGoal, payments, prevsave }: Props) => {
+  if (isLoading) return <Text>Loading...</Text>;
+  if (error) return <Text color="red.500">{`Error: ${error.message}`}</Text>;
+
+  const { totalSaved, saveGoal, payments, prevsave } = data!; 
+
   const savingPercentage = (totalSaved / saveGoal) * 100;
   const totalsavings = totalSaved + prevsave;
+
   return (
     <Box>
       <Box border="1px">
-        <Text textAlign="center">Dan Abrahmov </Text>
-        <Text textAlign="center" textStyle="bold">
+        <Text textAlign="center">Dan Abrahmov</Text>
+        <Text textAlign="center" fontWeight="bold">
           Savings
         </Text>
 
@@ -40,7 +41,7 @@ const Savings = ({ totalSaved, saveGoal, payments, prevsave }: Props) => {
             {totalsavings} / {saveGoal}
           </Text>
         </Box>
-        <Text textAlign="center">Savings previously {prevsave}</Text>
+        <Text textAlign="center">Savings previously: {prevsave}</Text>
       </Box>
       <PieChart payments={payments} />
     </Box>

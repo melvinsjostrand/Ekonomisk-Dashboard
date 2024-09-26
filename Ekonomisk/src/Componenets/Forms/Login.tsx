@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import {
-  Box,Button,FormControl,FormLabel,Input,Stack,Heading, useToast, Text} from "@chakra-ui/react";
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Stack,
+  Heading,
+  useToast,
+  Text,
+} from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
@@ -8,7 +17,7 @@ interface LoginFormProps {
   onSubmit: (email: string, password: string) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+const LoginForm = ({ onSubmit }: LoginFormProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const toast = useToast();
@@ -65,12 +74,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           <Button type="submit" colorScheme="blue" size="lg" width="full">
             Login
           </Button>
-            <Text textAlign="center" mt="4">
+          <Text textAlign="center" mt="4">
             Don't have an account?{" "}
             <Button as={Link} to="/register" color="teal.500" fontWeight="bold">
               Make one now
             </Button>
-            </Text>
+          </Text>
         </Stack>
       </form>
     </Box>

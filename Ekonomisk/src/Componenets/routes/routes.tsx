@@ -5,55 +5,73 @@ import Expenses from "../expenses/Expenses";
 import Login from "../Forms/Login";
 import CreateAcc from "../Forms/CreateAcc";
 import MakeIncome from "../Forms/MakeIncome";
+import axios from "axios";
+import { useToast } from "@chakra-ui/react"; // Import Chakra toast for notifications
 
- const handleLogin = (email: string, password: string) => {
-    const data = {
+const API_BASE_URL = "https://your-api-url.com"; // Replace with your actual API URL
+
+const handleLogin = async (email: string, password: string) => {
+  try {
+    const { data } = await axios.post(`${API_BASE_URL}/login`, {
       email,
       password,
-    };
-   console.log(JSON.stringify(data));
- };
- const handleCreate = (
-   Name: string,
-   email: string,
-   password: string,
-   PastSaving: number
- ) => {
-   const data = {
-     Name,
-     email,
-     password,
-     PastSaving,
-   };
-   console.log(JSON.stringify(data));
- };
+    });
+    const token = data.token;
+    localStorage.setItem("authToken", token);
+    console.log("Login successful, token stored in localStorage");
+  } catch (error) {
+    console.error("Error logging in:", error);
+  }
+};
 
-const handleIncome = (
+const handleCreate = async (
+  Name: string,
+  email: string,
+  password: string,
+  PastSaving: number
+) => {
+  try {
+    const { data } = await axios.post(`${API_BASE_URL}/register`, {
+      Name,
+      email,
+      password,
+      PastSaving,
+    });
+    console.log(data);
+  } catch (error) {
+    console.error("Error creating account:", error);
+  }
+};
+
+const handleIncome = async (
   income: number,
   categoryLimits: Record<string, number>
 ) => {
-  const userId = 1; 
-
-  const data = {
-    userId,
-    income,
-    limits: Object.entries(categoryLimits).map(([category, spendLimit]) => ({
+  try {
+    const userId = 1; 
+    const dataToSend = {
       userId,
-      category,
-      spendLimit,
-    })),
-  };
+      income,
+      limits: Object.entries(categoryLimits).map(([category, spendLimit]) => ({
+        userId,
+        category,
+        spendLimit,
+      })),
+    };
 
-  console.log(JSON.stringify(data, null, 2));
+    const { data } = await axios.post(`${API_BASE_URL}/income`, dataToSend);
+    console.log(data); 
+  } catch (error) {
+    console.error("Error submitting income and category limits:", error);
+  }
 };
 
-
 const Layout = () => (
-    <>
-    <NavBar></NavBar>
+  <>
+    <NavBar />
     <Outlet />
-    </>
-)
+  </>
+);
 
 const router = createBrowserRouter([
   {
@@ -74,12 +92,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <CreateAcc onSubmit={handleCreate}/>,
+        element: <CreateAcc onSubmit={handleCreate} />,
       },
       {
-        path: "AddIncome",
-        element: <MakeIncome onSubmit={handleIncome}/>
-      }
+        path: "/AddIncome",
+        element: <MakeIncome onSubmit={handleIncome} />,
+      },
     ],
   },
 ]);
