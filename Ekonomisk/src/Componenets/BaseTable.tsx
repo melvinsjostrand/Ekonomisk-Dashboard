@@ -24,6 +24,7 @@ export interface pay {
   category: string;
   amount: number;
   desc?: string[];
+  image?: string;
 }
 
 const BaseTable = ({
@@ -71,6 +72,7 @@ const BaseTable = ({
                   <Show above="lg">
                     <Description
                       desc={payment.desc || ["No description available"]}
+                      image={payment.image || ""}
                     />
                   </Show>
                 </Td>
