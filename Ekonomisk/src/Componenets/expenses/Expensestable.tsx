@@ -1,22 +1,17 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
-import { Button, Hide, Text} from "@chakra-ui/react";
+import { Button, Hide, Text } from "@chakra-ui/react";
 import { pay } from "../hooks/UseBaseTable";
 import UseExpense from "../hooks/UseExpense";
 
-interface Props {
-  sum: number;
-  payments: pay[];
-  remaining: number;
-}
-
-const Expensestables = ({  }: Props) => {
-  const { data, isLoading, error} = UseExpense();
+const Expensestables = () => {
+  const { data, isLoading, error } = UseExpense();
   const [cash, setCash] = useState({
-    totalSpent: 0, 
-    remaining: 0, 
+    totalSpent: 0,
+    remaining: 0,
   });
+  const [payments, setPayments] = useState<pay[]>([]);
 
   useEffect(() => {
     if (data && data.payments) {
@@ -25,13 +20,28 @@ const Expensestables = ({  }: Props) => {
         0
       );
       const remainingAmount = data.sum - totalSpent;
-      setCash((prevState) => ({
-        ...prevState,
-        totalSpent: totalSpent,
-        remaining: remainingAmount,
-    }));
+      setCash({ totalSpent, remaining: remainingAmount });
+      setPayments(data.payments); 
     }
   }, [data]);
+
+  const handleSave = (category: string, newAmount: number) => {
+    setPayments((prevPayments) =>
+      prevPayments.map((payment) =>
+        payment.category === category
+          ? { ...payment, amount: newAmount }
+          : payment
+      )
+    );
+
+    const totalSpent = payments.reduce(
+      (acc, payment) =>
+        payment.category === category ? acc + newAmount : acc + payment.amount,
+      0
+    );
+    const remainingAmount = data?.sum ? data.sum - totalSpent : 0;
+    setCash({ totalSpent, remaining: remainingAmount });
+  };
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
@@ -40,11 +50,15 @@ const Expensestables = ({  }: Props) => {
     <>
       <BaseTable
         sum={data?.sum || 0}
-        payments={data?.payments || []}
+        payments={payments}
         remaining={cash.remaining}
         renderExtraColumn={(payment) => (
           <>
-            <ChangeValue category={payment.category} />
+            <ChangeValue
+              category={payment.category}
+              amount={payment.amount}
+              onSave={(newAmount) => handleSave(payment.category, newAmount)}
+            />
             <Button>Remove</Button>
           </>
         )}

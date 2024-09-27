@@ -1,7 +1,8 @@
 
-import axios from "axios";
+
 import { limit } from "./UseGetIncome";
 import { useQuery } from "@tanstack/react-query";
+import apiClient from "./apiClient";
 
 
 interface LimitProps {
@@ -12,7 +13,7 @@ interface LimitProps {
 
 const UseLimits = () => {
   const fetchLimits = () =>
-    axios.get<LimitProps>("API").then((res)=> res.data);
+    apiClient.get<LimitProps>("API").then((res) => res.data);
 
     return useQuery<LimitProps, Error>({
       queryKey: ["UseLimits"],

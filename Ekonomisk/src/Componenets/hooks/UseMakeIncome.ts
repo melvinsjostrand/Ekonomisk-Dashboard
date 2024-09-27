@@ -16,10 +16,10 @@ const useMakeIncome = (): UseMutationResult<IncomeData, Error, IncomeData> => {
   return useMutation<IncomeData, Error, IncomeData>({
     mutationFn: postIncomeData,
     onSuccess: (data) => {
-      console.log("Income data successfully posted:", data); // Log the data
+      console.log("Income data successfully posted:", data); 
     },
     onError: (data) => {
-      console.log("Error posting income data:", data); // Log any errors
+      console.log("Error posting income data:", data); 
     },
   });
 };
