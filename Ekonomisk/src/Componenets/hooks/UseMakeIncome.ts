@@ -11,7 +11,7 @@ interface IncomeData {
 const useMakeIncome = (): UseMutationResult<IncomeData, Error, IncomeData> => {
   const postIncomeData = (incomeData: IncomeData) =>
     axios
-      .post<IncomeData>("https://your-api-endpoint.com/income", incomeData)
+      .post<IncomeData>("url", incomeData)
       .then((res) => res.data);
 
   return useMutation<IncomeData, Error, IncomeData>({

@@ -1,9 +1,9 @@
 import { Box, Text, Progress } from "@chakra-ui/react";
 import PieChart from "./PieChart";
-import useSavings from "../hooks/useSavings"; // Adjust the import according to your file structure
+import useSavings from "../hooks/useSavings";
 
 const Savings = () => {
-  const { data, isLoading, error } = useSavings(); // Use the hook
+  const { data, isLoading, error } = useSavings(); 
 
   if (isLoading) return <Text>Loading...</Text>;
   if (error) return <Text color="red.500">{`Error: ${error.message}`}</Text>;

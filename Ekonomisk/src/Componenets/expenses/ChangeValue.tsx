@@ -20,11 +20,11 @@ const ChangeValue = ({ category }: ChangeValueProps) => {
   const [inputValue, setInputValue] = useState<number>(payment?.amount || 0);
 
   useEffect(() => {
-    setInputValue(payment?.amount || 0); // Update inputValue when payment changes
+    setInputValue(payment?.amount || 0); 
   }, [payment]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(Number(e.target.value)); // Update state when input changes
+    setInputValue(Number(e.target.value)); 
   };
   return (
     <Popover

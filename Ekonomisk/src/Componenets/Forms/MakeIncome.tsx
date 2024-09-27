@@ -13,8 +13,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import categoryColors from "../hooks/categoryColors";
-import sharedData from "../hooks/data";
-import User from "../hooks/user";
+import useGetIncome from "../hooks/UseGetIncome"; // Adjusted hook import
 import useMakeIncome from "../hooks/UseMakeIncome";
 
 interface MakeIncomeProps {
@@ -36,21 +35,39 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
   const [categoryLimits, setCategoryLimits] = useState<Record<string, number>>(
     {}
   );
-  const [showSaveGoal, setSaveGoal] = useState<number>();
+  const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
   const toast = useToast();
 
-   const mutation = useMakeIncome();
+  const { data: incomeData, isLoading, error } = useGetIncome();
+  const mutation = useMakeIncome();
 
-  useEffect(() => {
-    const currentUser = User.find((user) => user.Id === sharedData.userId);
+   useEffect(() => {
+     if (incomeData) {
+       setIncome(incomeData.income || 0);
 
-    if (currentUser) {
-      console.log(currentUser);
-      setIncome(sharedData.sum || currentUser.totalSaving);
-      setCategoryLimits(currentUser.Limits || {});
-      setSaveGoal(sharedData.saveGoal);
-    }
-  }, []);
+
+       if (incomeData.limits) {
+         const limits = incomeData.limits.reduce<Record<string, number>>(
+           (acc, limit) => {
+             acc[limit.category] = limit.spendLimit;
+             return acc;
+           },
+           {}
+         );
+         setCategoryLimits(limits);
+       } else {
+         toast({
+           title: "Warning",
+           description: "No category limits found.",
+           status: "warning",
+           duration: 3000,
+           isClosable: true,
+         });
+       }
+
+       setSaveGoal(incomeData.saveGoal);
+     }
+   }, [incomeData, toast]);
 
   const handleLimitChange = (category: string, value: string) => {
     setCategoryLimits((prevLimits) => ({
@@ -59,13 +76,9 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
     }));
   };
 
-const getTotalLimits = () => {
-  console.log("Category Limits:", categoryLimits); // Log the category limits
-  return Object.values(categoryLimits || {}).reduce(
-    (acc, limit) => acc + limit,
-    0
-  );
-};
+  const getTotalLimits = () => {
+    return Object.values(categoryLimits).reduce((acc, limit) => acc + limit, 0);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,10 +99,10 @@ const getTotalLimits = () => {
       } else {
         mutation.mutate(
           {
-            userId: sharedData.userId,
+            userId: 1, // Replace with the actual user ID
             income,
             categoryLimits,
-            saveGoal: showSaveGoal, 
+            saveGoal: showSaveGoal,
           },
           {
             onSuccess: () => {
@@ -123,6 +136,18 @@ const getTotalLimits = () => {
       });
     }
   };
+
+  if (isLoading) {
+    return <Box textAlign="center">Loading...</Box>; // Optional loading state
+  }
+
+  if (error) {
+    return (
+      <Box textAlign="center" color="red.500">
+        Error fetching income data.
+      </Box>
+    ); // Optional error handling
+  }
 
   return (
     <Box
@@ -177,9 +202,12 @@ const getTotalLimits = () => {
               </GridItem>
             ))}
             <FormControl>
-              <FormLabel>Save goal</FormLabel>
-
-              <Input value={showSaveGoal}></Input>
+              <FormLabel>Save Goal</FormLabel>
+              <Input
+                type="number"
+                value={showSaveGoal || ""}
+                onChange={(e) => setSaveGoal(Number(e.target.value))}
+              />
             </FormControl>
           </Grid>
 

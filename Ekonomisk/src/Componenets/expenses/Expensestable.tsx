@@ -3,7 +3,8 @@ import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
 import { Button, Hide, Text} from "@chakra-ui/react";
 import sharedData from "../hooks/data";
-import { pay } from "../BaseTable";
+import { pay } from "../hooks/UseBaseTable";
+import UseExpense from "../hooks/UseExpense";
 
 interface Props {
   sum: number;
@@ -11,32 +12,37 @@ interface Props {
   remaining: number;
 }
 
-const Expensestables = ({ sum, payments }: Props) => {
+const Expensestables = ({  }: Props) => {
+  const { data, isLoading, error} = UseExpense();
   const [cash, setCash] = useState({
-    ...sharedData, // Initial copy of sharedData
-    totalSpent: 0, // This will be calculated
-    remaining: 0, // This will be calculated
+    ...sharedData, 
+    totalSpent: 0, 
+    remaining: 0, 
   });
 
   useEffect(() => {
-    const totalSpent = sharedData.payment.reduce(
-      (acc, payment) => acc + payment.amount,
-      0
-    );
-    const remainingAmount = sharedData.sum - totalSpent;
-
-    setCash((prevState) => ({
-      ...prevState,
-      totalSpent: totalSpent,
-      remaining: remainingAmount,
+    if (data && data.payments) {
+      const totalSpent = data.payments.reduce(
+        (acc, payment) => acc + payment.amount,
+        0
+      );
+      const remainingAmount = data.sum - totalSpent;
+      setCash((prevState) => ({
+        ...prevState,
+        totalSpent: totalSpent,
+        remaining: remainingAmount,
     }));
-  }, [sharedData.payment, sharedData.sum]);
+    }
+  }, [data]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading data</div>;
 
   return (
     <>
       <BaseTable
-        sum={sum}
-        payments={payments}
+        sum={data?.sum || 0}
+        payments={data?.payments || []}
         remaining={cash.remaining}
         renderExtraColumn={(payment) => (
           <>
