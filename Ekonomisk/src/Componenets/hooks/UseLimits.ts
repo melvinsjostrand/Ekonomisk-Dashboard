@@ -11,10 +11,10 @@ interface LimitProps {
 }
 
 
-const UseLimits = () => {
+const UseLimits = (userId:number) => {
   const fetchLimits = () =>
-    apiClient.get<LimitProps>("API").then((res) => res.data);
-
+    apiClient.get<LimitProps>("Limits?userId=" + 1).then((res) => res.data);
+  
     return useQuery<LimitProps, Error>({
       queryKey: ["UseLimits"],
       queryFn: fetchLimits

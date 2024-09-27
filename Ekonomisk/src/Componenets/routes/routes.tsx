@@ -20,7 +20,7 @@ const handleLogin = async (email: string, password: string) => {
   } catch (error) {
     console.error("Error logging in:", error);
   }
-};
+}; 
 
 const handleCreate = async (
   Name: string,
