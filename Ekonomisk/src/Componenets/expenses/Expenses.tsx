@@ -54,11 +54,7 @@ const Expenses = () => {
             onSelectSortOrder={(order) => setSortOrder(order)}
           />
           <AddExpenses />
-          <Expensestables
-            sum={useExpense?.sum || 0}
-            payments={filteredPayments}
-            remaining={useExpense?.remaining || 0}
-          />
+          <Expensestables/>
         </GridItem>
       </Grid>
     </>

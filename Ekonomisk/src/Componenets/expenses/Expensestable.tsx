@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
 import { Button, Hide, Text} from "@chakra-ui/react";
-import sharedData from "../hooks/data";
 import { pay } from "../hooks/UseBaseTable";
 import UseExpense from "../hooks/UseExpense";
 
@@ -15,7 +14,6 @@ interface Props {
 const Expensestables = ({  }: Props) => {
   const { data, isLoading, error} = UseExpense();
   const [cash, setCash] = useState({
-    ...sharedData, 
     totalSpent: 0, 
     remaining: 0, 
   });
