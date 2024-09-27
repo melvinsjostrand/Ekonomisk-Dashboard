@@ -6,11 +6,11 @@ import Sorting from "./Sorting";
 import MaxSpent from "./MaxSpent";
 import AddExpenses from "./AddExpenses";
 import UseExpense from "../hooks/UseExpense";
+import UseLimits from "../hooks/UseLimits";
 
 const Expenses = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
 
-  // Fetching data using hooks
   const {
     data: useExpense,isLoading: paymentsLoading,error: paymentsError,
   } = UseExpense();
@@ -18,17 +18,20 @@ const Expenses = () => {
     data: userLimitsData,
     isLoading: limitsLoading,
     error: limitsError,
-  } = useFetchLimits();
+  } = UseLimits();
 
-  // Handle loading and error states
   if (paymentsLoading || limitsLoading) return <div>Loading...</div>;
   if (paymentsError || limitsError) return <div>Error loading data</div>;
 
 
-  const filteredPayments = sortOrder? useExpense?.payments.filter((payment: { category: string }) => payment.category === sortOrder): useExpense?.payments || [];
+    const filteredPayments = sortOrder
+      ? useExpense?.payments?.filter(
+          (payment: { category: string }) => payment.category === sortOrder
+        ) || []
+      : useExpense?.payments || [];
 
 
-  const userLimits = userLimitsData?.Limits ?? {};
+  const userLimits = userLimitsData?.limits ?? [];
 
   return (
     <>
@@ -43,10 +46,7 @@ const Expenses = () => {
         }}
       >
         <GridItem area="aside">
-          <MaxSpent
-            spending={paymentsData?.payments || []}
-            limits={userLimits}
-          />
+          <MaxSpent/>
         </GridItem>
         <GridItem area="main">
           <Sorting
@@ -55,9 +55,9 @@ const Expenses = () => {
           />
           <AddExpenses />
           <Expensestables
-            sum={paymentsData?.sum || 0}
+            sum={useExpense?.sum || 0}
             payments={filteredPayments}
-            remaining={paymentsData?.remaining || 0}
+            remaining={useExpense?.remaining || 0}
           />
         </GridItem>
       </Grid>

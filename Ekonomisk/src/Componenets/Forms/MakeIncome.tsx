@@ -13,12 +13,8 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import categoryColors from "../hooks/categoryColors";
-import useGetIncome from "../hooks/UseGetIncome"; // Adjusted hook import
+import useGetIncome from "../hooks/UseGetIncome"; 
 import useMakeIncome from "../hooks/UseMakeIncome";
-
-interface MakeIncomeProps {
-  onSubmit: (income: number, categoryLimits: Record<string, number>) => void;
-}
 
 const categories = [
   "Housing",
@@ -30,7 +26,7 @@ const categories = [
   "Other",
 ];
 
-const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
+const MakeIncome = () => {
   const [income, setIncome] = useState<number>(0);
   const [categoryLimits, setCategoryLimits] = useState<Record<string, number>>(
     {}
@@ -56,13 +52,7 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
          );
          setCategoryLimits(limits);
        } else {
-         toast({
-           title: "Warning",
-           description: "No category limits found.",
-           status: "warning",
-           duration: 3000,
-           isClosable: true,
-         });
+          console.log("This user dont have any limits set for this month");
        }
 
        setSaveGoal(incomeData.saveGoal);

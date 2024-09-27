@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import apiClient from "./apiClient";
 
-interface BaseTableProps {
+export interface BaseTableProps {
   sum: number;
   payments: pay[];
   remaining: number;
-  renderExtraColumn?: (payment: pay, index: number) => React.ReactNode;
 }
+
 export interface pay {
   category: string;
   amount: number;
@@ -14,10 +15,9 @@ export interface pay {
   image?: string;
 }
 
-
 const useBaseTable = () => {
   const fetchBaseTable = () =>
-    axios
+    apiClient
       .get<BaseTableProps>("API") 
       .then((res) => res.data);
 

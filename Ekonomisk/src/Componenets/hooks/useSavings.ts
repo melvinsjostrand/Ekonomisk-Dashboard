@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import apiClient from "./apiClient";
 
 interface SavingsData {
   totalSaved: number;
@@ -9,15 +10,15 @@ interface SavingsData {
 }
 
 const useSavings = () => {
-  const fetchSavings = async () => {
-    const response = await axios.get<SavingsData>("API_ENDPOINT_HERE");
-    return response.data;
-  };
+  const fetchSavings = () =>
+    apiClient.get<SavingsData>("API_ENDPOINT_HERE")
+      .then((res) => res.data)
 
-  return useQuery<SavingsData, Error>({
-    queryKey: ["savings"], 
-    queryFn: fetchSavings,
-  });
+
+    return useQuery<SavingsData, Error>({
+      queryKey: ["useSavings"],
+      queryFn: fetchSavings
+    })
 };
 
 export default useSavings;

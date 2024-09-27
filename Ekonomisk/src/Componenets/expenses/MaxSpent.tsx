@@ -1,24 +1,43 @@
 import { Box, Progress, Text, useBreakpointValue } from "@chakra-ui/react";
-interface Props {
-  spending: { category: string; amount: number }[];
-  limits: { [key: string]: number };
-}
+import UseExpense from "../hooks/UseExpense";
+import UseLimits from "../hooks/UseLimits";
 
 const normalizeCategory = (category: string) => {
   const categoryMap: { [key: string]: string } = {
-      "Housing":"Housing",
-      "Transport":"Transport",
-      "Food":"Food",
-      "Health":"Health",
-      "Entertainment":"Entertainment",
-      "Accessories":"Accessories",
-      "Other":"Other"
+    Housing: "Housing",
+    Transport: "Transport",
+    Food: "Food",
+    Health: "Health",
+    Entertainment: "Entertainment",
+    Accessories: "Accessories",
+    Other: "Other",
   };
 
   return categoryMap[category] || category;
 };
 
-const MaxSpent = ({ spending, limits }: Props) => {
+const MaxSpent = () => {
+  // Fetch spending and limits using hooks
+  const {
+    data: useExpense,
+    isLoading: spendingLoading,
+    error: spendingError,
+  } = UseExpense();
+  const {
+    data: userLimitsData,
+    isLoading: limitsLoading,
+    error: limitsError,
+  } = UseLimits();
+
+  // Handle loading and error states
+  if (spendingLoading || limitsLoading) return <div>Loading...</div>;
+  if (spendingError || limitsError) return <div>Error loading data</div>;
+
+  // Destructure fetched data
+  const spending = useExpense?.payments || [];
+  const limits = userLimitsData?.limits || [];
+
+  // Aggregate spending based on category
   const aggregatedSpending: { [key: string]: number } = spending.reduce(
     (acc, item) => {
       const normalizedCategory = normalizeCategory(item.category);
@@ -33,14 +52,15 @@ const MaxSpent = ({ spending, limits }: Props) => {
 
   return (
     <Box width="100%" px={{ base: 4, md: 6 }} py={{ base: 2, md: 4 }}>
-      {Object.entries(limits).map(([category, limit], index) => {
+      {limits.map((limitObj, index) => {
+        const category = normalizeCategory(limitObj.category);
         const spent = aggregatedSpending[category] || 0;
-        const percentage = (spent / limit) * 100;
+        const percentage = (spent / limitObj.spendLimit) * 100;
 
         return (
           <Box key={index} position="relative" mb={5} width="100%">
             <Text mb={2} fontWeight="bold" fontSize={textSize}>
-              {category}: {spent} kr / {limit} kr
+              {category}: {spent} kr / {limitObj.spendLimit} kr
             </Text>
 
             <Box position="relative">
