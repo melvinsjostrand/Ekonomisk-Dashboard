@@ -11,7 +11,7 @@ interface CashState {
 }
 
 const Tables = () => {
-  const { data: baseTable, isLoading, error } = useBaseTable();
+  const { data: baseTable} = useBaseTable();
   const [cash, setCash] = useState<CashState>({
     sum: 0,
     payments: [],
@@ -35,9 +35,6 @@ const Tables = () => {
       });
     }
   }, [baseTable]);
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <BaseTable

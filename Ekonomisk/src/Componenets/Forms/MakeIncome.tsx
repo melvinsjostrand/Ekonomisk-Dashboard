@@ -89,13 +89,14 @@ const MakeIncome = () => {
       } else {
         mutation.mutate(
           {
-            userId: 1, // Replace with the actual user ID
+            userId: 1, 
             income,
             categoryLimits,
             saveGoal: showSaveGoal,
           },
           {
             onSuccess: () => {
+              console.log(mutation)
               toast({
                 title: "Success",
                 description: "Income and limits saved successfully!",

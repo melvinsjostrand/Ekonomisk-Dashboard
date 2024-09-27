@@ -17,7 +17,6 @@ const normalizeCategory = (category: string) => {
 };
 
 const MaxSpent = () => {
-  // Fetch spending and limits using hooks
   const {
     data: useExpense,
     isLoading: spendingLoading,
@@ -29,15 +28,20 @@ const MaxSpent = () => {
     error: limitsError,
   } = UseLimits();
 
-  // Handle loading and error states
   if (spendingLoading || limitsLoading) return <div>Loading...</div>;
-  if (spendingError || limitsError) return <div>Error loading data</div>;
+  if (spendingError || limitsError) {
+    // Show MaxSpent with default values if there's an error
+    return (
+      <Box>
+        <Text>Error loading data, displaying default values:</Text>
+      </Box>
+    );
+  }
 
-  // Destructure fetched data
   const spending = useExpense?.payments || [];
   const limits = userLimitsData?.limits || [];
 
-  // Aggregate spending based on category
+  // Fallback to default values
   const aggregatedSpending: { [key: string]: number } = spending.reduce(
     (acc, item) => {
       const normalizedCategory = normalizeCategory(item.category);
@@ -50,12 +54,26 @@ const MaxSpent = () => {
   const textSize = useBreakpointValue({ base: "sm", md: "md" });
   const progressSize = useBreakpointValue({ base: "md", md: "lg" });
 
+  // Ensure that default limits are displayed even if no limits are fetched
+  const defaultLimits = [
+    { category: "Housing", spendLimit: 0 },
+    { category: "Transport", spendLimit: 0 },
+    { category: "Food", spendLimit: 0 },
+    { category: "Health", spendLimit: 0 },
+    { category: "Entertainment", spendLimit: 0 },
+    { category: "Accessories", spendLimit: 0 },
+    { category: "Other", spendLimit: 0 },
+  ];
+
+  const displayLimits = limits.length > 0 ? limits : defaultLimits;
+
   return (
     <Box width="100%" px={{ base: 4, md: 6 }} py={{ base: 2, md: 4 }}>
-      {limits.map((limitObj, index) => {
+      {displayLimits.map((limitObj, index) => {
         const category = normalizeCategory(limitObj.category);
         const spent = aggregatedSpending[category] || 0;
-        const percentage = (spent / limitObj.spendLimit) * 100;
+        const percentage =
+          limitObj.spendLimit > 0 ? (spent / limitObj.spendLimit) * 100 : 0;
 
         return (
           <Box key={index} position="relative" mb={5} width="100%">

@@ -1,17 +1,18 @@
-import { Box, Text, Progress } from "@chakra-ui/react";
+import { Box, Text, Progress} from "@chakra-ui/react";
 import PieChart from "./PieChart";
 import useSavings from "../hooks/useSavings";
 
 const Savings = () => {
-  const { data, isLoading, error } = useSavings(); 
+  const { data, isLoading, error } = useSavings();
 
-  if (isLoading) return <Text>Loading...</Text>;
-  if (error) return <Text color="red.500">{`Error: ${error.message}`}</Text>;
+  if (isLoading) return <Text textAlign="center">Loading...</Text>;
+  if (error || !data) return <Text textAlign="center">No savings added</Text>;
 
-  const { totalSaved, saveGoal, payments, prevsave } = data!; 
+  const { totalSaved, saveGoal, payments, prevsave } = data;
 
   const savingPercentage = (totalSaved / saveGoal) * 100;
   const totalsavings = totalSaved + prevsave;
+
 
   return (
     <Box>

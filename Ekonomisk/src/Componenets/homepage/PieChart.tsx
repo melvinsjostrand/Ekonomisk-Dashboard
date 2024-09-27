@@ -1,4 +1,3 @@
-import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Box,Text } from "@chakra-ui/react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -12,13 +11,13 @@ interface Pay {
 }
 
 interface PieChartProps {
-  payments: Pay[]; // You may want to make this optional
+  payments: Pay[];
 }
 
 const PieChart = ({ payments }: PieChartProps) => {
-  // Check if payments is defined and is an array
+
   if (!payments || payments.length === 0) {
-    return <Text>No payments available</Text>; // Handle the empty state
+    return <Text>No payments available</Text>; 
   }
 
   const aggregatedPayments = payments.reduce((acc, { category, amount }) => {

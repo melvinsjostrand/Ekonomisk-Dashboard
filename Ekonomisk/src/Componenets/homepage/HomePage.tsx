@@ -1,12 +1,11 @@
 import { Grid, GridItem, Text } from "@chakra-ui/react";
 import Tables from "./Table";
 import { useEffect, useState } from "react";
-import User from "../hooks/user";
 import Savings from "./Savings";
-import useBaseTable from "../hooks/UseBaseTable"; // Import your hook
+import useBaseTable from "../hooks/UseBaseTable";
 
 const HomePage = () => {
-  const { data: BaseTable, isLoading, error } = useBaseTable(); // Fetch data using the hook
+  const { data: BaseTable} = useBaseTable(); 
   const [cash, setCash] = useState({
     totalSpent: 0,
     remaining: 0,
@@ -27,11 +26,6 @@ useEffect(() => {
   }
 }, [BaseTable]);
 
-if (isLoading) return <p>Loading...</p>;
-if (error)
-  return (
-    <Text color="red.500" textAlign="center">{`Error: ${error.message}`}</Text>
-  );
   return (
     <Grid
       templateAreas={{
