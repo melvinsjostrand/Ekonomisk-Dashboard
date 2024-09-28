@@ -20,9 +20,6 @@ const Expenses = () => {
     error: limitsError,
   } = UseLimits();
 
-  if (paymentsLoading || limitsLoading) return <div>Loading...</div>;
-  if (paymentsError || limitsError) return <div>Error loading data</div>;
-
 
     const filteredPayments = sortOrder
       ? useExpense?.payments?.filter(

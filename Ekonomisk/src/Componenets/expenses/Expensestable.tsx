@@ -6,7 +6,7 @@ import { pay } from "../hooks/UseBaseTable";
 import UseExpense from "../hooks/UseExpense";
 
 const Expensestables = () => {
-  const { data, isLoading, error } = UseExpense();
+  const { data} = UseExpense();
   const [cash, setCash] = useState({
     totalSpent: 0,
     remaining: 0,
@@ -21,7 +21,7 @@ const Expensestables = () => {
       );
       const remainingAmount = data.sum - totalSpent;
       setCash({ totalSpent, remaining: remainingAmount });
-      setPayments(data.payments); 
+      setPayments(data.payments);
     }
   }, [data]);
 
@@ -43,8 +43,6 @@ const Expensestables = () => {
     setCash({ totalSpent, remaining: remainingAmount });
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading data</div>;
 
   return (
     <>
