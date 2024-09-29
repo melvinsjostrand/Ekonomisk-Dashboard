@@ -128,18 +128,6 @@ const MakeIncome = () => {
     }
   };
 
-  if (isLoading) {
-    return <Box textAlign="center">Loading...</Box>; // Optional loading state
-  }
-
-  if (error) {
-    return (
-      <Box textAlign="center" color="red.500">
-        Error fetching income data.
-      </Box>
-    ); // Optional error handling
-  }
-
   return (
     <Box
       maxW="lg"
