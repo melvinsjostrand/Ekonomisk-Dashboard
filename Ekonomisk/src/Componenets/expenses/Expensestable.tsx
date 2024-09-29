@@ -51,7 +51,7 @@ const [payments, setPayments] = useState<pay[]>(expenses);
   return (
     <>
       <BaseTable
-        income={expenses[0]?.income || 0}
+        income={income || 0}
         payments={payments}
         remaining={cash.remaining}
         renderExtraColumn={(payment) => (

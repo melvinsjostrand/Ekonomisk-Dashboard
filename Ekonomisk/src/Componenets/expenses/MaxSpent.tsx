@@ -1,6 +1,8 @@
 import { Box, Progress, Text, useBreakpointValue } from "@chakra-ui/react";
 import UseLimits from "../hooks/UseLimits";
 import { Expense } from "../hooks/UseExpense";
+
+// Modify this function to ensure all categories are mapped
 const normalizeCategory = (category: string) => {
   const categoryMap: { [key: string]: string } = {
     Housing: "Housing",
@@ -28,6 +30,7 @@ const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
     { category: "Other", spendLimit: 0 },
   ];
 
+
   const limits = userLimitsData?.limits || defaultLimits;
 
   const textSize = useBreakpointValue({ base: "sm", md: "md" });
@@ -41,7 +44,7 @@ const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
     );
   }
 
-
+  // Aggregate expenses by category
   const aggregatedSpending: { [key: string]: number } = expenses.reduce(
     (acc, item) => {
       const normalizedCategory = normalizeCategory(item.category);
@@ -54,10 +57,10 @@ const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
   return (
     <Box width="100%" px={{ base: 4, md: 6 }} py={{ base: 2, md: 4 }}>
       {limits.map((limitObj, index) => {
-        const category = normalizeCategory(limitObj.category);
-        const spent = aggregatedSpending[category] || 0;
+        const category = normalizeCategory(limitObj.category); 
+        const spent = aggregatedSpending[category] || 0; 
         const percentage =
-          limitObj.spendLimit > 0 ? (spent / limitObj.spendLimit) * 100 : 0;
+          limitObj.spendLimit > 0 ? (spent / limitObj.spendLimit) * 100 : 0; 
 
         return (
           <Box key={index} position="relative" mb={5} width="100%">
