@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
+import apiClient from "./apiClient";
 
 interface IncomeProp {
   userId: number;
@@ -16,7 +17,7 @@ export interface limit{
 
 const UseGetIncome = () => {
   const fetchIncome = () =>
-    axios.get<IncomeProp>("API").then((res) => res.data);
+    apiClient.get<IncomeProp>("API").then((res) => res.data);
 
   return useQuery<IncomeProp, Error>({
     queryKey: ["Income"],

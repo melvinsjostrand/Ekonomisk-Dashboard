@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import Description from "./alert";
 import categoryColors from "./hooks/categoryColors";
-import { BaseTableProps, pay } from "./hooks/UseBaseTable"; // Import both BaseTableProps and pay
+import { BaseTableProps, pay } from "./hooks/UseBaseTable";
 
 
 interface ExtendedBaseTableProps extends BaseTableProps {
@@ -20,7 +20,7 @@ interface ExtendedBaseTableProps extends BaseTableProps {
 }
 
 const BaseTable = ({
-  sum,
+  income,
   payments,
   remaining,
   renderExtraColumn,
@@ -40,7 +40,7 @@ const BaseTable = ({
         <Tbody>
           <Tr>
             <Th fontSize={tableFontSize}>Category</Th>
-            <Th fontSize={tableFontSize}>Income {sum} Kr</Th>
+            <Th fontSize={tableFontSize}>Income {income} Kr</Th>
             {!isMobile && renderExtraColumn && (
               <Th fontSize={tableFontSize}>Manage</Th>
             )}

@@ -12,12 +12,12 @@ const HomePage = () => {
   });
 
 useEffect(() => {
-  if (BaseTable && BaseTable.payments && BaseTable.sum !== undefined) {
+  if (BaseTable && BaseTable.payments && BaseTable.income !== undefined) {
     const totalSpent = BaseTable.payments.reduce(
       (acc, payment) => acc + payment.amount,
       0
     );
-    const remaining = BaseTable.sum - totalSpent;
+    const remaining = BaseTable.income - totalSpent;
 
     setCash({
       totalSpent: totalSpent,
@@ -38,10 +38,10 @@ useEffect(() => {
       }}
     >
       <GridItem area="aside">
-        <Savings/>
+        <Savings />
       </GridItem>
       <GridItem area="main">
-        <Tables/>
+        {BaseTable && <Tables Table={BaseTable} />}
         {cash.remaining < 0 && (
           <Text color="red.500" textAlign="center">
             Error: You have spent more than your budget!

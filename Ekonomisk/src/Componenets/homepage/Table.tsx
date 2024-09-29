@@ -1,47 +1,47 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
-import useBaseTable from "../hooks/UseBaseTable";
+import useBaseTable, { BaseTableProps } from "../hooks/UseBaseTable";
 import { pay } from "../hooks/UseBaseTable";
 
 interface CashState {
-  sum: number;
+  income: number;
   payments: pay[];
   totalSpent: number;
   remaining: number;
 }
 
-const Tables = () => {
-  const { data: baseTable} = useBaseTable();
+const Tables = ({Table}: {Table: BaseTableProps}) => {
   const [cash, setCash] = useState<CashState>({
-    sum: 0,
+    income: 0,
     payments: [],
     totalSpent: 0,
     remaining: 0,
   });
 
   useEffect(() => {
-    if (baseTable) {
-      const totalSpent = Array.isArray(baseTable.payments)
-        ? baseTable.payments.reduce((acc, payment) => acc + payment.amount, 0)
+    if (Table) {
+      const totalSpent = Array.isArray(Table.payments)
+        ? Table.payments.reduce((acc, payment) => acc + payment.amount, 0)
         : 0;
 
-      const remainingAmount = baseTable.sum - totalSpent;
+      const remainingAmount = Table.income - totalSpent;
 
       setCash({
-        sum: baseTable.sum,
-        payments: baseTable.payments || [],
+        income: Table.income,
+        payments: Table.payments || [],
         totalSpent: totalSpent,
         remaining: remainingAmount,
       });
     }
-  }, [baseTable]);
+  }, [Table]);
 
   return (
     <BaseTable
-      sum={cash.sum}
+      income={cash.income}
       payments={cash.payments}
-      remaining={cash.remaining}
-    />
+      remaining={cash.remaining} 
+      userId={0} 
+      id={0}    />
   );
 };
 

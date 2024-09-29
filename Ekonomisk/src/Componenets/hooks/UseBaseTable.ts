@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import apiClient from "./apiClient";
 
 export interface BaseTableProps {
-  sum: number;
+  userId:number,
+  id:number
+  income: number;
   payments: pay[];
   remaining: number;
 }

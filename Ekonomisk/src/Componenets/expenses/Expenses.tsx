@@ -1,34 +1,15 @@
 import { useState } from "react";
 import Expensestables from "./Expensestable";
-import { Button, Grid, GridItem } from "@chakra-ui/react";
-import NavBar from "../Nav/NavBar";
+import {Grid, GridItem } from "@chakra-ui/react";
 import Sorting from "./Sorting";
 import MaxSpent from "./MaxSpent";
 import AddExpenses from "./AddExpenses";
-import UseExpense from "../hooks/UseExpense";
-import UseLimits from "../hooks/UseLimits";
+import UseExpenses from "../hooks/UseExpense";
 
 const Expenses = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
 
-  const {
-    data: useExpense,isLoading: paymentsLoading,error: paymentsError,
-  } = UseExpense();
-  const {
-    data: userLimitsData,
-    isLoading: limitsLoading,
-    error: limitsError,
-  } = UseLimits();
-
-
-    const filteredPayments = sortOrder
-      ? useExpense?.payments?.filter(
-          (payment: { category: string }) => payment.category === sortOrder
-        ) || []
-      : useExpense?.payments || [];
-
-
-  const userLimits = userLimitsData?.limits ?? [];
+  const {data} = UseExpenses();
 
   return (
     <>
@@ -43,7 +24,7 @@ const Expenses = () => {
         }}
       >
         <GridItem area="aside">
-          <MaxSpent/>
+          <MaxSpent expenses={data} />
         </GridItem>
         <GridItem area="main">
           <Sorting
@@ -51,7 +32,7 @@ const Expenses = () => {
             onSelectSortOrder={(order) => setSortOrder(order)}
           />
           <AddExpenses />
-          <Expensestables/>
+          {data && <Expensestables expenses={data} />}
         </GridItem>
       </Grid>
     </>
