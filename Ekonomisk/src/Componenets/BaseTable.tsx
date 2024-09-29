@@ -63,7 +63,9 @@ const BaseTable = ({
                   {payment.category}
                   <Show above="lg">
                     <Description
-                      desc={payment.desc || ["No description available"]}
+                      description={
+                        payment.description || ["No description available"]
+                      }
                       image={payment.image || ""}
                     />
                   </Show>

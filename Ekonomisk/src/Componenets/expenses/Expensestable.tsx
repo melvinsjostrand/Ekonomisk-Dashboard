@@ -3,7 +3,7 @@ import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
 import { Button, Hide, Text } from "@chakra-ui/react";
 import { pay } from "../hooks/UseBaseTable";
-import {Expense } from "../hooks/UseExpense";
+import {Expense } from "../hooks/UseBaseTable";
 
 const Expensestables = ({
   income,

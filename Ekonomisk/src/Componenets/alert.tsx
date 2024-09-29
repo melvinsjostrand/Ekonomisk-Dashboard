@@ -1,11 +1,11 @@
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, CloseButton, ListItem, UnorderedList,Image, useDisclosure } from "@chakra-ui/react";
 
 
-interface Props{
-  desc:string[];
-  image?:string;
+interface Props {
+  description: string[];
+  image?: string;
 }
-function Description({desc, image} : Props) {
+function Description({ description, image }: Props) {
   const {
     isOpen: isVisible,
     onClose,
@@ -19,7 +19,7 @@ function Description({desc, image} : Props) {
         <AlertTitle>Description</AlertTitle>
         <AlertDescription>
           <UnorderedList>
-            {desc.map((item, index) => (
+            {description.map((item, index) => (
               <ListItem key={index}>{item}</ListItem>
             ))}
           </UnorderedList>

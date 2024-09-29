@@ -2,29 +2,31 @@ import { Grid, GridItem, Text } from "@chakra-ui/react";
 import Tables from "./Table";
 import { useEffect, useState } from "react";
 import Savings from "./Savings";
-import useBaseTable from "../hooks/UseBaseTable";
+import UseHomepage from "../hooks/UseHomepage";
 
 const HomePage = () => {
-  const { data: BaseTable} = useBaseTable(); 
+  const {data} = UseHomepage();
+  const income = data?.income.income || 0;
+  const expenses = data?.expenses || []; 
   const [cash, setCash] = useState({
     totalSpent: 0,
     remaining: 0,
   });
 
 useEffect(() => {
-  if (BaseTable && BaseTable.payments && BaseTable.income !== undefined) {
-    const totalSpent = BaseTable.payments.reduce(
+  if (data && expenses && income !== undefined) {
+    const totalSpent = expenses.reduce(
       (acc, payment) => acc + payment.amount,
       0
     );
-    const remaining = BaseTable.income - totalSpent;
+    const remaining = income - totalSpent;
 
     setCash({
       totalSpent: totalSpent,
       remaining: remaining,
     });
   }
-}, [BaseTable]);
+}, [data]);
 
   return (
     <Grid
@@ -41,7 +43,7 @@ useEffect(() => {
         <Savings />
       </GridItem>
       <GridItem area="main">
-        {BaseTable && <Tables Table={BaseTable} />}
+        {data && <Tables Table={expenses} income={income} />}
         {cash.remaining < 0 && (
           <Text color="red.500" textAlign="center">
             Error: You have spent more than your budget!

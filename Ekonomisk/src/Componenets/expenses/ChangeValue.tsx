@@ -12,11 +12,10 @@ import {
 type ChangeValueProps = {
   category: string;
   amount: number;
-  onSave: (newAmount: number) => void; // Callback function to handle save
+  onSave: (newAmount: number) => void;
 };
 
 const ChangeValue = ({
-  category,
   amount,
   onSave,
 }: ChangeValueProps): JSX.Element => {
@@ -24,16 +23,16 @@ const ChangeValue = ({
   const [inputValue, setInputValue] = useState<number>(amount);
 
   useEffect(() => {
-    setInputValue(amount); // Update input when amount changes
+    setInputValue(amount); 
   }, [amount]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(Number(e.target.value)); // Update input field value
+    setInputValue(Number(e.target.value)); 
   };
 
   const handleSave = () => {
-    onSave(inputValue); // Call the parent function to save the value
-    setIsEditing.off(); // Close the popover after saving
+    onSave(inputValue); 
+    setIsEditing.off(); 
   };
 
   return (
