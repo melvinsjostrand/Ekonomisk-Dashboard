@@ -5,7 +5,6 @@ import { Button, Hide, Text } from "@chakra-ui/react";
 import { pay } from "../hooks/UseBaseTable";
 import { ExpenesProps } from "../hooks/UseExpense";
 
-
 const Expensestables = ({ expenses }: { expenses: ExpenesProps }) => {
   const [cash, setCash] = useState({
     totalSpent: 0,
@@ -14,14 +13,14 @@ const Expensestables = ({ expenses }: { expenses: ExpenesProps }) => {
   const [payments, setPayments] = useState<pay[]>([]);
 
   useEffect(() => {
-    if (expenses && expenses.payment) {
-      const totalSpent = expenses.payment.reduce(
+    if (expenses && expenses.expenses) {
+      const totalSpent = expenses.expenses.reduce(
         (acc, payment) => acc + payment.amount,
         0
       );
       const remainingAmount = expenses.income - totalSpent;
       setCash({ totalSpent, remaining: remainingAmount });
-      setPayments(expenses.payment);
+      setPayments(expenses.expenses);
     }
   }, [expenses]);
 
@@ -46,7 +45,7 @@ const Expensestables = ({ expenses }: { expenses: ExpenesProps }) => {
   return (
     <>
       <BaseTable
-        income={expenses?.income || 0}
+        income={expenses[0]?.income || 0}
         payments={payments}
         remaining={cash.remaining}
         renderExtraColumn={(payment) => (
@@ -54,12 +53,14 @@ const Expensestables = ({ expenses }: { expenses: ExpenesProps }) => {
             <ChangeValue
               category={payment.category}
               amount={payment.amount}
-              onSave={(newAmount) => handleSave(payment.category, newAmount)} />
+              onSave={(newAmount) => handleSave(payment.category, newAmount)}
+            />
             <Button>Remove</Button>
           </>
-        )} 
+        )}
         userId={0}
-        id={0}      />
+        id={0}
+      />
       <Hide above="lg">
         <Text px={2}>
           If you want to remove expenses you need to be on a Computer

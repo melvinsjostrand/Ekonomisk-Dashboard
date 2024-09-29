@@ -9,7 +9,10 @@ import UseExpenses from "../hooks/UseExpense";
 const Expenses = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
 
-  const {data} = UseExpenses();
+  const { data } = UseExpenses();
+
+  const income = data?.income.income || 0; // default to 0 if not available
+  const expenses = data?.expenses || []; // default to empty array if not available
 
   return (
     <>
@@ -24,7 +27,7 @@ const Expenses = () => {
         }}
       >
         <GridItem area="aside">
-          <MaxSpent expenses={data} />
+          <MaxSpent expenses={expenses} />
         </GridItem>
         <GridItem area="main">
           <Sorting
@@ -32,7 +35,7 @@ const Expenses = () => {
             onSelectSortOrder={(order) => setSortOrder(order)}
           />
           <AddExpenses />
-          {data && <Expensestables expenses={data} />}
+          {data && <Expensestables expenses={expenses} income={income} />}
         </GridItem>
       </Grid>
     </>

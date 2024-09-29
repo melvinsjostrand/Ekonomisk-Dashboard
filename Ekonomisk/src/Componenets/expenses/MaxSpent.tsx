@@ -1,7 +1,6 @@
 import { Box, Progress, Text, useBreakpointValue } from "@chakra-ui/react";
 import UseLimits from "../hooks/UseLimits";
-import { ExpenesProps } from "../hooks/UseExpense";
-
+import { Expense } from "../hooks/UseExpense";
 const normalizeCategory = (category: string) => {
   const categoryMap: { [key: string]: string } = {
     Housing: "Housing",
@@ -16,7 +15,7 @@ const normalizeCategory = (category: string) => {
   return categoryMap[category] || category;
 };
 
-const MaxSpent = ({ expenses }: { expenses: ExpenesProps | undefined }) => {
+const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
   const { data: userLimitsData } = UseLimits();
 
   const defaultLimits = [
@@ -42,9 +41,8 @@ const MaxSpent = ({ expenses }: { expenses: ExpenesProps | undefined }) => {
     );
   }
 
-  const spending = expenses.payment || [];
 
-  const aggregatedSpending: { [key: string]: number } = spending.reduce(
+  const aggregatedSpending: { [key: string]: number } = expenses.reduce(
     (acc, item) => {
       const normalizedCategory = normalizeCategory(item.category);
       acc[normalizedCategory] = (acc[normalizedCategory] || 0) + item.amount;

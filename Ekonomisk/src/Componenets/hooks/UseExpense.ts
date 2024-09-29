@@ -1,22 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "./apiClient"; 
-import { pay } from "./UseBaseTable";
 
 
-export interface ExpenesProps{
-  userId: number,
-  id: number,
-  income: number,
-  payment:pay[],
-  remaining:number
+
+export interface Expense {
+  category: string;
+  amount: number;
+  expenseId: number;
+  description: string[];
+}
+
+export interface ExpensesProps {
+  income: {
+    income: number;
+  };
+  expenses: Expense[];
 }
 
 
 const UseExpenses= () => {
   const fetchExpenses = () =>
-    apiClient.get<ExpenesProps>("API").then((res) => res.data);
+    apiClient.get<ExpensesProps>("API").then((res) => res.data);
 
-  return useQuery<ExpenesProps, Error>({
+  return useQuery<ExpensesProps, Error>({
     queryKey: ["Expenses"],
     queryFn: fetchExpenses,
   });
