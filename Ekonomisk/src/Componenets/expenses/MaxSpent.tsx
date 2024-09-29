@@ -1,8 +1,8 @@
 import { Box, Progress, Text, useBreakpointValue } from "@chakra-ui/react";
 import UseLimits from "../hooks/UseLimits";
-import { Expense } from "../hooks/UseBaseTable";
+import { Expense } from "../hooks/UseExpense";
 
-// Modify this function to ensure all categories are mapped
+
 const normalizeCategory = (category: string) => {
   const categoryMap: { [key: string]: string } = {
     Housing: "Housing",
