@@ -12,8 +12,6 @@ export interface Expense {
 }
 
 export interface ExpensesProps {
-  reduce(arg0: (acc: any, payment: any) => any, arg1: number): unknown;
-  payments: ExpensesProps | undefined;
   income: {
     income: number;
   };

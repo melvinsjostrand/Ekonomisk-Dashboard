@@ -2,10 +2,10 @@ import { Grid, GridItem, Text } from "@chakra-ui/react";
 import Tables from "./Table";
 import { useEffect, useState } from "react";
 import Savings from "./Savings";
-import UseHomepage from "../hooks/UseHomepage";
+import UseExpenses from "../hooks/UseExpense";
 
 const HomePage = () => {
-  const {data} = UseHomepage();
+  const {data} = UseExpenses();
   const income = data?.income.income || 0;
   const expenses = data?.expenses || []; 
   const [cash, setCash] = useState({
