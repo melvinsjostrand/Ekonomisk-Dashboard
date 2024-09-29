@@ -3,26 +3,32 @@ import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
 import { Button, Hide, Text } from "@chakra-ui/react";
 import { pay } from "../hooks/UseBaseTable";
-import { ExpenesProps } from "../hooks/UseExpense";
+import {Expense } from "../hooks/UseExpense";
 
-const Expensestables = ({ expenses }: { expenses: ExpenesProps }) => {
+const Expensestables = ({
+  income,
+  expenses,
+}: {
+  income: number;
+  expenses: Expense[];
+}) => {
   const [cash, setCash] = useState({
     totalSpent: 0,
     remaining: 0,
   });
-  const [payments, setPayments] = useState<pay[]>([]);
+const [payments, setPayments] = useState<pay[]>(expenses);
 
   useEffect(() => {
-    if (expenses && expenses.expenses) {
-      const totalSpent = expenses.expenses.reduce(
+    if (expenses) {
+      const totalSpent = expenses.reduce(
         (acc, payment) => acc + payment.amount,
         0
       );
-      const remainingAmount = expenses.income - totalSpent;
+      const remainingAmount = income - totalSpent;
       setCash({ totalSpent, remaining: remainingAmount });
-      setPayments(expenses.expenses);
+      setPayments(expenses);
     }
-  }, [expenses]);
+  }, [income, expenses]);
 
   const handleSave = (category: string, newAmount: number) => {
     setPayments((prevPayments) =>
@@ -38,7 +44,7 @@ const Expensestables = ({ expenses }: { expenses: ExpenesProps }) => {
         payment.category === category ? acc + newAmount : acc + payment.amount,
       0
     );
-    const remainingAmount = expenses?.income ? expenses.income - totalSpent : 0;
+    const remainingAmount = income  - totalSpent;
     setCash({ totalSpent, remaining: remainingAmount });
   };
 
