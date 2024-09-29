@@ -44,7 +44,6 @@ const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
     );
   }
 
-  // Aggregate expenses by category
   const aggregatedSpending: { [key: string]: number } = expenses.reduce(
     (acc, item) => {
       const normalizedCategory = normalizeCategory(item.category);
