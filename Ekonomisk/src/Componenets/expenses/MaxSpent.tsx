@@ -32,6 +32,7 @@ const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
 
 
   const limits = userLimitsData?.limits || defaultLimits;
+  console.log(limits);
 
   const textSize = useBreakpointValue({ base: "sm", md: "md" });
   const progressSize = useBreakpointValue({ base: "md", md: "lg" });
