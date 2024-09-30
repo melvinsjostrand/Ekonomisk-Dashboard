@@ -10,7 +10,7 @@ const Expenses = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
 
   const { data } = UseExpenses();
-
+  console.log(JSON.stringify(data))
   const income = data?.income.income || 0;
   const expenses = data?.expenses || [];
 

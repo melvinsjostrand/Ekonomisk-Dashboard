@@ -28,51 +28,56 @@ const categories = [
 
 const MakeIncome = () => {
   const [income, setIncome] = useState<number>(0);
-  const [categoryLimits, setCategoryLimits] = useState<Record<string, number>>({});
+  const [categorylimits, setCategorylimits] = useState<Record<string, number>>({});
   const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
   const toast = useToast();
 
   const {data} = UseGetIncome();
-
+  console.log(JSON.stringify(data))
   const mutation = useMakeIncome();
 
   useEffect(() => {
-    if (data) {
-      setIncome(data.income.income || 0);
+    console.log(data);
+    console.log(data?.limits)
+    if (data&& data.limits) {
+      setIncome(data.income || 0);
 
-      const limits = data.Limits.reduce<Record<string, number>>(
+      const limits = data.limits.reduce<Record<string, number>>(
         (acc, limit) => {
           acc[limit.category] = limit.spendLimit;
+          console.log(acc)
           return acc;
         },
         {}
       );
-      setCategoryLimits(limits);
+      console.log(limits);
+      setCategorylimits(limits);
 
       setSaveGoal(data.saveGoal);
     }
   }, [data]);
-
+  console.log(income)
+  console.log(categorylimits)
   const handleLimitChange = (category: string, value: string) => {
-    setCategoryLimits((prevLimits) => ({
-      ...prevLimits,
+    setCategorylimits((prevlimits) => ({
+      ...prevlimits,
       [category]: Number(value),
     }));
   };
 
-  const getTotalLimits = () => {
-    return Object.values(categoryLimits).reduce((acc, limit) => acc + limit, 0);
+  const getTotallimits = () => {
+    return Object.values(categorylimits).reduce((acc, limit) => acc + limit, 0);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const totalLimits = getTotalLimits();
+    const totallimits = getTotallimits();
 
     if (
       income > 0 &&
-      Object.keys(categoryLimits).length === categories.length
+      Object.keys(categorylimits).length === categories.length
     ) {
-      if (totalLimits > income) {
+      if (totallimits > income) {
         toast({
           title: "Over Budget",
           description: "You are over your budget. Please adjust your limits.",
@@ -85,7 +90,7 @@ const MakeIncome = () => {
           {
             userId: 1, 
             income,
-            categoryLimits,
+            categorylimits,
             saveGoal: showSaveGoal,
           },
           {
@@ -133,7 +138,7 @@ const MakeIncome = () => {
       boxShadow="lg"
     >
       <Heading textAlign="center" mb="6" fontSize={{ base: "2xl", md: "3xl" }}>
-        Enter Income and Category Limits
+        Enter Income and Category limits
       </Heading>
 
       <form onSubmit={handleSubmit}>
@@ -143,7 +148,7 @@ const MakeIncome = () => {
             <Input
               type="number"
               placeholder="Enter your total income"
-              value={income}
+              value={data?.income}
               onChange={(e) => setIncome(Number(e.target.value))}
             />
           </FormControl>
@@ -165,7 +170,7 @@ const MakeIncome = () => {
                     <Input
                       type="number"
                       placeholder={`Limit for ${category}`}
-                      value={categoryLimits[category] || 0}
+                      value={categorylimits[category] || 0}
                       onChange={(e) =>
                         handleLimitChange(category, e.target.value)
                       }
@@ -186,16 +191,16 @@ const MakeIncome = () => {
 
           <Box
             textAlign="center"
-            color={getTotalLimits() > income ? "red.500" : "green.500"}
+            color={getTotallimits() > income ? "red.500" : "green.500"}
             fontWeight="bold"
           >
-            {`Total Limits: ${getTotalLimits()} / ${income} ${
-              getTotalLimits() > income ? "(Over Budget)" : ""
+            {`Total limits: ${getTotallimits()} / ${income} ${
+              getTotallimits() > income ? "(Over Budget)" : ""
             }`}
           </Box>
 
           <Button type="submit" colorScheme="blue" size="lg" width="full">
-            Submit Income and Limits
+            Submit Income and limits
           </Button>
         </Stack>
       </form>

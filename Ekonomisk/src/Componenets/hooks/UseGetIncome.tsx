@@ -9,16 +9,16 @@ export interface limit {
 }
 
 export interface IncomeProps {
-  income: {
-    income: number;
-  };
-  Limits: limit[];
+  
+  income: number;
+  
+  limits: limit[];
   saveGoal: number;
 }
 
 const UseGetIncome = () => {
   const fetchIncome = () =>
-    apiClient.get<IncomeProps>("API").then((res) => res.data);
+    apiClient.get<IncomeProps>("/Limits/LimitsIncome?userId="+1).then((res) => res.data);
 
   return useQuery<IncomeProps, Error>({
     queryKey: ["Income"],
