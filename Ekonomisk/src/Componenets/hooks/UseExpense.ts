@@ -17,6 +17,7 @@ export interface ExpensesProps {
   expenses: Expense[];
 }
 
+
 const UseExpenses= () => {
   const fetchExpenses = () =>
     apiClient.get<ExpensesProps>("/Expenses/IncomeExpenses?userId="+1).then((res) => res.data);

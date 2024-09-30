@@ -5,6 +5,8 @@ import { Button, Hide, Text } from "@chakra-ui/react";
 import { pay } from "../hooks/UseBaseTable";
 import {Expense } from "../hooks/UseExpense";
 
+
+
 const Expensestables = ({
   income,
   expenses,

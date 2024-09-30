@@ -13,7 +13,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import categoryColors from "../hooks/categoryColors";
-import useGetIncome from "../hooks/UseGetIncome"; 
+import UseGetIncome from "../hooks/UseGetIncome";
 import useMakeIncome from "../hooks/UseMakeIncome";
 
 const categories = [
@@ -34,7 +34,7 @@ const MakeIncome = () => {
   const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
   const toast = useToast();
 
-  const { data: incomeData, isLoading, error } = useGetIncome();
+  const { data: incomeData, isLoading, error } = UseGetIncome();
   const mutation = useMakeIncome();
 
    useEffect(() => {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Expensestables from "./Expensestable";
 import {Grid, GridItem } from "@chakra-ui/react";
 import Sorting from "./Sorting";
@@ -11,9 +11,30 @@ const Expenses = () => {
 
   const { data } = UseExpenses();
 
-  const income = data?.income.income || 0; // default to 0 if not available
-  const expenses = data?.expenses || []; // default to empty array if not available
+  const income = data?.income.income || 0;
+  const expenses = data?.expenses || [];
 
+
+  const sortedExpenses = useMemo(() => {
+    if(!sortOrder) return expenses;
+    return[...expenses].sort((a, b) => {
+            if (sortOrder === "Housing")
+              return a.category.localeCompare(b.category);
+            if (sortOrder === "Transport")
+              return a.category.localeCompare(b.category);
+            if (sortOrder === "Food")
+              return a.category.localeCompare(b.category);
+            if (sortOrder === "Health")
+              return a.category.localeCompare(b.category);
+            if (sortOrder === "Entertainment")
+              return a.category.localeCompare(b.category);
+            if (sortOrder === "Accessories")
+              return a.category.localeCompare(b.category);
+            if (sortOrder === "Other")
+              return a.category.localeCompare(b.category);
+             return 0;
+    });
+  },[expenses,sortOrder])
   return (
     <>
       <Grid
@@ -35,7 +56,7 @@ const Expenses = () => {
             onSelectSortOrder={(order) => setSortOrder(order)}
           />
           <AddExpenses />
-          {data && <Expensestables expenses={expenses} income={income} />}
+          {data && <Expensestables expenses={sortedExpenses} income={income} />}
         </GridItem>
       </Grid>
     </>
