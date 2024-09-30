@@ -15,6 +15,7 @@ interface PieChartProps {
 }
 
 const PieChart = ({ payments }: PieChartProps) => {
+  console.log(payments)
 
   if (!payments || payments.length === 0) {
     return <Text>No payments available</Text>; 
