@@ -28,7 +28,7 @@ const categories = [
 
 const MakeIncome = () => {
   const [income, setIncome] = useState<number>(0);
-  const [categorylimits, setCategorylimits] = useState<Record<string, number>>({});
+  const [categoryLimits, setCategorylimits] = useState<Record<string, number>>({});
   const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
   const toast = useToast();
 
@@ -57,7 +57,7 @@ const MakeIncome = () => {
     }
   }, [data]);
   console.log(income)
-  console.log(categorylimits)
+  console.log(categoryLimits)
   const handleLimitChange = (category: string, value: string) => {
     setCategorylimits((prevlimits) => ({
       ...prevlimits,
@@ -66,7 +66,7 @@ const MakeIncome = () => {
   };
 
   const getTotallimits = () => {
-    return Object.values(categorylimits).reduce((acc, limit) => acc + limit, 0);
+    return Object.values(categoryLimits).reduce((acc, limit) => acc + limit, 0);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -75,7 +75,7 @@ const MakeIncome = () => {
 
     if (
       income > 0 &&
-      Object.keys(categorylimits).length === categories.length
+      Object.keys(categoryLimits).length === categories.length
     ) {
       if (totallimits > income) {
         toast({
@@ -90,7 +90,7 @@ const MakeIncome = () => {
           {
             userId: 1, 
             income,
-            categorylimits,
+            categoryLimits,
             saveGoal: showSaveGoal,
           },
           {
@@ -170,7 +170,7 @@ const MakeIncome = () => {
                     <Input
                       type="number"
                       placeholder={`Limit for ${category}`}
-                      value={categorylimits[category] || 0}
+                      value={categoryLimits[category] || 0}
                       onChange={(e) =>
                         handleLimitChange(category, e.target.value)
                       }

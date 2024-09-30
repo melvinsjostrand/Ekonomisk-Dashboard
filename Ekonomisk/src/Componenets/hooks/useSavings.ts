@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-
+import { Expense } from "./UseExpense";
 import apiClient from "./apiClient";
 
 interface SavingsData {
-  totalSaved: number;
-  saveGoal: number;
-  payments: { category: string; amount: number }[];
-  prevsave: number; 
-}
+  savings:{
+    totalSaved: number,
+    saveGoal: number,
+    prevsave: number, }
+    expense: Expense[]
+  }
 
 const useSavings = () => {
   const fetchSavings = () =>
-    apiClient.get<SavingsData>("API_ENDPOINT_HERE")
+    apiClient.get<SavingsData>("/Expenses/SavingExpenses?userId="+1)
       .then((res) => res.data)
 
 

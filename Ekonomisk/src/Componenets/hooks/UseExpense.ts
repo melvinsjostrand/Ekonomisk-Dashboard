@@ -3,7 +3,6 @@ import apiClient from "./apiClient";
 
 
 export interface Expense {
-  income: number;
   category: string;
   amount: number;
   expenseId: number;

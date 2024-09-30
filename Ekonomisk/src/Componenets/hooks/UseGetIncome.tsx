@@ -18,7 +18,7 @@ export interface IncomeProps {
 
 const UseGetIncome = () => {
   const fetchIncome = () =>
-    apiClient.get<IncomeProps>("/Limits/LimitsIncome?userId="+1).then((res) => res.data);
+    apiClient.get<IncomeProps>("/Limits/LimitsIncomeSaveGoal?userId="+1).then((res) => res.data);
 
   return useQuery<IncomeProps, Error>({
     queryKey: ["Income"],
