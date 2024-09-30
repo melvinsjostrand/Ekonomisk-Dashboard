@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import categoryColors from "../hooks/categoryColors";
 import UseGetIncome from "../hooks/UseGetIncome";
-import useMakeIncome from "../hooks/UseMakeIncome";
+import useMakeIncome from "../hooks/PostMakeIncome";
 
 const categories = [
   "Housing",
@@ -28,36 +28,30 @@ const categories = [
 
 const MakeIncome = () => {
   const [income, setIncome] = useState<number>(0);
-  const [categoryLimits, setCategoryLimits] = useState<Record<string, number>>(
-    {}
-  );
+  const [categoryLimits, setCategoryLimits] = useState<Record<string, number>>({});
   const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
   const toast = useToast();
 
-  const { data: incomeData, isLoading, error } = UseGetIncome();
+  const {data} = UseGetIncome();
+
   const mutation = useMakeIncome();
 
-   useEffect(() => {
-     if (incomeData) {
-       setIncome(incomeData.income || 0);
+  useEffect(() => {
+    if (data) {
+      setIncome(data.income.income || 0);
 
+      const limits = data.Limits.reduce<Record<string, number>>(
+        (acc, limit) => {
+          acc[limit.category] = limit.spendLimit;
+          return acc;
+        },
+        {}
+      );
+      setCategoryLimits(limits);
 
-       if (incomeData.limits) {
-         const limits = incomeData.limits.reduce<Record<string, number>>(
-           (acc, limit) => {
-             acc[limit.category] = limit.spendLimit;
-             return acc;
-           },
-           {}
-         );
-         setCategoryLimits(limits);
-       } else {
-          console.log("This user dont have any limits set for this month");
-       }
-
-       setSaveGoal(incomeData.saveGoal);
-     }
-   }, [incomeData, toast]);
+      setSaveGoal(data.saveGoal);
+    }
+  }, [data]);
 
   const handleLimitChange = (category: string, value: string) => {
     setCategoryLimits((prevLimits) => ({
@@ -171,7 +165,7 @@ const MakeIncome = () => {
                     <Input
                       type="number"
                       placeholder={`Limit for ${category}`}
-                      value={categoryLimits[category] || ""}
+                      value={categoryLimits[category] || 0}
                       onChange={(e) =>
                         handleLimitChange(category, e.target.value)
                       }
@@ -184,7 +178,7 @@ const MakeIncome = () => {
               <FormLabel>Save Goal</FormLabel>
               <Input
                 type="number"
-                value={showSaveGoal || ""}
+                value={showSaveGoal || 0}
                 onChange={(e) => setSaveGoal(Number(e.target.value))}
               />
             </FormControl>

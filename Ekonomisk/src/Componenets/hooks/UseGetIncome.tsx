@@ -2,24 +2,25 @@ import { useQuery } from "@tanstack/react-query";
 
 import apiClient from "./apiClient";
 
-interface IncomeProp {
-  userId: number;
-  income: number;
-  limits: limit[];
-  saveGoal: number;
-}
-
 export interface limit {
   userId: number;
   category: string;
   spendLimit: number;
 }
 
+export interface IncomeProps {
+  income: {
+    income: number;
+  };
+  Limits: limit[];
+  saveGoal: number;
+}
+
 const UseGetIncome = () => {
   const fetchIncome = () =>
-    apiClient.get<IncomeProp>("API").then((res) => res.data);
+    apiClient.get<IncomeProps>("API").then((res) => res.data);
 
-  return useQuery<IncomeProp, Error>({
+  return useQuery<IncomeProps, Error>({
     queryKey: ["Income"],
     queryFn: fetchIncome,
   });
