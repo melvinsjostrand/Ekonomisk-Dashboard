@@ -34,15 +34,15 @@ const MakeIncome = () => {
 
   const {data} = UseGetIncome();
   console.log(JSON.stringify(data))
-  const mutation = useMakeIncome();
+    const { postMutation, putMutation } = useMakeIncome();
 
   useEffect(() => {
     console.log(data);
-    console.log(data?.Limits)
-    if (data&& data.Limits) {
+    console.log(data?.limits)
+    if (data&& data.limits) {
       setIncome(data.income || 0);
 
-      const limits = data.Limits.reduce<Record<string, number>>(
+      const limits = data.limits.reduce<Record<string, number>>(
         (acc, limit) => {
           acc[limit.category] = limit.spendLimit;
           console.log(acc)
@@ -86,16 +86,38 @@ const MakeIncome = () => {
           isClosable: true,
         });
       } else {
-        mutation.mutate(
-          {
-            userId: 1, 
-            income,
-            categoryLimits,
-            saveGoal: showSaveGoal,
-          },
-          {
+        const incomeData = {
+          userId: 1,
+          income,
+          categoryLimits,
+          saveGoal: showSaveGoal,
+        };
+
+        if (data && data.income) {
+
+          putMutation.mutate(incomeData, {
             onSuccess: () => {
-              console.log(mutation)
+              toast({
+                title: "Success",
+                description: "Income and limits updated successfully!",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+              });
+            },
+            onError: () => {
+              toast({
+                title: "Error",
+                description: "There was an error updating the data.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+              });
+            },
+          });
+        } else {
+          postMutation.mutate(incomeData, {
+            onSuccess: () => {
               toast({
                 title: "Success",
                 description: "Income and limits saved successfully!",
@@ -113,8 +135,8 @@ const MakeIncome = () => {
                 isClosable: true,
               });
             },
-          }
-        );
+          });
+        }
       }
     } else {
       toast({
