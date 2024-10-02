@@ -12,20 +12,42 @@ import {
 } from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
+import useLogin from "../hooks/UseLogin";
 
-interface LoginFormProps {
-  onSubmit: (email: string, password: string) => void;
-}
 
-const LoginForm = ({ onSubmit }: LoginFormProps) => {
+
+const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const toast = useToast();
+  const mutation = useLogin(); 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email && password) {
-      onSubmit(email, password);
+      mutation.mutate(
+        { email, password },
+        {
+          onSuccess: (data) => {
+            toast({
+              title: "Login successful",
+              description: "You have been logged in.",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+          onError: (error) => {
+            toast({
+              title: "Login failed",
+              description: "Invalid Password or Email. Please try again.",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+        }
+      );
     } else {
       toast({
         title: "Error",
@@ -71,7 +93,12 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
             />
           </FormControl>
 
-          <Button type="submit" colorScheme="blue" size="lg" width="full">
+          <Button
+            type="submit"
+            colorScheme="blue"
+            size="lg"
+            width="full"
+          >
             Login
           </Button>
           <Text textAlign="center" mt="4">

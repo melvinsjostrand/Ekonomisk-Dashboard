@@ -38,11 +38,11 @@ const MakeIncome = () => {
 
   useEffect(() => {
     console.log(data);
-    console.log(data?.limits)
-    if (data&& data.limits) {
+    console.log(data?.Limits)
+    if (data&& data.Limits) {
       setIncome(data.income || 0);
 
-      const limits = data.limits.reduce<Record<string, number>>(
+      const limits = data.Limits.reduce<Record<string, number>>(
         (acc, limit) => {
           acc[limit.category] = limit.spendLimit;
           console.log(acc)

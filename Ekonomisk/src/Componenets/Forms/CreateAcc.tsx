@@ -11,29 +11,30 @@ import {
 } from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
+import useCreateAccount from "../hooks/UseCreateAcc";
 
-interface CreateFormProps {
-  onSubmit: (
-    Name: string,
-    email: string,
-    password: string,
-    PastSavings: number
-  ) => void;
-}
-
-const CreateForm = ({onSubmit,}: CreateFormProps) => {
+const CreateForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [Firstname, setFirstName] = useState<String>("");
-  const [Lastname, setLastName] = useState<String>("");
-  const [PastSavings, setPastSavings] = useState<number>(0);
-  const Name = `${Firstname} ${Lastname}`;
+  const [firstname, setFirstName] = useState<string>("");
+  const [lastname, setLastName] = useState<string>("");
+  const [pastSavings, setPastSavings] = useState<number>(0);
 
+  const Name = `${firstname} ${lastname}`;
+
+  const mutation = useCreateAccount(); 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    onSubmit(Name, email, password, PastSavings);
+    if (Name && email && password) {
+      mutation.mutate({
+        name: Name,
+        email,
+        password,
+        pastSavings,
+      });
+    }
   };
 
   return (
@@ -52,20 +53,20 @@ const CreateForm = ({onSubmit,}: CreateFormProps) => {
       </Heading>
       <form onSubmit={handleSubmit}>
         <Stack spacing={4}>
-          <FormControl id="Firstname" isRequired>
+          <FormControl id="firstname" isRequired>
             <FormLabel>First Name</FormLabel>
-            <Input type="Text" onChange={(e) => setFirstName(e.target.value)} />
+            <Input type="text" onChange={(e) => setFirstName(e.target.value)} />
           </FormControl>
-          <FormControl id="LastName" isRequired>
-            <FormLabel>Last name</FormLabel>
-            <Input type="Text" onChange={(e) => setLastName(e.target.value)} />
+          <FormControl id="lastname" isRequired>
+            <FormLabel>Last Name</FormLabel>
+            <Input type="text" onChange={(e) => setLastName(e.target.value)} />
           </FormControl>
-          <FormControl id="PastSavings">
-            <FormLabel>Past savings</FormLabel>
+          <FormControl id="pastSavings">
+            <FormLabel>Past Savings</FormLabel>
             <Input
-              type="Number"
+              type="number"
               onChange={(e) => setPastSavings(e.target.valueAsNumber)}
-            ></Input>
+            />
           </FormControl>
 
           <FormControl id="email" isRequired>
