@@ -28,18 +28,18 @@ const AddExpenses = () => {
   const [amount, setAmount] = useState<number | "">("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const [descriptions, setDescriptions] = useState<string[]>([]);
+  const [description, setDescriptions] = useState<string[]>([]);
   const [isAddingDescription, setIsAddingDescription] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [base64Image, setBase64Image] = useState<string | null>(null);
 
-  const addDescription = () => setDescriptions([...descriptions, ""]);
+  const addDescription = () => setDescriptions([...description, ""]);
   const removeDescription = (index: number) => {
-    setDescriptions(descriptions.filter((_, i) => i !== index));
+    setDescriptions(description.filter((_, i) => i !== index));
   };
 
   const handleDescriptionChange = (index: number, value: string) => {
-    const newDescriptions = [...descriptions];
+    const newDescriptions = [...description];
     newDescriptions[index] = value;
     setDescriptions(newDescriptions);
   };
@@ -67,7 +67,7 @@ const AddExpenses = () => {
           image: base64Image,
           category,
           amount,
-          descriptions
+          description
        };
     console.log(JSON.stringify(data));
   };
@@ -120,7 +120,7 @@ const AddExpenses = () => {
           <Collapse in={isAddingDescription}>
             <FormControl id="descriptions" mb={4}>
               <FormLabel>Descriptions</FormLabel>
-              {descriptions.map((desc, index) => (
+              {description.map((desc, index) => (
                 <HStack key={index} mb={2}>
                   <Input
                     value={desc}
