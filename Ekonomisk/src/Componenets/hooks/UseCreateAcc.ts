@@ -1,16 +1,7 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
-import apiClient from "./apiClient"; // Your configured axios instance
-
-interface CreateAccountData {
-  name: string;
-  email: string;
-  password: string;
-  pastSavings: number;
-}
-
-interface CreateAccountResponse {
-  success: boolean;
-}
+import apiClient from "./apiClient";
+import { CreateAccountData } from "./Inferfaces";
+import { CreateAccountResponse } from "./Inferfaces";
 
 const useCreateAccount = (): UseMutationResult<
   CreateAccountResponse,

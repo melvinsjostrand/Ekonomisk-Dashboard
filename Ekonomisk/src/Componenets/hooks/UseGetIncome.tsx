@@ -2,19 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import apiClient from "./apiClient";
 
-export interface limit {
-  userId: number;
-  category: string;
-  spendLimit: number;
-}
-
-export interface IncomeProps {
-  
-  income: number;
-  
-  limits: limit[];
-  saveGoal: number;
-}
+import { IncomeProps } from "./Inferfaces";
 
 const UseGetIncome = () => {
   const fetchIncome = () =>

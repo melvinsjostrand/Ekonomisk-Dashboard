@@ -8,19 +8,19 @@ import {
   Select,
   IconButton,
   HStack,
-  Collapse
+  Collapse,
+  useToast,
 } from "@chakra-ui/react";
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
-import { image } from "framer-motion/client";
-
+import usePostExpense from "../hooks/PostExpenses";
 const categories = [
-    "Housing",
-    "Transport",
-    "Food",
-    "Health",
-    "Entertainment",
-    "Accessories",
-    "Other",
+  "Housing",
+  "Transport",
+  "Food",
+  "Health",
+  "Entertainment",
+  "Accessories",
+  "Other",
 ];
 
 const AddExpenses = () => {
@@ -29,47 +29,88 @@ const AddExpenses = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [description, setDescriptions] = useState<string[]>([]);
-  const [isAddingDescription, setIsAddingDescription] = useState<boolean>(false);
+  const [isAddingDescription, setIsAddingDescription] =
+    useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [base64Image, setBase64Image] = useState<string | null>(null);
+
+  const toast = useToast();
+
+  const { mutate: postExpense } = usePostExpense();
 
   const addDescription = () => setDescriptions([...description, ""]);
   const removeDescription = (index: number) => {
     setDescriptions(description.filter((_, i) => i !== index));
   };
-
   const handleDescriptionChange = (index: number, value: string) => {
     const newDescriptions = [...description];
     newDescriptions[index] = value;
     setDescriptions(newDescriptions);
   };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      if (file) {
-        setSelectedFile(file);
-        setPreview(URL.createObjectURL(file));
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
 
-        // Convert the image to base64
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setBase64Image(reader.result as string); 
-        };
-        console.log(reader.result);
-        reader.readAsDataURL(file); 
-      }
-    };
+      // Convert the image to base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBase64Image(reader.result as string);
+      };
+      console.log(reader.result);
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = () => {
-    // Handle form submission, e.g., add expense to a list or send to an API
+    if (!category || !amount || description.length === 0) {
+      toast({
+        title: "Error",
+        description: "Please fill out all fields before submitting.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
 
-       const data = {
-          image: base64Image,
-          category,
-          amount,
-          description
-       };
-    console.log(JSON.stringify(data));
+    const data = {
+      userId: 1,
+      expense: {
+        category,
+        amount,
+        description,
+      },
+    };
+
+    postExpense(data, {
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "Expense added successfully!",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        setIsFormVisible(false);
+        setCategory("");
+        setAmount("");
+        setDescriptions([]);
+        setPreview(null);
+        setSelectedFile(null);
+      },
+      onError: () => {
+        toast({
+          title: "Error",
+          description: "There was an error submitting your expense.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      },
+    });
   };
 
   return (
@@ -157,4 +198,4 @@ const AddExpenses = () => {
   );
 };
 
-export default AddExpenses
+export default AddExpenses;

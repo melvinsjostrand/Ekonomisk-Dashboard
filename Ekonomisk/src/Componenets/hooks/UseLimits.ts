@@ -1,23 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "./apiClient";
+import { limit } from "./Inferfaces";
 
-interface LimitProps {
-  userId:number,
-  category: string;
-  spendLimit: number;
-}
-
-export interface limit {
-
-}
 const UseLimits = () => {
   const fetchLimits = () =>
-    apiClient.get<LimitProps>("/Limits?userId="+1).then((res) => res.data);
+    apiClient.get<limit>("/Limits?userId=" + 1).then((res) => res.data);
 
-    return useQuery<LimitProps, Error>({
+    return useQuery<limit, Error>({
       queryKey: ["UseLimits"],
-      queryFn: fetchLimits
-    })
+      queryFn: fetchLimits,
+    });
 };
 
 export default UseLimits;

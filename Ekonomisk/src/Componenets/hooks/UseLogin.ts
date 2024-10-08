@@ -1,14 +1,8 @@
 import { useMutation, UseMutationResult } from "@tanstack/react-query";
 import apiClient from "./apiClient"; 
 
-interface LoginData {
-  email: string;
-  password: string;
-}
-
-interface LoginResponse {
-  guid: string;
-}
+import { LoginData } from "./Inferfaces";
+import { LoginResponse } from "./Inferfaces";
 
 const useLogin = (): UseMutationResult<LoginResponse, Error, LoginData> => {
   const postLoginData = (loginData: LoginData) => {

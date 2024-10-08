@@ -1,14 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Expense } from "./UseExpense";
 import apiClient from "./apiClient";
-
-interface SavingsData {
-  savings:{
-    totalSaved: number,
-    saveGoal: number,
-    prevsave: number, }
-    expense: Expense[]
-  }
+import { SavingsData } from "./Inferfaces";
 
 const useSavings = () => {
   const fetchSavings = () =>

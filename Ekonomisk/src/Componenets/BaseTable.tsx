@@ -12,11 +12,12 @@ import {
 } from "@chakra-ui/react";
 import Description from "./alert";
 import categoryColors from "./hooks/categoryColors";
-import { BaseTableProps, pay } from "./hooks/UseBaseTable";
+import { BaseTableProps, Expense } from "./hooks/Inferfaces";
+
 
 
 interface ExtendedBaseTableProps extends BaseTableProps {
-  renderExtraColumn?: (payment: pay, index: number) => React.ReactNode;
+  renderExtraColumn?: (payment: Expense, index: number) => React.ReactNode;
 }
 
 const BaseTable = ({
@@ -66,7 +67,6 @@ const BaseTable = ({
                       description={
                         payment.description || ["No description available"]
                       }
-                      image={payment.image || ""}
                     />
                   </Show>
                 </Td>
