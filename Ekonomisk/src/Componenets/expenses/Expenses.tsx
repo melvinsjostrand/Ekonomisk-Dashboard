@@ -10,31 +10,9 @@ const Expenses = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
 
   const { data } = UseExpenses();
-  console.log(JSON.stringify(data))
   const income = data?.income.income || 0;
   const expenses = data?.expenses || [];
 
-
-  const sortedExpenses = useMemo(() => {
-    if(!sortOrder) return expenses;
-    return[...expenses].sort((a, b) => {
-            if (sortOrder === "Housing")
-              return a.category.localeCompare(b.category);
-            if (sortOrder === "Transport")
-              return a.category.localeCompare(b.category);
-            if (sortOrder === "Food")
-              return a.category.localeCompare(b.category);
-            if (sortOrder === "Health")
-              return a.category.localeCompare(b.category);
-            if (sortOrder === "Entertainment")
-              return a.category.localeCompare(b.category);
-            if (sortOrder === "Accessories")
-              return a.category.localeCompare(b.category);
-            if (sortOrder === "Other")
-              return a.category.localeCompare(b.category);
-             return 0;
-    });
-  },[expenses,sortOrder])
   return (
     <>
       <Grid
@@ -56,7 +34,7 @@ const Expenses = () => {
             onSelectSortOrder={(order) => setSortOrder(order)}
           />
           <AddExpenses />
-          {data && <Expensestables expenses={sortedExpenses} income={income} />}
+          {data && <Expensestables expenses={expenses} income={income} />}
         </GridItem>
       </Grid>
     </>

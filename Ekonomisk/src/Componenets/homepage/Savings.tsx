@@ -9,10 +9,10 @@ const Savings = () => {
   if (error || !data) return <Text textAlign="center">No savings added</Text>;
 
   const { totalSaved, saveGoal, prevsave } = data.savings;
-  const savingPercentage = (totalSaved / saveGoal) * 100;
+ 
   const totalsavings = totalSaved + prevsave;
 
-
+  const savingPercentage = (totalsavings / saveGoal) * 100;
   
   return (
     <Box>

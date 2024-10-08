@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "./apiClient";
 
-
 interface LimitProps {
-    userId:number,
-    limits: limit[],
+  userId:number,
+  category: string;
+  spendLimit: number;
 }
 
 export interface limit {
-  category: string;
-  spendLimit: number;
+
 }
 const UseLimits = () => {
   const fetchLimits = () =>

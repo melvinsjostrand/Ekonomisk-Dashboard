@@ -1,8 +1,11 @@
 import { Box, Progress, Text, useBreakpointValue } from "@chakra-ui/react";
 import UseLimits from "../hooks/UseLimits";
 import { Expense } from "../hooks/UseExpense";
-import { json } from "react-router-dom";
 
+type Limit = {
+  category: string,
+  spendLimit: number
+}
 
 const normalizeCategory = (category: string) => {
   const categoryMap: { [key: string]: string } = {
@@ -20,7 +23,7 @@ const normalizeCategory = (category: string) => {
 
 const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
   const { data: userLimitsData } = UseLimits();
-  console.log(JSON.stringify(userLimitsData))
+
   const defaultLimits = [
     { category: "Housing", spendLimit: 0 },
     { category: "Transport", spendLimit: 0 },
@@ -32,8 +35,7 @@ const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
   ];
 
 
-  const limits = userLimitsData?.limits;
-  console.log(limits);
+  const limits: Limit[] = Array.isArray(userLimitsData)?userLimitsData: defaultLimits;
 
   const textSize = useBreakpointValue({ base: "sm", md: "md" });
   const progressSize = useBreakpointValue({ base: "md", md: "lg" });
@@ -57,7 +59,7 @@ const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
 
   return (
     <Box width="100%" px={{ base: 4, md: 6 }} py={{ base: 2, md: 4 }}>
-      {userLimitsData && limits?.map((limitObj, index) => {
+      {limits.map((limitObj, index) => {
         const category = normalizeCategory(limitObj.category); 
         const spent = aggregatedSpending[category] || 0; 
         const percentage =
