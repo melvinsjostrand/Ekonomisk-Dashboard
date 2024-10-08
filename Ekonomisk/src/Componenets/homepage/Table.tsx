@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
-import { Expense } from "../hooks/UseBaseTable";
+import { Expense } from "../hooks/UseExpense";
 import { pay } from "../hooks/UseBaseTable";
 
-const Tables = ({income,Table}: {income:number , Table: Expense[]}) => {
+const Tables = ({
+  income,
+  expenses,
+}: {
+  income: number;
+  expenses: Expense[];
+}) => {
   const [cash, setCash] = useState({
     totalSpent: 0,
     remaining: 0,
   });
-  const [payments] = useState<pay[]>(Table);
+  const [payments] = useState<pay[]>(expenses);
   useEffect(() => {
-    if (Table) {
-      const totalSpent = Array.isArray(Table)
-        ? Table.reduce((acc, payment) => acc + payment.amount, 0)
+    if (expenses) {
+      const totalSpent = Array.isArray(expenses)
+        ? expenses.reduce((acc, payment) => acc + payment.amount, 0)
         : 0;
 
       const remainingAmount = income - totalSpent;
@@ -22,15 +28,16 @@ const Tables = ({income,Table}: {income:number , Table: Expense[]}) => {
         remaining: remainingAmount,
       });
     }
-  }, [Table]);
+  }, [expenses]);
 
   return (
     <BaseTable
       income={income}
       payments={payments}
-      remaining={cash.remaining} 
-      userId={0} 
-      id={0}/>
+      remaining={cash.remaining}
+      userId={0}
+      id={0}
+    />
   );
 };
 

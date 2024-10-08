@@ -28,56 +28,56 @@ const categories = [
 
 const MakeIncome = () => {
   const [income, setIncome] = useState<number>(0);
-  const [categoryLimits, setCategorylimits] = useState<Record<string, number>>({});
+  const [categoryLimits, setCategoryLimits] = useState<
+    {userId: number; category: string; spendLimit: number }[]
+  >([]);
   const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
   const toast = useToast();
 
-  const {data} = UseGetIncome();
-  console.log(JSON.stringify(data))
-    const { postMutation, putMutation } = useMakeIncome();
+  const { data } = UseGetIncome();
+  const { postMutation, putMutation } = useMakeIncome();
 
-  useEffect(() => {
-    console.log(data);
-    console.log(data?.limits)
-    if (data&& data.limits) {
-      setIncome(data.income || 0);
+useEffect(() => {
+  if (data && data.limits) {
+    setIncome(data.income || 0);
 
-      const limits = data.limits.reduce<Record<string, number>>(
-        (acc, limit) => {
-          acc[limit.category] = limit.spendLimit;
-          console.log(acc)
-          return acc;
-        },
-        {}
-      );
-      console.log(limits);
-      setCategorylimits(limits);
+    const limits = data.limits.map(
+      (limit: {
+        userId: number,
+        category: string,
+        spendLimit: number,
+      }) => ({
+        userId: limit.userId,
+        category: limit.category,
+        spendLimit: limit.spendLimit,
+      })
+    );
 
-      setSaveGoal(data.saveGoal);
-    }
-  }, [data]);
-  console.log(income)
-  console.log(categoryLimits)
+    setCategoryLimits(limits);
+    setSaveGoal(data.saveGoal);
+  }
+}, [data]);
+
   const handleLimitChange = (category: string, value: string) => {
-    setCategorylimits((prevlimits) => ({
-      ...prevlimits,
-      [category]: Number(value),
-    }));
+    setCategoryLimits((prevLimits) =>
+      prevLimits.map((limit) =>
+        limit.category === category
+          ? { ...limit, spendLimit: Number(value) }
+          : limit
+      )
+    );
   };
 
-  const getTotallimits = () => {
-    return Object.values(categoryLimits).reduce((acc, limit) => acc + limit, 0);
+  const getTotalLimits = () => {
+    return categoryLimits.reduce((acc, limit) => acc + limit.spendLimit, 0);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const totallimits = getTotallimits();
+    const totalLimits = getTotalLimits();
 
-    if (
-      income > 0 &&
-      Object.keys(categoryLimits).length === categories.length
-    ) {
-      if (totallimits > income) {
+    if (income > 0 && categoryLimits.length === categories.length) {
+      if (totalLimits > income) {
         toast({
           title: "Over Budget",
           description: "You are over your budget. Please adjust your limits.",
@@ -89,12 +89,15 @@ const MakeIncome = () => {
         const incomeData = {
           userId: 1,
           income,
-          categoryLimits,
           saveGoal: showSaveGoal,
+          limits: categoryLimits.map((limit) => ({
+            userId: limit.userId,
+            category: limit.category,
+            spendLimit: limit.spendLimit,
+          })),
         };
 
         if (data && data.income) {
-
           putMutation.mutate(incomeData, {
             onSuccess: () => {
               toast({
@@ -160,7 +163,7 @@ const MakeIncome = () => {
       boxShadow="lg"
     >
       <Heading textAlign="center" mb="6" fontSize={{ base: "2xl", md: "3xl" }}>
-        Enter Income and Category limits
+        Enter Income and Category Limits
       </Heading>
 
       <form onSubmit={handleSubmit}>
@@ -170,7 +173,7 @@ const MakeIncome = () => {
             <Input
               type="number"
               placeholder="Enter your total income"
-              value={data?.income}
+              value={income || 0}
               onChange={(e) => setIncome(Number(e.target.value))}
             />
           </FormControl>
@@ -192,7 +195,11 @@ const MakeIncome = () => {
                     <Input
                       type="number"
                       placeholder={`Limit for ${category}`}
-                      value={categoryLimits[category] || 0}
+                      value={
+                        categoryLimits.find(
+                          (limit) => limit.category === category
+                        )?.spendLimit || "" 
+                      }
                       onChange={(e) =>
                         handleLimitChange(category, e.target.value)
                       }
@@ -201,28 +208,29 @@ const MakeIncome = () => {
                 </HStack>
               </GridItem>
             ))}
-            <FormControl>
-              <FormLabel>Save Goal</FormLabel>
-              <Input
-                type="number"
-                value={showSaveGoal || 0}
-                onChange={(e) => setSaveGoal(Number(e.target.value))}
-              />
-            </FormControl>
           </Grid>
+
+          <FormControl>
+            <FormLabel>Save Goal</FormLabel>
+            <Input
+              type="number"
+              value={showSaveGoal || 0}
+              onChange={(e) => setSaveGoal(Number(e.target.value))}
+            />
+          </FormControl>
 
           <Box
             textAlign="center"
-            color={getTotallimits() > income ? "red.500" : "green.500"}
+            color={getTotalLimits() > income ? "red.500" : "green.500"}
             fontWeight="bold"
           >
-            {`Total limits: ${getTotallimits()} / ${income} ${
-              getTotallimits() > income ? "(Over Budget)" : ""
+            {`Total limits: ${getTotalLimits()} / ${income} ${
+              getTotalLimits() > income ? "(Over Budget)" : ""
             }`}
           </Box>
 
           <Button type="submit" colorScheme="blue" size="lg" width="full">
-            Submit Income and limits
+            Submit Income and Limits
           </Button>
         </Stack>
       </form>

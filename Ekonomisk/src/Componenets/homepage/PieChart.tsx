@@ -2,26 +2,19 @@ import { Pie } from "react-chartjs-2";
 import { Box,Text } from "@chakra-ui/react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import categoryColors from "../hooks/categoryColors";
+import { Expense } from "../hooks/UseExpense";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-interface Pay {
-  category: string;
-  amount: number;
-}
 
-interface PieChartProps {
-  payments: Pay[];
-}
+const PieChart = ({ expenses }: { expenses: Expense[] }) => {
+  console.log(expenses);
 
-const PieChart = ({ payments }: PieChartProps) => {
-  console.log(payments)
-
-  if (!payments || payments.length === 0) {
-    return <Text>No payments available</Text>; 
+  if (!expenses || expenses.length === 0) {
+    return <Text>No payments available</Text>;
   }
 
-  const aggregatedPayments = payments.reduce((acc, { category, amount }) => {
+  const aggregatedPayments = expenses.reduce((acc, { category, amount }) => {
     if (acc[category]) {
       acc[category] += amount;
     } else {

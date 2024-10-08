@@ -3,6 +3,7 @@ import Tables from "./Table";
 import { useEffect, useState } from "react";
 import Savings from "./Savings";
 import UseExpenses from "../hooks/UseExpense";
+import PieChart from "./PieChart";
 
 const HomePage = () => {
   const {data} = UseExpenses();
@@ -41,9 +42,10 @@ useEffect(() => {
     >
       <GridItem area="aside">
         <Savings />
+        <PieChart expenses={expenses}></PieChart>
       </GridItem>
       <GridItem area="main">
-        {data && <Tables Table={expenses} income={income} />}
+        {data && <Tables expenses={expenses} income={income} />}
         {cash.remaining < 0 && (
           <Text color="red.500" textAlign="center">
             Error: You have spent more than your budget!
