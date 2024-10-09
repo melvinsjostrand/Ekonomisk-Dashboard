@@ -12,6 +12,17 @@ const Expenses = () => {
   const { data } = UseExpenses();
   const income = data?.income.income || 0;
   const expenses = data?.expenses || [];
+  
+  const sortedExpenses = useMemo(() => {
+    if (!sortOrder) return expenses;
+
+    return [...expenses].sort((a, b) => {
+      if (sortOrder === "Relevance") return 0; // Default case
+      if (a.category === sortOrder && b.category !== sortOrder) return -1;
+      if (a.category !== sortOrder && b.category === sortOrder) return 1;
+      return 0;
+    });
+  }, [expenses, sortOrder]);
 
   return (
     <>
@@ -34,7 +45,7 @@ const Expenses = () => {
             onSelectSortOrder={(order) => setSortOrder(order)}
           />
           <AddExpenses />
-          {data && <Expensestables expenses={expenses} income={income} />}
+          {data && <Expensestables expenses={sortedExpenses} income={income} />}
         </GridItem>
       </Grid>
     </>

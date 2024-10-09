@@ -65,7 +65,7 @@ const AddExpenses = () => {
   };
 
   const handleSubmit = () => {
-    if (!category || !amount || description.length === 0) {
+    if (!category || !amount) {
       toast({
         title: "Error",
         description: "Please fill out all fields before submitting.",
@@ -87,6 +87,7 @@ const AddExpenses = () => {
 
     postExpense(data, {
       onSuccess: () => {
+        console.log(data);
         toast({
           title: "Success",
           description: "Expense added successfully!",
@@ -102,6 +103,7 @@ const AddExpenses = () => {
         setSelectedFile(null);
       },
       onError: () => {
+        console.log(data)
         toast({
           title: "Error",
           description: "There was an error submitting your expense.",
