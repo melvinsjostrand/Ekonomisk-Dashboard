@@ -173,7 +173,7 @@ useEffect(() => {
             <Input
               type="number"
               placeholder="Enter your total income"
-              value={income || 0}
+              value={income}
               onChange={(e) => setIncome(Number(e.target.value))}
             />
           </FormControl>
@@ -214,7 +214,7 @@ useEffect(() => {
             <FormLabel>Save Goal</FormLabel>
             <Input
               type="number"
-              value={showSaveGoal || 0}
+              value={showSaveGoal}
               onChange={(e) => setSaveGoal(Number(e.target.value))}
             />
           </FormControl>

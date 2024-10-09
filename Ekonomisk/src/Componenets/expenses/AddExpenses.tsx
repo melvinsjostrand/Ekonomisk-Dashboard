@@ -77,16 +77,15 @@ const AddExpenses = () => {
     }
 
     const data = {
-      userId: 1,
-      expense: {
-        category,
-        amount,
-        description,
-      },
+      userId: 1,      
+      category,
+      amount,
+      description,      
     };
 
     postExpense(data, {
       onSuccess: () => {
+        window.location.reload();
         console.log(data);
         toast({
           title: "Success",
@@ -145,6 +144,12 @@ const AddExpenses = () => {
               onChange={(e) => setAmount(Number(e.target.value))}
             />
           </FormControl>
+          <Button
+            mb={4}
+            onClick={() => setIsAddingDescription(!isAddingDescription)}
+          >
+            {isAddingDescription ? "Hide Descriptions" : "Add Descriptions"}
+          </Button>
           <input type="file" accept="image/*" onChange={handleFileChange} />
           {preview && (
             <img
@@ -153,12 +158,6 @@ const AddExpenses = () => {
               style={{ maxWidth: "200px", marginTop: "10px" }}
             />
           )}
-          <Button
-            mb={4}
-            onClick={() => setIsAddingDescription(!isAddingDescription)}
-          >
-            {isAddingDescription ? "Hide Descriptions" : "Add Descriptions"}
-          </Button>
 
           <Collapse in={isAddingDescription}>
             <FormControl id="descriptions" mb={4}>

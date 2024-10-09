@@ -1,6 +1,8 @@
 export interface Post {
   userId: number;
-  expense: Expense;
+  category:string;
+  amount:number;
+  description:string[]
 }
 
 export interface IncomeData {

@@ -5,7 +5,7 @@ import { Post } from "./Inferfaces";
 const usePostExpense = () => {
   return useMutation({
     mutationFn: (data: Post) =>
-      apiClient.post<Post>("/url", data).then((res) => res.data),
+      apiClient.post<Post>("/Expenses/ExpenseImage", data).then((res) => res.data),
   });
 };
 
