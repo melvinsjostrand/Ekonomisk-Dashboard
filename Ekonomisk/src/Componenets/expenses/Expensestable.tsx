@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
 import { Button, Hide, Text } from "@chakra-ui/react";
-import { pay } from "../hooks/UseBaseTable";
-import {Expense } from "../hooks/UseExpense";
+import { Expense } from "../hooks/Inferfaces";
 
 
 
@@ -18,7 +17,7 @@ const Expensestables = ({
     totalSpent: 0,
     remaining: 0,
   });
-const [payments, setPayments] = useState<pay[]>(expenses);
+const [payments, setPayments] = useState<Expense[]>(expenses);
 
   useEffect(() => {
     if (expenses) {

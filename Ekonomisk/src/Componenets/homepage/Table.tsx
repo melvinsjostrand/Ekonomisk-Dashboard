@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
-import { Expense } from "../hooks/UseExpense";
-import { pay } from "../hooks/UseBaseTable";
+import { Expense } from "../hooks/Inferfaces";
 
 const Tables = ({
   income,
@@ -14,7 +13,7 @@ const Tables = ({
     totalSpent: 0,
     remaining: 0,
   });
-  const [payments] = useState<pay[]>(expenses);
+  const [payments] = useState<Expense[]>(expenses);
   useEffect(() => {
     if (expenses) {
       const totalSpent = Array.isArray(expenses)

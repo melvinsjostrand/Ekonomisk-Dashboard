@@ -14,16 +14,11 @@ const Expenses = () => {
   const expenses = data?.expenses || [];
   
   const sortedExpenses = useMemo(() => {
-    if (!sortOrder) return expenses;
+    if (!sortOrder) return expenses; // Default: show all expenses
 
-    return [...expenses].sort((a, b) => {
-      if (sortOrder === "Relevance") return 0; // Default case
-      if (a.category === sortOrder && b.category !== sortOrder) return -1;
-      if (a.category !== sortOrder && b.category === sortOrder) return 1;
-      return 0;
-    });
+    return expenses.filter((expense) => expense.category === sortOrder);
   }, [expenses, sortOrder]);
-
+  
   return (
     <>
       <Grid

@@ -1,6 +1,6 @@
 import { Box, Progress, Text, useBreakpointValue } from "@chakra-ui/react";
 import UseLimits from "../hooks/UseLimits";
-import { Expense } from "../hooks/UseExpense";
+import { Expense } from "../hooks/Inferfaces";
 
 type Limit = {
   category: string,

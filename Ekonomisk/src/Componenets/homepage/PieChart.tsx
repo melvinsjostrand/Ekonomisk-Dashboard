@@ -2,7 +2,7 @@ import { Pie } from "react-chartjs-2";
 import { Box,Text } from "@chakra-ui/react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import categoryColors from "../hooks/categoryColors";
-import { Expense } from "../hooks/UseExpense";
+import { Expense } from "../hooks/Inferfaces";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
