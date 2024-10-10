@@ -27,7 +27,7 @@ const categories = [
 ];
 
 const MakeIncome = () => {
-  const [income, setIncome] = useState<number>("");
+  const [income, setIncome] = useState<number>(0);
 const [categoryLimits, setCategoryLimits] = useState<
   { userId: number; category: string; spendLimit: number }[]
 >(
