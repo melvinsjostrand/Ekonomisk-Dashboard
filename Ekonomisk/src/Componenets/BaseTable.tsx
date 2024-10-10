@@ -10,7 +10,7 @@ import {
   Tr,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import Description from "./alert";
+import Description from "./DescriptionPage";
 import categoryColors from "./hooks/categoryColors";
 import { BaseTableProps, Expense } from "./hooks/Inferfaces";
 

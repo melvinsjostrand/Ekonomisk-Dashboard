@@ -19,13 +19,37 @@ import useLogin from "../hooks/UseLogin";
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  //const toast = useToast();
-  const {mutate: login} = useLogin();
+  const toast = useToast();
+  const {mutate:login} = useLogin();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    login({ email, password });
-  };
+   const handleSubmit = (e: React.FormEvent) => {
+     e.preventDefault();
+     login(
+       { email, password },
+       {
+         onSuccess: () => {
+           toast({
+             title: "Login successful.",
+             description: "Welcome back!",
+             status: "success",
+             duration: 3000,
+             isClosable: true,
+           });
+         },
+         onError: (error: any) => {
+           toast({
+             title: "Login failed.",
+             description:
+               error?.response?.data?.message ||
+               "Please check your credentials.",
+             status: "error",
+             duration: 3000,
+             isClosable: true,
+           });
+         },
+       }
+     );
+   };
 
   return (
     <Box
