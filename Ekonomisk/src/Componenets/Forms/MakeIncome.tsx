@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import categoryColors from "../hooks/categoryColors";
 import UseGetIncome from "../hooks/UseGetIncome";
-import useMakeIncome from "../hooks/PostMakeIncome";
+import PostmakeIncome from "../hooks/PostMakeIncome";
 
 const categories = [
   "Housing",
@@ -27,15 +27,21 @@ const categories = [
 ];
 
 const MakeIncome = () => {
-  const [income, setIncome] = useState<number>(0);
-  const [categoryLimits, setCategoryLimits] = useState<
-    {userId: number; category: string; spendLimit: number }[]
-  >([]);
+  const [income, setIncome] = useState<number>("");
+const [categoryLimits, setCategoryLimits] = useState<
+  { userId: number; category: string; spendLimit: number }[]
+>(
+  categories.map((category) => ({
+    userId: 1,
+    category,
+    spendLimit: 0,
+  }))
+); 
   const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
   const toast = useToast();
-
+  const { mutate: postMutation } = PostmakeIncome();
   const { data } = UseGetIncome();
-  const { postMutation, putMutation } = useMakeIncome();
+
 
 useEffect(() => {
   if (data && data.limits) {
@@ -97,49 +103,27 @@ useEffect(() => {
           })),
         };
 
-        if (data && data.income) {
-          putMutation.mutate(incomeData, {
-            onSuccess: () => {
-              toast({
-                title: "Success",
-                description: "Income and limits updated successfully!",
-                status: "success",
-                duration: 3000,
-                isClosable: true,
-              });
-            },
-            onError: () => {
-              toast({
-                title: "Error",
-                description: "There was an error updating the data.",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-              });
-            },
-          });
-        } else {
-          postMutation.mutate(incomeData, {
-            onSuccess: () => {
-              toast({
-                title: "Success",
-                description: "Income and limits saved successfully!",
-                status: "success",
-                duration: 3000,
-                isClosable: true,
-              });
-            },
-            onError: () => {
-              toast({
-                title: "Error",
-                description: "There was an error saving the data.",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-              });
-            },
-          });
-        }
+        postMutation(incomeData, {
+          onSuccess: () => {
+            toast({
+              title: "Success",
+              description: "Income and limits saved successfully!",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+          onError: () => {
+            console.log(incomeData);
+            toast({
+              title: "Error",
+              description: "There was an error saving the data.",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+        });
       }
     } else {
       toast({
@@ -173,7 +157,7 @@ useEffect(() => {
             <Input
               type="number"
               placeholder="Enter your total income"
-              value={income}
+              value={income || ""}
               onChange={(e) => setIncome(Number(e.target.value))}
             />
           </FormControl>
@@ -198,7 +182,7 @@ useEffect(() => {
                       value={
                         categoryLimits.find(
                           (limit) => limit.category === category
-                        )?.spendLimit || "" 
+                        )?.spendLimit || ""
                       }
                       onChange={(e) =>
                         handleLimitChange(category, e.target.value)
