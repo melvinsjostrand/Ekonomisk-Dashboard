@@ -198,7 +198,7 @@ useEffect(() => {
             <FormLabel>Save Goal</FormLabel>
             <Input
               type="number"
-              value={showSaveGoal}
+              value={showSaveGoal || ""}
               onChange={(e) => setSaveGoal(Number(e.target.value))}
             />
           </FormControl>
