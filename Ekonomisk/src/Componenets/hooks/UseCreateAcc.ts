@@ -6,7 +6,7 @@ const useCreateAcc = () => {
   return useMutation({
     mutationFn: (data: CreateAccountData) =>
       apiClient
-        .post<CreateAccountData>("", data)
+        .post<CreateAccountData>("/User", data)
         .then((res) => res.data),
   });
 };

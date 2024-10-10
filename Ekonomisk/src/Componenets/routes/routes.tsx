@@ -63,11 +63,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login onSubmit={handleLogin} />,
+        element: <Login />,
       },
       {
         path: "/register",
-        element: <CreateAcc onSubmit={handleCreate} />,
+        element: <CreateAcc />,
       },
       {
         path: "/AddIncome",

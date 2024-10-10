@@ -9,12 +9,15 @@ const useLogin = () => {
     );
 
     return apiClient
-      .get<LoginResponse>("/api/login", {
+      .get<LoginResponse>("/User/Login", {
         headers: {
           Authorization: `Basic ${encodedCredentials}`,
         },
       })
       .then((res) => {
+        console.log(res.data.key);
+        console.log("res: " + res);
+        console.log(res.data);
         if (res.data.token) {
           localStorage.setItem("authToken", res.data.token);
         }

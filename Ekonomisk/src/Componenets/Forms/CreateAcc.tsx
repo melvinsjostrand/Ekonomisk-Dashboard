@@ -15,19 +15,19 @@ import { Link } from "react-router-dom";
 import useCreateAccount from "../hooks/UseCreateAcc";
 
 const CreateForm = () => {
-  const [email, setEmail] = useState<string>("");
+  const [mail, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [firstname, setFirstName] = useState<string>("");
   const [lastname, setLastName] = useState<string>("");
   const [pastSavings, setPastSavings] = useState<number>(0);
 
-  const Name = `${firstname} ${lastname}`;
+  const username = `${firstname} ${lastname}`;
   const toast = useToast();
   const {mutate: CreateAcc} = useCreateAccount(); 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if(!Name || !email || !password) {
+    if(!username || !mail || !password) {
       toast({
         title: "Error",
         description: "Please fill out name, email and password before submitting",
@@ -38,8 +38,8 @@ const CreateForm = () => {
       return
     }
     const data = {
-      Name,
-      email,
+      username,
+      mail,
       password,
       pastSavings
     };
@@ -103,7 +103,7 @@ const CreateForm = () => {
             <FormLabel>Email address</FormLabel>
             <Input
               type="email"
-              value={email}
+              value={mail}
               onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>

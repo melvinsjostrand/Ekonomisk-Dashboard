@@ -6,7 +6,7 @@ import { IncomeData } from "./Inferfaces";
 const PostmakeIncome = () => {
   return useMutation({
     mutationFn: (data:IncomeData) => 
-      apiClient.post<IncomeData>("url", data).then((res) => res.data)
+      apiClient.post<IncomeData>("/PostIncomeLimits", data).then((res) => res.data)
   })
 }
 

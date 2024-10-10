@@ -11,7 +11,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useLogin from "../hooks/UseLogin";
 
 
@@ -21,13 +21,14 @@ const LoginForm = () => {
   const [password, setPassword] = useState<string>("");
   const toast = useToast();
   const {mutate:login} = useLogin();
+  const navigate = useNavigate();
 
    const handleSubmit = (e: React.FormEvent) => {
      e.preventDefault();
      login(
        { email, password },
        {
-         onSuccess: () => {
+         onSuccess: () => {          
            toast({
              title: "Login successful.",
              description: "Welcome back!",
@@ -35,6 +36,7 @@ const LoginForm = () => {
              duration: 3000,
              isClosable: true,
            });
+           navigate("/AddIncome");
          },
          onError: (error: any) => {
            toast({

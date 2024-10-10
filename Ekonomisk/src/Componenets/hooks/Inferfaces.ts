@@ -25,8 +25,8 @@ export interface BaseTableProps {
 }
 
 export interface CreateAccountData {
-  Name: string;
-  email: string;
+  username: string;
+  mail: string;
   password: string;
   pastSavings: number;
 }
@@ -51,6 +51,7 @@ export interface LoginData {
 
 export interface LoginResponse {
   guid: string;
+  key:string;
 }
 
 export interface limit {

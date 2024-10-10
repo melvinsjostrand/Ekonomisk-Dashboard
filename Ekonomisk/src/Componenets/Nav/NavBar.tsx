@@ -18,13 +18,22 @@ import {
 import { HamburgerIcon } from "@chakra-ui/icons";
 import ColorModeSwitch from "./ColorModeSwitch";
 import logo from "../../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+
 
 const NavBar = () => {
-  const userName = "";
+  const authToken = localStorage.getItem("authToken");
   const logoSize = useBreakpointValue({ base: "60px", md: "80px" });
   const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
+    console.log("click");
+  }
 
   return (
     <HStack spacing={4} justifyContent="space-between" p={4} wrap="wrap">
@@ -47,8 +56,8 @@ const NavBar = () => {
             <MenuItem as={Link} to="AddIncome">
               Income
             </MenuItem>
-            {userName ? (
-              <MenuItem>Logout</MenuItem>
+            {authToken ? (
+              <MenuItem onClick={handleLogout} >Logout</MenuItem>
             ) : (
               <MenuItem as={Link} to="/login">
                 Login
@@ -74,10 +83,10 @@ const NavBar = () => {
         <Box>
           <WrapItem>
             <VStack spacing={1} align="start">
-              {userName ? (
+              {authToken ? (
                 <>
-                  <Avatar name={userName} size="sm" />
-                  <Button size={buttonSize}>Logout</Button>
+                  <Avatar name={authToken} size="sm" />
+                  <Button size={buttonSize} onClick={handleLogout}>Logout</Button>
                 </>
               ) : (
                 <Button as={Link} to="/login" size={buttonSize}>
@@ -87,7 +96,7 @@ const NavBar = () => {
             </VStack>
           </WrapItem>
         </Box>
-        <Text display={{ base: "none", md: "block" }}>{userName}</Text>
+        <Text display={{ base: "none", md: "block" }}>{authToken}</Text>
         <Show above="lg">
           <ColorModeSwitch />
         </Show>
