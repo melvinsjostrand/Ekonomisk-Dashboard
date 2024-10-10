@@ -1,28 +1,31 @@
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
-import apiClient from "./apiClient"; 
+import { useMutation } from "@tanstack/react-query";
+import apiClient from "./apiClient";
 
-import { LoginData } from "./Inferfaces";
-import { LoginResponse } from "./Inferfaces";
+interface LoginResponse {
+  token: string;
+}
 
-const useLogin = (): UseMutationResult<LoginResponse, Error, LoginData> => {
-  const postLoginData = (loginData: LoginData) => {
+const useLogin = () => {
+  const login = (credentials: { email: string; password: string }) => {
+    const encodedCredentials = btoa(
+      `${credentials.email}:${credentials.password}`
+    );
+
     return apiClient
-      .post<LoginResponse>("url/login", loginData)
-      .then((res) => res.data) 
-      .catch((error) => {
-        throw error; 
+      .get<LoginResponse>("/api/login", {
+        headers: {
+          Authorization: `Basic ${encodedCredentials}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.token) {
+          localStorage.setItem("authToken", res.data.token);
+        }
+        return res.data;
       });
   };
-
-  return useMutation<LoginResponse, Error, LoginData>({
-    mutationFn: postLoginData,
-    onSuccess: (data) => {
-      console.log("Login successful, GUID:", data.guid);
-      localStorage.setItem("guid", data.guid);
-    },
-    onError: (error) => {
-      console.error("Error logging in:", error);
-    },
+  return useMutation({
+    mutationFn: login,
   });
 };
 

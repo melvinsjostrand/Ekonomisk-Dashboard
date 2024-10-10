@@ -1,7 +1,6 @@
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import apiClient from "./apiClient";
 import { CreateAccountData } from "./Inferfaces";
-import { CreateAccountResponse } from "./Inferfaces";
 
 const useCreateAcc = () => {
   return useMutation({

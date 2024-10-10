@@ -19,44 +19,12 @@ import useLogin from "../hooks/UseLogin";
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const toast = useToast();
-  const mutation = useLogin(); 
+  //const toast = useToast();
+  const {mutate: login} = useLogin();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email && password) {
-      mutation.mutate(
-        { email, password },
-        {
-          onSuccess: (data) => {
-            toast({
-              title: "Login successful",
-              description: "You have been logged in.",
-              status: "success",
-              duration: 3000,
-              isClosable: true,
-            });
-          },
-          onError: (error) => {
-            toast({
-              title: "Login failed",
-              description: "Invalid Password or Email. Please try again.",
-              status: "error",
-              duration: 3000,
-              isClosable: true,
-            });
-          },
-        }
-      );
-    } else {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
+    login({ email, password });
   };
 
   return (
