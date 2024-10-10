@@ -1,4 +1,4 @@
-import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import { useMutation} from "@tanstack/react-query";
 import apiClient from "./apiClient";
 import { IncomeData } from "./Inferfaces";
 

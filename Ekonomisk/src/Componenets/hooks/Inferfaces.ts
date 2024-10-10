@@ -21,7 +21,7 @@ export interface BaseTableProps {
 }
 
 export interface CreateAccountData {
-  name: string;
+  Name: string;
   email: string;
   password: string;
   pastSavings: number;

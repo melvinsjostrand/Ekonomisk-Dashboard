@@ -8,6 +8,7 @@ import {
   Stack,
   Heading,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
 import { Link } from "react-router-dom";
@@ -21,20 +22,49 @@ const CreateForm = () => {
   const [pastSavings, setPastSavings] = useState<number>(0);
 
   const Name = `${firstname} ${lastname}`;
-
-  const mutation = useCreateAccount(); 
+  const toast = useToast();
+  const {mutate: CreateAcc} = useCreateAccount(); 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (Name && email && password) {
-      mutation.mutate({
-        name: Name,
-        email,
-        password,
-        pastSavings,
+    if(!Name || !email || !password) {
+      toast({
+        title: "Error",
+        description: "Please fill out name, email and password before submitting",
+        status: "error",
+        duration:3000,
+        isClosable:true,
       });
+      return
     }
+    const data = {
+      Name,
+      email,
+      password,
+      pastSavings
+    };
+    CreateAcc(data, {
+      onSuccess: () => {
+        console.log(data);
+        toast({
+          title:"Success",
+          description: "Account created",
+          status:"success",
+          duration:3000,
+          isClosable:true,
+        });
+      },
+      onError: () => {
+        console.log(data)
+          toast({
+            title: "Error",
+            description: "There was an error creating your account.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+      }
+    })
   };
 
   return (
