@@ -1,9 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "./apiClient";
-
-interface LoginResponse {
-  token: string;
-}
+import { LoginResponse } from "./Inferfaces";
 
 const useLogin = () => {
   const login = (credentials: { email: string; password: string }) => {

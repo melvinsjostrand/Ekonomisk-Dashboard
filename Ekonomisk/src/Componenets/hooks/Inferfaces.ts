@@ -5,6 +5,10 @@ export interface Post {
   description:string[]
 }
 
+export interface LoginResponse {
+  token: string;
+}
+
 export interface IncomeData {
   userId: number;
   income: number;
