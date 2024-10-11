@@ -1,23 +1,43 @@
 import { useMemo, useState } from "react";
 import Expensestables from "./Expensestable";
-import { Grid, GridItem } from "@chakra-ui/react";
+import {Grid, GridItem, HStack } from "@chakra-ui/react";
 import Sorting from "./Sorting";
 import MaxSpent from "./MaxSpent";
 import AddExpenses from "./AddExpenses";
 import UseExpenses from "../hooks/UseExpense";
+import PriceSorting from "./PriceSorting";
 
 const Expenses = () => {
-  const [sortOrder, setSortOrder] = useState<string>("");
+  const [categorySortOrder, setCategorySortOrder] = useState<string>("");
+  const [priceSortOrder, setPriceSortOrder] = useState<string | null>(null);
 
   const { data } = UseExpenses();
   const income = data?.income.income || 0;
   const expenses = data?.expenses || [];
 
   const sortedExpenses = useMemo(() => {
-    if (!sortOrder) return expenses;
+    let filteredExpenses = expenses;
 
-    return expenses.filter((expense) => expense.category === sortOrder);
-  }, [expenses, sortOrder]);
+    if (categorySortOrder) {
+      filteredExpenses = filteredExpenses.filter(
+        (expense) => expense.category === categorySortOrder
+      );
+    }
+
+    if (priceSortOrder !== null) {
+      filteredExpenses = filteredExpenses.sort((a, b) => {
+        if (priceSortOrder === "highest") {
+          return b.amount - a.amount;
+        } else if (priceSortOrder === "lowest") {
+          return a.amount - b.amount; 
+        }
+        return 0; 
+      });
+    }
+
+    return filteredExpenses;
+  }, [expenses, categorySortOrder, priceSortOrder]);
+
 
   return (
     <>
@@ -35,10 +55,13 @@ const Expenses = () => {
           <MaxSpent expenses={expenses} />
         </GridItem>
         <GridItem area="main">
-          <Sorting
-            sortOrder={sortOrder}
-            onSelectSortOrder={(order) => setSortOrder(order)}
-          />
+          <HStack spacing={2}>
+            <PriceSorting onSelectSortOrder={setPriceSortOrder}></PriceSorting>
+            <Sorting
+              sortOrder={categorySortOrder}
+              onSelectSortOrder={setCategorySortOrder}
+            />
+          </HStack>
           <AddExpenses />
           {data && <Expensestables expenses={sortedExpenses} income={income} />}
         </GridItem>
