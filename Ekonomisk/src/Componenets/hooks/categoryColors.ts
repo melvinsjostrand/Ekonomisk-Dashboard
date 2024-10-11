@@ -1,5 +1,5 @@
 const categoryColors: { [key: string]: string } = {
-  Housing: "#FF5733", 
+  Housing: "#FF5733",
   Transport: "#33FF57",
   Food: "#5733FF",
   Health: "#FF33A1",

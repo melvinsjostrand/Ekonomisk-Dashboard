@@ -15,24 +15,21 @@ type ChangeValueProps = {
   onSave: (newAmount: number) => void;
 };
 
-const ChangeValue = ({
-  amount,
-  onSave,
-}: ChangeValueProps): JSX.Element => {
+const ChangeValue = ({ amount, onSave }: ChangeValueProps): JSX.Element => {
   const [isEditing, setIsEditing] = useBoolean();
   const [inputValue, setInputValue] = useState<number>(amount);
 
   useEffect(() => {
-    setInputValue(amount); 
+    setInputValue(amount);
   }, [amount]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(Number(e.target.value)); 
+    setInputValue(Number(e.target.value));
   };
 
   const handleSave = () => {
-    onSave(inputValue); 
-    setIsEditing.off(); 
+    onSave(inputValue);
+    setIsEditing.off();
   };
 
   return (

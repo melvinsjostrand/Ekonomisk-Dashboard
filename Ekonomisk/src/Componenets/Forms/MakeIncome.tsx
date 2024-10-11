@@ -28,41 +28,38 @@ const categories = [
 
 const MakeIncome = () => {
   const [income, setIncome] = useState<number>(0);
-const [categoryLimits, setCategoryLimits] = useState<
-  { userId: number; category: string; spendLimit: number }[]
->(
-  categories.map((category) => ({
-    userId: 1,
-    category,
-    spendLimit: 0,
-  }))
-); 
+  const [userId, setUserId] = useState<number>(0);
+  const authToken = localStorage.getItem("authToken");
+  const [categoryLimits, setCategoryLimits] = useState<
+    { userId: number; category: string; spendLimit: number }[]
+  >(
+    categories.map((category) => ({
+      userId,
+      category,
+      spendLimit: 0,
+    }))
+  );
   const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
-  const toast = useToast();
   const { mutate: postMutation } = PostmakeIncome();
   const { data } = UseGetIncome();
+  const toast = useToast();
 
+  useEffect(() => {
+    if (data && data.limits) {
+      setIncome(data.income || 0);
 
-useEffect(() => {
-  if (data && data.limits) {
-    setIncome(data.income || 0);
+      const limits = data.limits.map(
+        (limit: { userId: number; category: string; spendLimit: number }) => ({
+          userId: limit.userId,
+          category: limit.category,
+          spendLimit: limit.spendLimit,
+        })
+      );
 
-    const limits = data.limits.map(
-      (limit: {
-        userId: number,
-        category: string,
-        spendLimit: number,
-      }) => ({
-        userId: limit.userId,
-        category: limit.category,
-        spendLimit: limit.spendLimit,
-      })
-    );
-
-    setCategoryLimits(limits);
-    setSaveGoal(data.saveGoal);
-  }
-}, [data]);
+      setCategoryLimits(limits);
+      setSaveGoal(data.saveGoal);
+    }
+  }, [data]);
 
   const handleLimitChange = (category: string, value: string) => {
     setCategoryLimits((prevLimits) =>
@@ -83,6 +80,16 @@ useEffect(() => {
     const totalLimits = getTotalLimits();
 
     if (income > 0 && categoryLimits.length === categories.length) {
+      if (!authToken) {
+        toast({
+          title: "Not signed in",
+          description: "You need to sign in to make an income",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      }
       if (totalLimits > income) {
         toast({
           title: "Over Budget",
@@ -93,7 +100,7 @@ useEffect(() => {
         });
       } else {
         const incomeData = {
-          userId: 1,
+          userId,
           income,
           saveGoal: showSaveGoal,
           limits: categoryLimits.map((limit) => ({
@@ -114,7 +121,6 @@ useEffect(() => {
             });
           },
           onError: () => {
-            console.log(incomeData);
             toast({
               title: "Error",
               description: "There was an error saving the data.",

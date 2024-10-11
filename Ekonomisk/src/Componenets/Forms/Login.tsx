@@ -14,44 +14,42 @@ import { RxAvatar } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 import useLogin from "../hooks/UseLogin";
 
-
-
 const LoginForm = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const toast = useToast();
-  const {mutate:login} = useLogin();
+  const { mutate: login } = useLogin();
   const navigate = useNavigate();
 
-   const handleSubmit = (e: React.FormEvent) => {
-     e.preventDefault();
-     login(
-       { email, password },
-       {
-         onSuccess: () => {          
-           toast({
-             title: "Login successful.",
-             description: "Welcome back!",
-             status: "success",
-             duration: 3000,
-             isClosable: true,
-           });
-           navigate("/AddIncome");
-         },
-         onError: (error: any) => {
-           toast({
-             title: "Login failed.",
-             description:
-               error?.response?.data?.message ||
-               "Please check your credentials.",
-             status: "error",
-             duration: 3000,
-             isClosable: true,
-           });
-         },
-       }
-     );
-   };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    login(
+      { email, password },
+      {
+        onSuccess: () => {
+          toast({
+            title: "Login successful.",
+            description: "Welcome back!",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+          navigate("/AddIncome");
+        },
+        onError: (error: any) => {
+          toast({
+            title: "Login failed.",
+            description:
+              error?.response?.data?.message ||
+              "Please check your credentials.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        },
+      }
+    );
+  };
 
   return (
     <Box
@@ -87,12 +85,7 @@ const LoginForm = () => {
             />
           </FormControl>
 
-          <Button
-            type="submit"
-            colorScheme="blue"
-            size="lg"
-            width="full"
-          >
+          <Button type="submit" colorScheme="blue" size="lg" width="full">
             Login
           </Button>
           <Text textAlign="center" mt="4">

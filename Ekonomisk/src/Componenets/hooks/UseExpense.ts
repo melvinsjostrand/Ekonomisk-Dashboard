@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import apiClient from "./apiClient"; 
+import apiClient from "./apiClient";
 import { ExpensesProps } from "./Inferfaces";
 
-const UseExpenses= () => {
+const UseExpenses = () => {
   const fetchExpenses = () =>
-    apiClient.get<ExpensesProps>("/Expenses/IncomeExpenses?userId="+1).then((res) => res.data);
+    apiClient
+      .get<ExpensesProps>("/Expenses/IncomeExpenses?userId=" + 1)
+      .then((res) => res.data);
 
   return useQuery<ExpensesProps, Error>({
     queryKey: ["Expenses"],

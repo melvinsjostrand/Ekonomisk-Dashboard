@@ -23,48 +23,47 @@ const CreateForm = () => {
 
   const username = `${firstname} ${lastname}`;
   const toast = useToast();
-  const {mutate: CreateAcc} = useCreateAccount(); 
+  const { mutate: CreateAcc } = useCreateAccount();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if(!username || !mail || !password) {
+    if (!username || !mail || !password) {
       toast({
         title: "Error",
-        description: "Please fill out name, email and password before submitting",
+        description:
+          "Please fill out name, email and password before submitting",
         status: "error",
-        duration:3000,
-        isClosable:true,
+        duration: 3000,
+        isClosable: true,
       });
-      return
+      return;
     }
     const data = {
       username,
       mail,
       password,
-      pastSavings
+      pastSavings,
     };
     CreateAcc(data, {
       onSuccess: () => {
-        console.log(data);
         toast({
-          title:"Success",
+          title: "Success",
           description: "Account created",
-          status:"success",
-          duration:3000,
-          isClosable:true,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
         });
       },
       onError: () => {
-        console.log(data)
-          toast({
-            title: "Error",
-            description: "There was an error creating your account.",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
-      }
-    })
+        toast({
+          title: "Error",
+          description: "There was an error creating your account.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      },
+    });
   };
 
   return (

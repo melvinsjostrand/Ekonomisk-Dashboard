@@ -1,14 +1,12 @@
 import { Pie } from "react-chartjs-2";
-import { Box,Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import categoryColors from "../hooks/categoryColors";
 import { Expense } from "../hooks/Inferfaces";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-
 const PieChart = ({ expenses }: { expenses: Expense[] }) => {
-  console.log(expenses);
 
   if (!expenses || expenses.length === 0) {
     return <Text>No payments available</Text>;

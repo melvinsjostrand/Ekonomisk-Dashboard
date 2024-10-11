@@ -6,28 +6,28 @@ import UseExpenses from "../hooks/UseExpense";
 import PieChart from "./PieChart";
 
 const HomePage = () => {
-  const {data} = UseExpenses();
+  const { data } = UseExpenses();
   const income = data?.income.income || 0;
-  const expenses = data?.expenses || []; 
+  const expenses = data?.expenses || [];
   const [cash, setCash] = useState({
     totalSpent: 0,
     remaining: 0,
   });
 
-useEffect(() => {
-  if (data && expenses && income !== undefined) {
-    const totalSpent = expenses.reduce(
-      (acc, payment) => acc + payment.amount,
-      0
-    );
-    const remaining = income - totalSpent;
+  useEffect(() => {
+    if (data && expenses && income !== undefined) {
+      const totalSpent = expenses.reduce(
+        (acc, payment) => acc + payment.amount,
+        0
+      );
+      const remaining = income - totalSpent;
 
-    setCash({
-      totalSpent: totalSpent,
-      remaining: remaining,
-    });
-  }
-}, [data]);
+      setCash({
+        totalSpent: totalSpent,
+        remaining: remaining,
+      });
+    }
+  }, [data]);
 
   return (
     <Grid

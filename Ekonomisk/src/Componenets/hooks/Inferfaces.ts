@@ -1,8 +1,8 @@
 export interface Post {
   userId: number;
-  category:string;
-  amount:number;
-  description:string[]
+  category: string;
+  amount: number;
+  description: string[];
 }
 
 export interface LoginResponse {
@@ -51,7 +51,7 @@ export interface LoginData {
 
 export interface LoginResponse {
   guid: string;
-  key:string;
+  key: string;
 }
 
 export interface limit {
@@ -78,6 +78,3 @@ export interface ExpensesProps {
   };
   expenses: Expense[];
 }
-
-
-

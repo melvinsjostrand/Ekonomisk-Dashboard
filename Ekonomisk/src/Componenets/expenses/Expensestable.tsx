@@ -4,8 +4,6 @@ import ChangeValue from "./ChangeValue";
 import { Button, Hide, Text } from "@chakra-ui/react";
 import { Expense } from "../hooks/Inferfaces";
 
-
-
 const Expensestables = ({
   income,
   expenses,
@@ -17,7 +15,7 @@ const Expensestables = ({
     totalSpent: 0,
     remaining: 0,
   });
-const [payments, setPayments] = useState<Expense[]>(expenses);
+  const [payments, setPayments] = useState<Expense[]>(expenses);
 
   useEffect(() => {
     if (expenses) {
@@ -45,7 +43,7 @@ const [payments, setPayments] = useState<Expense[]>(expenses);
         payment.category === category ? acc + newAmount : acc + payment.amount,
       0
     );
-    const remainingAmount = income  - totalSpent;
+    const remainingAmount = income - totalSpent;
     setCash({ totalSpent, remaining: remainingAmount });
   };
 

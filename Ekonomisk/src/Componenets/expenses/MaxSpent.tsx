@@ -3,9 +3,9 @@ import UseLimits from "../hooks/UseLimits";
 import { Expense } from "../hooks/Inferfaces";
 
 type Limit = {
-  category: string,
-  spendLimit: number
-}
+  category: string;
+  spendLimit: number;
+};
 
 const normalizeCategory = (category: string) => {
   const categoryMap: { [key: string]: string } = {
@@ -34,8 +34,9 @@ const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
     { category: "Other", spendLimit: 0 },
   ];
 
-
-  const limits: Limit[] = Array.isArray(userLimitsData)?userLimitsData: defaultLimits;
+  const limits: Limit[] = Array.isArray(userLimitsData)
+    ? userLimitsData
+    : defaultLimits;
 
   const textSize = useBreakpointValue({ base: "sm", md: "md" });
   const progressSize = useBreakpointValue({ base: "md", md: "lg" });
@@ -60,10 +61,10 @@ const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
   return (
     <Box width="100%" px={{ base: 4, md: 6 }} py={{ base: 2, md: 4 }}>
       {limits.map((limitObj, index) => {
-        const category = normalizeCategory(limitObj.category); 
-        const spent = aggregatedSpending[category] || 0; 
+        const category = normalizeCategory(limitObj.category);
+        const spent = aggregatedSpending[category] || 0;
         const percentage =
-          limitObj.spendLimit > 0 ? (spent / limitObj.spendLimit) * 100 : 0; 
+          limitObj.spendLimit > 0 ? (spent / limitObj.spendLimit) * 100 : 0;
 
         return (
           <Box key={index} position="relative" mb={5} width="100%">

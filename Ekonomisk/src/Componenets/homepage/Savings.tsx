@@ -1,6 +1,5 @@
-import { Box, Text, Progress} from "@chakra-ui/react";
+import { Box, Text, Progress } from "@chakra-ui/react";
 import useSavings from "../hooks/useSavings";
-
 
 const Savings = () => {
   const { data, isLoading, error } = useSavings();
@@ -9,15 +8,15 @@ const Savings = () => {
   if (error || !data) return <Text textAlign="center">No savings added</Text>;
 
   const { totalSaved, saveGoal, prevsave } = data.savings;
- 
+
   const totalsavings = totalSaved + prevsave;
 
   const savingPercentage = (totalsavings / saveGoal) * 100;
-  
+
   return (
     <Box>
       <Box border="1px">
-        <Text textAlign="center">Dan Abrahmov</Text>
+        <Text textAlign="center"></Text>
         <Text textAlign="center" fontWeight="bold">
           Savings
         </Text>

@@ -25,6 +25,7 @@ const categories = [
 
 const AddExpenses = () => {
   const [category, setCategory] = useState<string>("");
+  const authToken = localStorage.getItem("authToken");
   const [amount, setAmount] = useState<number | "">("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -59,12 +60,21 @@ const AddExpenses = () => {
       reader.onloadend = () => {
         setBase64Image(reader.result as string);
       };
-      console.log(reader.result);
       reader.readAsDataURL(file);
     }
   };
 
   const handleSubmit = () => {
+    if (!authToken) {
+      toast({
+        title: "not Signed in",
+        description: "You need to sign in to make an expense",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
     if (!category || !amount) {
       toast({
         title: "Error",
@@ -77,16 +87,15 @@ const AddExpenses = () => {
     }
 
     const data = {
-      userId: 1,      
+      userId: 1,
       category,
       amount,
-      description,      
+      description,
     };
 
     postExpense(data, {
       onSuccess: () => {
         window.location.reload();
-        console.log(data);
         toast({
           title: "Success",
           description: "Expense added successfully!",
@@ -102,7 +111,6 @@ const AddExpenses = () => {
         setSelectedFile(null);
       },
       onError: () => {
-        console.log(data)
         toast({
           title: "Error",
           description: "There was an error submitting your expense.",

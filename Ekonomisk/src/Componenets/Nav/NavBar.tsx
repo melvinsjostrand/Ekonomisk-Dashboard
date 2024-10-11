@@ -20,8 +20,6 @@ import ColorModeSwitch from "./ColorModeSwitch";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
-
-
 const NavBar = () => {
   const authToken = localStorage.getItem("authToken");
   const logoSize = useBreakpointValue({ base: "60px", md: "80px" });
@@ -32,8 +30,7 @@ const NavBar = () => {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     navigate("/login");
-    console.log("click");
-  }
+  };
 
   return (
     <HStack spacing={4} justifyContent="space-between" p={4} wrap="wrap">
@@ -57,7 +54,7 @@ const NavBar = () => {
               Income
             </MenuItem>
             {authToken ? (
-              <MenuItem onClick={handleLogout} >Logout</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             ) : (
               <MenuItem as={Link} to="/login">
                 Login
@@ -75,7 +72,7 @@ const NavBar = () => {
           </Button>
           <Button as={Link} to="AddIncome">
             Income
-            </Button>
+          </Button>
         </>
       )}
 
@@ -84,10 +81,12 @@ const NavBar = () => {
           <WrapItem>
             <VStack spacing={1} align="start">
               {authToken ? (
-                <>
+                <VStack>
                   <Avatar name={authToken} size="sm" />
-                  <Button size={buttonSize} onClick={handleLogout}>Logout</Button>
-                </>
+                  <Button size="sm" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </VStack>
               ) : (
                 <Button as={Link} to="/login" size={buttonSize}>
                   Login

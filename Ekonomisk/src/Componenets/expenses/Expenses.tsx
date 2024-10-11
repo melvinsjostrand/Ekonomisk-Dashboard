@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import Expensestables from "./Expensestable";
-import {Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import Sorting from "./Sorting";
 import MaxSpent from "./MaxSpent";
 import AddExpenses from "./AddExpenses";
@@ -12,13 +12,13 @@ const Expenses = () => {
   const { data } = UseExpenses();
   const income = data?.income.income || 0;
   const expenses = data?.expenses || [];
-  
+
   const sortedExpenses = useMemo(() => {
-    if (!sortOrder) return expenses; // Default: show all expenses
+    if (!sortOrder) return expenses;
 
     return expenses.filter((expense) => expense.category === sortOrder);
   }, [expenses, sortOrder]);
-  
+
   return (
     <>
       <Grid
