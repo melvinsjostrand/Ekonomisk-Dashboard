@@ -1,6 +1,7 @@
 import { Box, Progress, Text, useBreakpointValue } from "@chakra-ui/react";
 import UseLimits from "../hooks/UseLimits";
 import { Expense } from "../hooks/Inferfaces";
+import useUserId from "../hooks/UseGetUser";
 
 type Limit = {
   category: string;
@@ -22,7 +23,8 @@ const normalizeCategory = (category: string) => {
 };
 
 const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
-  const { data: userLimitsData } = UseLimits();
+  const { data : userId} = useUserId();
+  const { data: userLimitsData } = UseLimits(userId);
 
   const defaultLimits = [
     { category: "Housing", spendLimit: 0 },

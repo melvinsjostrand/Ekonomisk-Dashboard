@@ -6,15 +6,18 @@ import MaxSpent from "./MaxSpent";
 import AddExpenses from "./AddExpenses";
 import UseExpenses from "../hooks/UseExpense";
 import PriceSorting from "./PriceSorting";
+import useUserId from "../hooks/UseGetUser";
 
 const Expenses = () => {
   const [categorySortOrder, setCategorySortOrder] = useState<string>("");
   const [priceSortOrder, setPriceSortOrder] = useState<string | null>(null);
 
-  const { data } = UseExpenses();
+  const { data : userId} = useUserId();
+  const { data } = UseExpenses(userId);
   const income = data?.income.income || 0;
   const expenses = data?.expenses || [];
-
+  
+  
   const sortedExpenses = useMemo(() => {
     let filteredExpenses = expenses;
 

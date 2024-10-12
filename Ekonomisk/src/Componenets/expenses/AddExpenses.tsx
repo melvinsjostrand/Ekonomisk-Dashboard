@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import usePostExpense from "../hooks/PostExpenses";
+import useUserId from "../hooks/UseGetUser";
 const categories = [
   "Housing",
   "Transport",
@@ -36,7 +37,8 @@ const AddExpenses = () => {
   const [base64Image, setBase64Image] = useState<string | null>(null);
 
   const toast = useToast();
-
+  const { data : userId} = useUserId();
+  console.log(JSON.stringify(userId));
   const { mutate: postExpense } = usePostExpense();
 
   const addDescription = () => setDescriptions([...description, ""]);
@@ -87,7 +89,7 @@ const AddExpenses = () => {
     }
 
     const data = {
-      userId: 1,
+      userId,
       category,
       amount,
       description,

@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import Savings from "./Savings";
 import UseExpenses from "../hooks/UseExpense";
 import PieChart from "./PieChart";
+import useUserId from "../hooks/UseGetUser";
 
 const HomePage = () => {
-  const { data } = UseExpenses();
+  const { data : userId} = useUserId();
+  const { data } = UseExpenses(userId);
   const income = data?.income.income || 0;
   const expenses = data?.expenses || [];
   const [cash, setCash] = useState({

@@ -4,10 +4,10 @@ import apiClient from "./apiClient";
 
 import { IncomeProps } from "./Inferfaces";
 
-const UseGetIncome = () => {
+const UseGetIncome = (userId: number) => {
   const fetchIncome = () =>
     apiClient
-      .get<IncomeProps>("/Limits/LimitsIncomeSaveGoal?userId=" + 1)
+      .get<IncomeProps>("/Limits/LimitsIncomeSaveGoal?userId=" + userId)
       .then((res) => res.data);
 
   return useQuery<IncomeProps, Error>({

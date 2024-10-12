@@ -21,14 +21,14 @@ import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
-  const authToken = localStorage.getItem("authToken");
+  const authToken = localStorage.getItem("Guid");
   const logoSize = useBreakpointValue({ base: "60px", md: "80px" });
   const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("Guid");
     navigate("/login");
   };
 

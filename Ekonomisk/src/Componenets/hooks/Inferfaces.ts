@@ -1,5 +1,5 @@
 export interface Post {
-  userId: number;
+  
   category: string;
   amount: number;
   description: string[];
