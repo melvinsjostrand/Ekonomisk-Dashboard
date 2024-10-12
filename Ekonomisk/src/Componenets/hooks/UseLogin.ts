@@ -15,11 +15,8 @@ const useLogin = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.key);
-        console.log("res: " + res);
-        console.log(res.data);
         if (res.data.token) {
-          localStorage.setItem("authToken", res.data.token);
+          localStorage.setItem("Guid", res.data.token);
         }
         return res.data;
       });

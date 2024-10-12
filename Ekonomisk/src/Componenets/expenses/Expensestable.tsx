@@ -29,22 +29,6 @@ const Expensestables = ({
     }
   }, [income, expenses]);
 
-  const handleSave = (id: number, category: string, newAmount: number) => {
-    setPayments((prevPayments) =>
-      prevPayments.map((payment) =>
-        payment.id === id ? { ...payment, amount: newAmount } : payment
-      )
-    );
-
-    const totalSpent = payments.reduce(
-      (acc, payment) =>
-        payment.id === id ? acc + newAmount : acc + payment.amount,
-      0
-    );
-    const remainingAmount = income - totalSpent;
-    setCash({ totalSpent, remaining: remainingAmount });
-  };
-
   return (
     <>
       <BaseTable

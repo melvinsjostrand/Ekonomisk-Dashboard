@@ -5,9 +5,6 @@ export interface Post {
   description: string[];
 }
 
-export interface LoginResponse {
-  token: string;
-}
 
 export interface IncomeData {
   userId: number;
@@ -31,10 +28,6 @@ export interface CreateAccountData {
   pastSavings: number;
 }
 
-export interface CreateAccountResponse {
-  success: boolean;
-}
-
 export interface SavingsData {
   savings: {
     totalSaved: number;
@@ -50,8 +43,7 @@ export interface LoginData {
 }
 
 export interface LoginResponse {
-  guid: string;
-  key: string;
+  token : string;
 }
 
 export interface limit {
@@ -78,4 +70,9 @@ export interface ExpensesProps {
     income: number;
   };
   expenses: Expense[];
+}
+
+export interface ChangeValueProps {
+  id: number;
+  amount: number;
 }
