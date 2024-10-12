@@ -55,11 +55,7 @@ const Expensestables = ({
           <>
             <ChangeValue
               id={payment.id}
-              category={payment.category}
               amount={payment.amount}
-              onSave={(newAmount) =>
-                handleSave(payment.id, payment.category, newAmount)
-              }
             />
             <Button>Remove</Button>
           </>

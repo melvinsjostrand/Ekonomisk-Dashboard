@@ -8,17 +8,18 @@ import {
   PopoverTrigger,
   useBoolean,
 } from "@chakra-ui/react";
+import PutUpdateIncome from "../hooks/PutExpense";
 
 type ChangeValueProps = {
   id:number;
-  category: string;
   amount: number;
-  onSave: (newAmount: number) => void;
 };
 
-const ChangeValue = ({id, amount, onSave }: ChangeValueProps): JSX.Element => {
+const ChangeValue = ({id, amount}: ChangeValueProps): JSX.Element => {
   const [isEditing, setIsEditing] = useBoolean();
   const [inputValue, setInputValue] = useState<number>(amount);
+
+  const { mutate: updateIncome} = PutUpdateIncome();
 
   useEffect(() => {
     setInputValue(amount);
@@ -29,9 +30,18 @@ const ChangeValue = ({id, amount, onSave }: ChangeValueProps): JSX.Element => {
   };
 
   const handleSave = () => {
-    console.log(id);
-    onSave(inputValue);
-    setIsEditing.off();
+    const updated = {
+      id,
+      amount: inputValue,
+    };
+    updateIncome(updated, {
+      onSuccess: () => {
+        window.location.reload();
+      },
+      onError: () => {
+        console.log("error" + id + updated);
+      },
+    });
   };
 
   return (
