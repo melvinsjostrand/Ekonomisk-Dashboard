@@ -29,18 +29,16 @@ const Expensestables = ({
     }
   }, [income, expenses]);
 
-  const handleSave = (category: string, newAmount: number) => {
+  const handleSave = (id: number, category: string, newAmount: number) => {
     setPayments((prevPayments) =>
       prevPayments.map((payment) =>
-        payment.category === category
-          ? { ...payment, amount: newAmount }
-          : payment
+        payment.id === id ? { ...payment, amount: newAmount } : payment
       )
     );
 
     const totalSpent = payments.reduce(
       (acc, payment) =>
-        payment.category === category ? acc + newAmount : acc + payment.amount,
+        payment.id === id ? acc + newAmount : acc + payment.amount,
       0
     );
     const remainingAmount = income - totalSpent;
@@ -56,9 +54,12 @@ const Expensestables = ({
         renderExtraColumn={(payment) => (
           <>
             <ChangeValue
+              id={payment.id}
               category={payment.category}
               amount={payment.amount}
-              onSave={(newAmount) => handleSave(payment.category, newAmount)}
+              onSave={(newAmount) =>
+                handleSave(payment.id, payment.category, newAmount)
+              }
             />
             <Button>Remove</Button>
           </>

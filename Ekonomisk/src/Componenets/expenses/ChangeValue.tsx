@@ -10,12 +10,13 @@ import {
 } from "@chakra-ui/react";
 
 type ChangeValueProps = {
+  id:number;
   category: string;
   amount: number;
   onSave: (newAmount: number) => void;
 };
 
-const ChangeValue = ({ amount, onSave }: ChangeValueProps): JSX.Element => {
+const ChangeValue = ({id, amount, onSave }: ChangeValueProps): JSX.Element => {
   const [isEditing, setIsEditing] = useBoolean();
   const [inputValue, setInputValue] = useState<number>(amount);
 
@@ -28,6 +29,7 @@ const ChangeValue = ({ amount, onSave }: ChangeValueProps): JSX.Element => {
   };
 
   const handleSave = () => {
+    console.log(id);
     onSave(inputValue);
     setIsEditing.off();
   };

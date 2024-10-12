@@ -1,4 +1,4 @@
-import { Button, Icon } from "@chakra-ui/react";
+import { Button} from "@chakra-ui/react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { useState } from "react";
 
