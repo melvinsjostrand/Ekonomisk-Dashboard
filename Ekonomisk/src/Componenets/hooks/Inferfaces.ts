@@ -59,7 +59,7 @@ export interface IncomeProps {
 }
 
 export interface Expense {
-  id:number;
+  expenseId:number;
   category: string;
   amount: number;
   description: string[];

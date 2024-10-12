@@ -38,7 +38,7 @@ const Expensestables = ({
         renderExtraColumn={(payment) => (
           <>
             <ChangeValue
-              id={payment.id}
+              id={payment.expenseId}
               amount={payment.amount}
             />
             <Button>Remove</Button>

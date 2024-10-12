@@ -7,7 +7,7 @@ const PutUpdateIncome = () => {
   return useMutation({
     mutationFn: (data: ChangeValueProps) =>
       apiClient
-        .put<ChangeValueProps>(`/UpdateIncomeLimits/${data.id}`, data)
+        .put<ChangeValueProps>(`/Expenses/Expense?expenseId=${data.id}`, data)
         .then((res) => res.data),
   });
 };
