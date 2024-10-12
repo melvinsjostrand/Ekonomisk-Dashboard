@@ -15,6 +15,7 @@ import {
 import categoryColors from "../hooks/categoryColors";
 import UseGetIncome from "../hooks/UseGetIncome";
 import PostmakeIncome from "../hooks/PostMakeIncome";
+import useUserId from "../hooks/UseGetUser";
 
 const categories = [
   "Housing",
@@ -28,8 +29,9 @@ const categories = [
 
 const MakeIncome = () => {
   const [income, setIncome] = useState<number>(0);
-  const [userId, setUserId] = useState<number>(0);
-  const authToken = localStorage.getItem("authToken");
+  const { data : userIdData} = useUserId();
+  const userId = userIdData;
+  const authToken = localStorage.getItem("Guid");
   const [categoryLimits, setCategoryLimits] = useState<
     { userId: number; category: string; spendLimit: number }[]
   >(
@@ -41,7 +43,8 @@ const MakeIncome = () => {
   );
   const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
   const { mutate: postMutation } = PostmakeIncome();
-  const { data } = UseGetIncome();
+
+  const { data } = UseGetIncome(userIdData);
   const toast = useToast();
 
   useEffect(() => {
