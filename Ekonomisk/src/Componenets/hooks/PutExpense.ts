@@ -3,7 +3,7 @@ import apiClient from "./apiClient";
 import { ChangeValueProps } from "./Inferfaces";
 
 // Hook to handle updating income limits using PUT
-const PutUpdateIncome = () => {
+const PutUpdateExpense = () => {
   return useMutation({
     mutationFn: (data: ChangeValueProps) =>
       apiClient
@@ -12,4 +12,4 @@ const PutUpdateIncome = () => {
   });
 };
 
-export default PutUpdateIncome;
+export default PutUpdateExpense;
