@@ -35,7 +35,7 @@ const AddExpenses = () => {
     useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [base64Image, setBase64Image] = useState<string | null>(null);
-
+  
   const toast = useToast();
   const { data : userId} = useUserId();
   console.log(JSON.stringify(userId));
@@ -66,6 +66,8 @@ const AddExpenses = () => {
     }
   };
 
+  console.log("b64: " + base64Image);
+
   const handleSubmit = () => {
     if (!authToken) {
       toast({
@@ -93,6 +95,7 @@ const AddExpenses = () => {
       category,
       amount,
       description,
+      image: base64Image || "",
     };
 
     postExpense(data, {
@@ -120,6 +123,7 @@ const AddExpenses = () => {
           duration: 3000,
           isClosable: true,
         });
+        console.log(JSON.stringify(data));
       },
     });
   };

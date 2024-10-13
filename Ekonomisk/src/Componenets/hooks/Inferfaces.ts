@@ -3,6 +3,7 @@ export interface Post {
   category: string;
   amount: number;
   description: string[];
+  image: string;
 }
 
 
@@ -64,6 +65,7 @@ export interface Expense {
   category: string;
   amount: number;
   description: string[];
+  image: string;
 }
 
 export interface ExpensesProps {

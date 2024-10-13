@@ -14,8 +14,6 @@ import Description from "./DescriptionPage";
 import categoryColors from "./hooks/categoryColors";
 import { BaseTableProps, Expense } from "./hooks/Inferfaces";
 
-
-
 interface ExtendedBaseTableProps extends BaseTableProps {
   renderExtraColumn?: (payment: Expense, index: number) => React.ReactNode;
 }
@@ -36,7 +34,7 @@ const BaseTable = ({
         variant="simple"
         size={tableSize}
         border="1px"
-        borderColor="gray.200"
+        borderColor="gray.200"        
       >
         <Tbody>
           <Tr>
@@ -49,6 +47,8 @@ const BaseTable = ({
 
           {payments.map((payment, index) => {
             const categoryColor = categoryColors[payment.category] || "#CCC";
+            const imageSrc = payment.image ? `/images/${payment.image}` : "";
+
 
             return (
               <Tr key={index}>
@@ -67,6 +67,7 @@ const BaseTable = ({
                       description={
                         payment.description || ["No description available"]
                       }
+                      image={imageSrc} // Pass the dynamically determined image source
                     />
                   </Show>
                 </Td>
