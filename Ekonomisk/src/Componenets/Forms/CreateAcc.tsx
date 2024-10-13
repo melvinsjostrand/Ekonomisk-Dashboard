@@ -11,16 +11,17 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useCreateAccount from "../hooks/UseCreateAcc";
 
 const CreateForm = () => {
+  const Guid = localStorage.getItem("Guid");
   const [mail, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [firstname, setFirstName] = useState<string>("");
   const [lastname, setLastName] = useState<string>("");
   const [pastSavings, setPastSavings] = useState<number>(0);
-
+  const navigate = useNavigate();
   const username = `${firstname} ${lastname}`;
   const toast = useToast();
   const { mutate: CreateAcc } = useCreateAccount();
@@ -65,6 +66,10 @@ const CreateForm = () => {
       },
     });
   };
+
+  if(Guid){
+    navigate("/Homepage")
+  }
 
   return (
     <Box
