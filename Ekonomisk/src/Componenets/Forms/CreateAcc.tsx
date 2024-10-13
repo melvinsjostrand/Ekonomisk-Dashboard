@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -25,6 +25,15 @@ const CreateForm = () => {
   const username = `${firstname} ${lastname}`;
   const toast = useToast();
   const { mutate: CreateAcc } = useCreateAccount();
+
+  console.log(Guid);
+  useEffect(() => {
+    
+    if(Guid){
+    navigate("/")
+  }
+}, [Guid, navigate])
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,9 +76,7 @@ const CreateForm = () => {
     });
   };
 
-  if(Guid){
-    navigate("/Homepage")
-  }
+
 
   return (
     <Box

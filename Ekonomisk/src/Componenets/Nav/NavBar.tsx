@@ -32,7 +32,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("Guid");
-    window.location.reload
+    window.location.reload();
   };
 
   return (
