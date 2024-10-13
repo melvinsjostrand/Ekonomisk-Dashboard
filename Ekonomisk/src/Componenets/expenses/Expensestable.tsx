@@ -37,6 +37,7 @@ const Expensestables = ({
       if (window.confirm("Are you sure you want to remove this expense?")) {
         deleteExpense(expenseId, {
           onSuccess: () => {
+            window.location.reload();
             setPayments((prevPayments) =>
               prevPayments.filter((payment) => payment.expenseId !== expenseId)
             );

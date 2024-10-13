@@ -6,7 +6,7 @@ const DeleteExpense = () => {
   return useMutation({
     mutationFn: (expenseId: number) =>
       apiClient
-        .delete(`/Expenses/Expense?expenseId=${expenseId}`)
+        .delete(`/Expenses?expenseId=${expenseId}`)
         .then((res) => res.data),
   });
 };
