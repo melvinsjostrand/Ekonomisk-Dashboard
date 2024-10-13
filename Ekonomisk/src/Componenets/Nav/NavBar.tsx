@@ -19,6 +19,8 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import ColorModeSwitch from "./ColorModeSwitch";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import useUserName from "../hooks/UseGetUsername";
+import useUserId from "../hooks/UseGetUser";
 
 const NavBar = () => {
   const authToken = localStorage.getItem("Guid");
@@ -26,6 +28,8 @@ const NavBar = () => {
   const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });
   const navigate = useNavigate();
+  const {data: userId} = useUserId();
+  const {data: username } = useUserName(userId);
 
   const handleLogout = () => {
     localStorage.removeItem("Guid");
@@ -82,7 +86,7 @@ const NavBar = () => {
             <VStack spacing={1} align="start">
               {authToken ? (
                 <VStack>
-                  <Avatar name={authToken} size="sm" />
+                  <Avatar name={username} size="sm" />
                   <Button size="sm" onClick={handleLogout}>
                     Logout
                   </Button>
@@ -95,7 +99,7 @@ const NavBar = () => {
             </VStack>
           </WrapItem>
         </Box>
-        <Text display={{ base: "none", md: "block" }}>{authToken}</Text>
+        <Text display={{ base: "none", md: "block" }}>{username}</Text>
         <Show above="lg">
           <ColorModeSwitch />
         </Show>

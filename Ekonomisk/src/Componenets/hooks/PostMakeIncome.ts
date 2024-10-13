@@ -6,7 +6,7 @@ const PostmakeIncome = () => {
   return useMutation({
     mutationFn: (data: IncomeData) =>
       apiClient
-        .post<IncomeData>("/PostIncomeLimits", data)
+        .post<IncomeData>("/Limits/PostIncomeLimits", data)
         .then((res) => res.data),
   });
 };

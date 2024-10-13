@@ -13,11 +13,11 @@ const Savings = () => {
 
   const totalsavings = savings.totalSaved + savings.prevsave;
   const savingPercentage = savings.saveGoal ? (totalsavings / savings.saveGoal) * 100 : 0;
-
+  console.log(JSON.stringify(data.username));
   return (
     <Box>
       <Box border="1px">
-        <Text textAlign="center"></Text>
+        <Text textAlign="center">{data.username}</Text>
         <Text textAlign="center" fontWeight="bold">
           Savings
         </Text>

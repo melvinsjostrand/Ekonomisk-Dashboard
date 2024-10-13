@@ -29,6 +29,7 @@ export interface CreateAccountData {
 }
 
 export interface SavingsData {
+  username: string;
   savings: {
     totalSaved: number;
     saveGoal: number;
@@ -47,7 +48,7 @@ export interface LoginResponse {
 }
 
 export interface limit {
-  userId: number;
+  userid: number;
   category: string;
   spendLimit: number;
 }
@@ -76,3 +77,4 @@ export interface ChangeValueProps {
   id: number;
   amount: number;
 }
+

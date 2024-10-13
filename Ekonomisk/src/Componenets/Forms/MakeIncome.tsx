@@ -33,10 +33,10 @@ const MakeIncome = () => {
   const userId = userIdData;
   const authToken = localStorage.getItem("Guid");
   const [categoryLimits, setCategoryLimits] = useState<
-    { userId: number; category: string; spendLimit: number }[]
+    { userid: number, category: string; spendLimit: number }[]
   >(
     categories.map((category) => ({
-      userId,
+      userid: userId,
       category,
       spendLimit: 0,
     }))
@@ -52,8 +52,8 @@ const MakeIncome = () => {
       setIncome(data.income || 0);
 
       const limits = data.limits.map(
-        (limit: { userId: number; category: string; spendLimit: number }) => ({
-          userId: limit.userId,
+        (limit: { userid: number, category: string; spendLimit: number }) => ({
+          userid: userId,
           category: limit.category,
           spendLimit: limit.spendLimit,
         })
@@ -107,7 +107,7 @@ const MakeIncome = () => {
           income,
           saveGoal: showSaveGoal,
           limits: categoryLimits.map((limit) => ({
-            userId: limit.userId,
+            userid: userId,
             category: limit.category,
             spendLimit: limit.spendLimit,
           })),
@@ -115,6 +115,7 @@ const MakeIncome = () => {
 
         postMutation(incomeData, {
           onSuccess: () => {
+            console.log(incomeData);
             toast({
               title: "Success",
               description: "Income and limits saved successfully!",
