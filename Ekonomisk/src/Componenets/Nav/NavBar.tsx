@@ -27,13 +27,12 @@ const NavBar = () => {
   const logoSize = useBreakpointValue({ base: "60px", md: "80px" });
   const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const navigate = useNavigate();
   const {data: userId} = useUserId();
   const {data: username } = useUserName(userId);
 
   const handleLogout = () => {
     localStorage.removeItem("Guid");
-    navigate("/login");
+    window.location.reload
   };
 
   return (

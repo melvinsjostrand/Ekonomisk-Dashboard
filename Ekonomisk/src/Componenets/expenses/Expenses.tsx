@@ -11,7 +11,7 @@ import useUserId from "../hooks/UseGetUser";
 const Expenses = () => {
   const [categorySortOrder, setCategorySortOrder] = useState<string>("");
   const [priceSortOrder, setPriceSortOrder] = useState<string | null>(null);
-
+  const Guid = localStorage.getItem("Guid");
   const { data : userId} = useUserId();
   const { data } = UseExpenses(userId);
   const income = data?.income.income || 0;
@@ -66,7 +66,7 @@ const Expenses = () => {
             />
           </HStack>
           <AddExpenses />
-          {data && <Expensestables expenses={sortedExpenses} income={income} />}
+          {Guid && data && <Expensestables expenses={sortedExpenses} income={income} />}
         </GridItem>
       </Grid>
     </>

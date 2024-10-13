@@ -10,6 +10,7 @@ const HomePage = () => {
   const { data : userId} = useUserId();
   const { data } = UseExpenses(userId);
   const income = data?.income.income || 0;
+  const Guid = localStorage.getItem("Guid");
   const expenses = data?.expenses || [];
   const [cash, setCash] = useState({
     totalSpent: 0,
@@ -47,7 +48,7 @@ const HomePage = () => {
         <PieChart expenses={expenses}></PieChart>
       </GridItem>
       <GridItem area="main">
-        {data && <Tables expenses={expenses} income={income} />}
+        {Guid && data && <Tables expenses={expenses} income={income} />}
         {cash.remaining < 0 && (
           <Text color="red.500" textAlign="center">
             Error: You have spent more than your budget!
