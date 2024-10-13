@@ -1,12 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "./apiClient";
 
-// Hook to handle deleting an expense using DELETE
+
 const DeleteExpense = () => {
+  const guid = localStorage.getItem("Guid");
   return useMutation({
     mutationFn: (expenseId: number) =>
       apiClient
-        .delete(`/Expenses?expenseId=${expenseId}`)
+        .delete(`/Expenses?expenseId=${expenseId}`, {
+          headers: {
+            Authorization: guid,
+          },
+        })
         .then((res) => res.data),
   });
 };
