@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
-import { Button, Hide, Text } from "@chakra-ui/react";
+import { Button, Hide, Text, useToast } from "@chakra-ui/react";
 import { Expense } from "../hooks/Inferfaces";
+import DeleteExpense from "../hooks/DeleteExpense";
 
 const Expensestables = ({
   income,
@@ -16,6 +17,8 @@ const Expensestables = ({
     remaining: 0,
   });
   const [payments, setPayments] = useState<Expense[]>(expenses);
+  const { mutate: deleteExpense } = DeleteExpense(); // Initialize delete mutation
+  const toast = useToast(); // For showing notifications
 
   useEffect(() => {
     if (expenses) {
@@ -29,6 +32,33 @@ const Expensestables = ({
     }
   }, [income, expenses]);
 
+
+    const handleRemove = (expenseId: number) => {
+      if (window.confirm("Are you sure you want to remove this expense?")) {
+        deleteExpense(expenseId, {
+          onSuccess: () => {
+            setPayments((prevPayments) =>
+              prevPayments.filter((payment) => payment.expenseId !== expenseId)
+            );
+            toast({
+              title: "Expense deleted.",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+          onError: (error) => {
+            toast({
+              title: "Error deleting expense.",
+              description: error?.message || "Something went wrong.",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+        });
+      }
+    };
   return (
     <>
       <BaseTable
@@ -37,11 +67,13 @@ const Expensestables = ({
         remaining={cash.remaining}
         renderExtraColumn={(payment) => (
           <>
-            <ChangeValue
-              id={payment.expenseId}
-              amount={payment.amount}
-            />
-            <Button>Remove</Button>
+            <ChangeValue id={payment.expenseId} amount={payment.amount} />
+            <Button
+              colorScheme="red"
+              onClick={() => handleRemove(payment.expenseId)}
+            >
+              Remove
+            </Button>
           </>
         )}
         userId={0}
