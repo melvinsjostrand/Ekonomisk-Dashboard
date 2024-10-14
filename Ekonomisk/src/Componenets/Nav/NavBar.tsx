@@ -14,11 +14,12 @@ import {
   MenuItem,
   IconButton,
   Show,
+  Spinner,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import ColorModeSwitch from "./ColorModeSwitch";
 import logo from "../../assets/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import useUserName from "../hooks/UseGetUsername";
 import useUserId from "../hooks/UseGetUser";
 
@@ -27,12 +28,17 @@ const NavBar = () => {
   const logoSize = useBreakpointValue({ base: "60px", md: "80px" });
   const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const {data: userId} = useUserId();
-  const {data: username } = useUserName(userId);
+  const { data: userId, isLoading: isUserIdLoading } = useUserId();
+  const { data: username, isLoading: isUsernameLoading } = useUserName(userId);
+  const navigate = useNavigate();
+
+  if (isUserIdLoading || isUsernameLoading) {
+    return <Spinner />;
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("Guid");
-    window.location.reload();
+    navigate("/Login");
   };
 
   return (
@@ -79,13 +85,17 @@ const NavBar = () => {
         </>
       )}
 
-      <HStack spacing={4} alignItems="center">
+<HStack spacing={4} alignItems="center">
         <Box>
           <WrapItem>
             <VStack spacing={1} align="start">
               {authToken ? (
                 <VStack>
-                  <Avatar name={username} size="sm" />
+                  {isUsernameLoading ? (
+                    <Spinner size="sm" /> // Show loading spinner while username is being fetched
+                  ) : (
+                    <Avatar name={username} size="sm" />
+                  )}
                   <Button size="sm" onClick={handleLogout}>
                     Logout
                   </Button>
@@ -98,7 +108,9 @@ const NavBar = () => {
             </VStack>
           </WrapItem>
         </Box>
-        <Text display={{ base: "none", md: "block" }}>{username}</Text>
+        {!isUsernameLoading && username && (
+          <Text display={{ base: "none", md: "block" }}>{username}</Text>
+        )}
         <Show above="lg">
           <ColorModeSwitch />
         </Show>

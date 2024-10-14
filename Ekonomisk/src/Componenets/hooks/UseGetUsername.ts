@@ -18,11 +18,12 @@ export const useUserName = (userId: number) => {
       .then((response) => response.data);
   };
 
-  return useQuery({
+  const {data, isLoading, isError} = useQuery({
     queryKey: ["username", guid],
     queryFn: getUser,
-    enabled: !!guid,
+    enabled: !!guid && !!userId
   });
+  return {data, isLoading, isError}
 };
 
 export default useUserName;

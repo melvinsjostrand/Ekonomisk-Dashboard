@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -9,6 +9,7 @@ import {
   Heading,
   useToast,
   Text,
+  Spinner,
 } from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,13 +21,24 @@ const LoginForm = () => {
   const toast = useToast();
   const { mutate: login } = useLogin();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+  const Guid = localStorage.getItem("Guid");
+  
+  useEffect(() => {
+
+    if(Guid){
+    navigate("/AddIncome")
+  }
+}, [Guid, navigate])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     login(
       { email, password },
       {
         onSuccess: () => {
+          setLoading(false);
           toast({
             title: "Login successful.",
             description: "Welcome back!",
@@ -34,9 +46,11 @@ const LoginForm = () => {
             duration: 3000,
             isClosable: true,
           });
-          navigate("/AddIncome");
+          window.location.reload();
+          navigate("/AddIncome");          
         },
         onError: (error: any) => {
+          setLoading(false);
           toast({
             title: "Login failed.",
             description:
@@ -70,6 +84,7 @@ const LoginForm = () => {
           <FormControl id="email" isRequired>
             <FormLabel>Email address</FormLabel>
             <Input
+              disabled = {loading}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -79,14 +94,15 @@ const LoginForm = () => {
           <FormControl id="password" isRequired>
             <FormLabel>Password</FormLabel>
             <Input
+            disabled = {loading}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </FormControl>
 
-          <Button type="submit" colorScheme="blue" size="lg" width="full">
-            Login
+          <Button type="submit" colorScheme="blue" size="lg" width="full" disabled = {loading} isLoading = {loading}>            
+            {loading ? <Spinner size="md" /> : "Login"}
           </Button>
           <Text textAlign="center" mt="4">
             Don't have an account?{" "}

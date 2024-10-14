@@ -25,7 +25,7 @@ const normalizeCategory = (category: string) => {
 const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
   const { data : userId} = useUserId();
   const { data: userLimitsData } = UseLimits(userId);
-
+  console.log(JSON.stringify(userLimitsData));
   const defaultLimits = [
     { category: "Housing", spendLimit: 0 },
     { category: "Transport", spendLimit: 0 },
