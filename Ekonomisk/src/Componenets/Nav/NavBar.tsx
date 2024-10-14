@@ -82,6 +82,9 @@ const NavBar = () => {
           <Button as={Link} to="AddIncome">
             Income
           </Button>
+          {authToken && <Button onClick={handleLogout}>
+            Logout
+          </Button>}
         </>
       )}
 
@@ -94,11 +97,9 @@ const NavBar = () => {
                   {isUsernameLoading ? (
                     <Spinner size="sm" /> // Show loading spinner while username is being fetched
                   ) : (
-                    <Avatar name={username} size="sm" />
+                    <Avatar name={username} />
                   )}
-                  <Button size="sm" onClick={handleLogout}>
-                    Logout
-                  </Button>
+                  
                 </VStack>
               ) : (
                 <Button as={Link} to="/login" size={buttonSize}>
