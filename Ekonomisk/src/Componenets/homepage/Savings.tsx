@@ -5,14 +5,14 @@ import useUserId from "../hooks/UseGetUser";
 const Savings = () => {
   const { data : userId} = useUserId();
   const { data, isLoading, error } = useSavings(userId);
-
+  console.log(JSON.stringify(data));
   if (isLoading) return <Text textAlign="center">Loading...</Text>;
   if (error  || !data || !data.savings) return <Text textAlign="center">No savings added</Text>;
 
   const savings = data.savings || { totalSaved: 0, saveGoal: 0, prevsave: 0 }; // Provide default values
 
-  const totalsavings = savings.totalSaved + savings.prevsave;
-  const savingPercentage = savings.saveGoal ? (totalsavings / savings.saveGoal) * 100 : 0;
+
+  const savingPercentage = savings.saveGoal ? (savings.totalSaved / savings.saveGoal) * 100 : 0;
   console.log(JSON.stringify(data.username));
   return (
     <Box>
@@ -39,7 +39,7 @@ const Savings = () => {
             fontWeight="bold"
             color="white"
           >
-            {totalsavings} / {savings.saveGoal}
+            {savings.totalSaved} / {savings.saveGoal}
           </Text>
         </Box>
         <Text textAlign="center">Savings previously: {savings.prevsave}</Text>
