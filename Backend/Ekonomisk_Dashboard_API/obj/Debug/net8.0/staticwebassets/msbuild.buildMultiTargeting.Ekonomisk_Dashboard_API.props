@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Ekonomisk_Dashboard_API.props" />
+</Project>

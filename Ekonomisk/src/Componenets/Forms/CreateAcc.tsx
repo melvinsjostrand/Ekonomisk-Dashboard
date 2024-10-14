@@ -25,7 +25,9 @@ const CreateForm = () => {
   const username = `${firstname} ${lastname}`;
   const toast = useToast();
   const { mutate: CreateAcc } = useCreateAccount();
-
+  const emailRegex = /^[a-zåäöA-ZÅÄÖ0-9._%+-]+@(gmail.com|yahoo.com|outlook.com|hotmail.com)$/;
+ 
+  
   console.log(Guid);
   useEffect(() => {
     
@@ -36,6 +38,17 @@ const CreateForm = () => {
 
 
   const handleSubmit = (e: React.FormEvent) => {
+    if (!emailRegex.test(mail)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid email from Gmail, Yahoo, Outlook, or Hotmail.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
     e.preventDefault();
     if (!username || !mail || !password) {
       toast({

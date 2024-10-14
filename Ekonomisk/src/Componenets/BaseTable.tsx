@@ -8,7 +8,7 @@ import {
   Tfoot,
   Th,
   Tr,
-  useBreakpointValue,
+  useBreakpointValue
 } from "@chakra-ui/react";
 import Description from "./DescriptionPage";
 import categoryColors from "./hooks/categoryColors";
