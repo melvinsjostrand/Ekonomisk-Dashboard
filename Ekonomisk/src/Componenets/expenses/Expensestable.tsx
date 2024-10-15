@@ -4,7 +4,6 @@ import ChangeValue from "./ChangeValue";
 import { Button, Hide, Text, useToast } from "@chakra-ui/react";
 import { Expense } from "../hooks/Inferfaces";
 import DeleteExpense from "../hooks/DeleteExpense";
-import useUserId from "../hooks/UseGetUser";
 
 const Expensestables = ({
   income,
@@ -19,8 +18,8 @@ const Expensestables = ({
   });
   const [payments, setPayments] = useState<Expense[]>(expenses);
   const Guid = localStorage.getItem("Guid");
-  const { mutate: deleteExpense } = DeleteExpense(); // Initialize delete mutation
-  const toast = useToast(); // For showing notifications
+  const { mutate: deleteExpense } = DeleteExpense(); 
+  const toast = useToast();
 
   useEffect(() => {
     if (expenses) {

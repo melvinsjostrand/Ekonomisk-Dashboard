@@ -28,7 +28,7 @@ const AddExpenses = () => {
   const [category, setCategory] = useState<string>("");
   const authToken = localStorage.getItem("Guid");
   const [amount, setAmount] = useState<number | "">("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [description, setDescriptions] = useState<string[]>([]);
   const [isAddingDescription, setIsAddingDescription] =
