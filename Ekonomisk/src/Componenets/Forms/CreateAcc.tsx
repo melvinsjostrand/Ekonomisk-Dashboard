@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -8,33 +8,92 @@ import {
   Stack,
   Heading,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { RxAvatar } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useCreateAccount from "../hooks/UseCreateAcc";
 
-interface CreateFormProps {
-  onSubmit: (
-    Name: string,
-    email: string,
-    password: string,
-    PastSavings: number
-  ) => void;
-}
-
-const CreateForm = ({onSubmit,}: CreateFormProps) => {
-  const [email, setEmail] = useState<string>("");
+const CreateForm = () => {
+  const Guid = localStorage.getItem("Guid");
+  const [mail, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [Firstname, setFirstName] = useState<String>("");
-  const [Lastname, setLastName] = useState<String>("");
-  const [PastSavings, setPastSavings] = useState<number>(0);
-  const Name = `${Firstname} ${Lastname}`;
+  const [firstname, setFirstName] = useState<string>("");
+  const [lastname, setLastName] = useState<string>("");
+  const [pastSavings, setPastSavings] = useState<number>(0);
+  const navigate = useNavigate();
+  const username = `${firstname} ${lastname}`;
+  const toast = useToast();
+  const { mutate: CreateAcc } = useCreateAccount();
+  const emailRegex = /^[a-zåäöA-ZÅÄÖ0-9._%+-]+@(gmail.com|yahoo.com|outlook.com|hotmail.com)$/;
+ 
+  
+  console.log(Guid);
+  useEffect(() => {
+    
+    if(Guid){
+    navigate("/")
+  }
+}, [Guid, navigate])
 
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    if (!emailRegex.test(mail)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid email from Gmail, Yahoo, Outlook, or Hotmail.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
 
-    onSubmit(Name, email, password, PastSavings);
+    e.preventDefault();
+    if (!username || !mail || !password) {
+      toast({
+        title: "Error",
+        description:
+          "Please fill out name, email and password before submitting",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    const data = {
+      username,
+      mail,
+      password,
+      pastSavings,
+    };
+    CreateAcc(data, {
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description:"Please check your email to verify your account.\n\n" +
+                      "We've sent a verification link to [user's email address].\n" +
+                      "Click the link in the email to activate your account.\n\n" +
+                      "Didn't receive the email?\n" +
+                      "Check your spam or junk folder.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      },
+      onError: () => {
+        toast({
+          title: "Error",
+          description: "There was an error creating your account.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      },
+    });
   };
+
+
 
   return (
     <Box
@@ -52,27 +111,27 @@ const CreateForm = ({onSubmit,}: CreateFormProps) => {
       </Heading>
       <form onSubmit={handleSubmit}>
         <Stack spacing={4}>
-          <FormControl id="Firstname" isRequired>
+          <FormControl id="firstname" isRequired>
             <FormLabel>First Name</FormLabel>
-            <Input type="Text" onChange={(e) => setFirstName(e.target.value)} />
+            <Input type="text" onChange={(e) => setFirstName(e.target.value)} />
           </FormControl>
-          <FormControl id="LastName" isRequired>
-            <FormLabel>Last name</FormLabel>
-            <Input type="Text" onChange={(e) => setLastName(e.target.value)} />
+          <FormControl id="lastname" isRequired>
+            <FormLabel>Last Name</FormLabel>
+            <Input type="text" onChange={(e) => setLastName(e.target.value)} />
           </FormControl>
-          <FormControl id="PastSavings">
-            <FormLabel>Past savings</FormLabel>
+          <FormControl id="pastSavings">
+            <FormLabel>Past Savings</FormLabel>
             <Input
-              type="Number"
+              type="number"
               onChange={(e) => setPastSavings(e.target.valueAsNumber)}
-            ></Input>
+            />
           </FormControl>
 
           <FormControl id="email" isRequired>
             <FormLabel>Email address</FormLabel>
             <Input
               type="email"
-              value={email}
+              value={mail}
               onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>

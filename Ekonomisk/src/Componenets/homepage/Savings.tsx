@@ -1,22 +1,24 @@
-import { Box, Text, Progress, Button } from "@chakra-ui/react";
-import PieChart from "./PieChart";
+import { Box, Text, Progress } from "@chakra-ui/react";
+import useSavings from "../hooks/useSavings";
+import useUserId from "../hooks/UseGetUser";
 
-interface Props {
-  userName: string;
-  totalSaved: number;
-  saveGoal: number;
-  payments: { category: string; amount: number }[];
-  prevsave: number;
-}
+const Savings = () => {
+  const { data : userId} = useUserId();
+  const { data, isLoading, error } = useSavings(userId);
+  console.log(JSON.stringify(data));
+  if (isLoading) return <Text textAlign="center">Loading...</Text>;
+  if (error  || !data || !data.savings) return <Text textAlign="center">No savings added</Text>;
 
-const Savings = ({ totalSaved, saveGoal, payments, prevsave }: Props) => {
-  const savingPercentage = (totalSaved / saveGoal) * 100;
-  const totalsavings = totalSaved + prevsave;
+  const savings = data.savings || { totalSaved: 0, saveGoal: 0, prevsave: 0 }; // Provide default values
+
+
+  const savingPercentage = savings.saveGoal ? (savings.totalSaved / savings.saveGoal) * 100 : 0;
+  console.log(JSON.stringify(data.username));
   return (
     <Box>
       <Box border="1px">
-        <Text textAlign="center">Dan Abrahmov </Text>
-        <Text textAlign="center" textStyle="bold">
+        <Text textAlign="center">{data.username}</Text>
+        <Text textAlign="center" fontWeight="bold">
           Savings
         </Text>
 
@@ -37,12 +39,11 @@ const Savings = ({ totalSaved, saveGoal, payments, prevsave }: Props) => {
             fontWeight="bold"
             color="white"
           >
-            {totalsavings} / {saveGoal}
+            {savings.totalSaved} / {savings.saveGoal}
           </Text>
         </Box>
-        <Text textAlign="center">Savings previously {prevsave}</Text>
+        <Text textAlign="center">Savings previously: {savings.prevsave}</Text>
       </Box>
-      <PieChart payments={payments} />
     </Box>
   );
 };

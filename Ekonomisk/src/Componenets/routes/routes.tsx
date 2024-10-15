@@ -6,54 +6,12 @@ import Login from "../Forms/Login";
 import CreateAcc from "../Forms/CreateAcc";
 import MakeIncome from "../Forms/MakeIncome";
 
- const handleLogin = (email: string, password: string) => {
-    const data = {
-      email,
-      password,
-    };
-   console.log(JSON.stringify(data));
- };
- const handleCreate = (
-   Name: string,
-   email: string,
-   password: string,
-   PastSaving: number
- ) => {
-   const data = {
-     Name,
-     email,
-     password,
-     PastSaving,
-   };
-   console.log(JSON.stringify(data));
- };
-
-const handleIncome = (
-  income: number,
-  categoryLimits: Record<string, number>
-) => {
-  const userId = 1; 
-
-  const data = {
-    userId,
-    income,
-    limits: Object.entries(categoryLimits).map(([category, spendLimit]) => ({
-      userId,
-      category,
-      spendLimit,
-    })),
-  };
-
-  console.log(JSON.stringify(data, null, 2));
-};
-
-
 const Layout = () => (
-    <>
-    <NavBar></NavBar>
+  <>
+    <NavBar />
     <Outlet />
-    </>
-)
+  </>
+);
 
 const router = createBrowserRouter([
   {
@@ -70,16 +28,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login onSubmit={handleLogin} />,
+        element: <Login />,
       },
       {
         path: "/register",
-        element: <CreateAcc onSubmit={handleCreate}/>,
+        element: <CreateAcc />,
       },
       {
-        path: "AddIncome",
-        element: <MakeIncome onSubmit={handleIncome}/>
-      }
+        path: "/AddIncome",
+        element: <MakeIncome/>,
+      },
     ],
   },
 ]);

@@ -1,72 +1,61 @@
 import { Grid, GridItem, Text } from "@chakra-ui/react";
 import Tables from "./Table";
 import { useEffect, useState } from "react";
-import User from "../hooks/user";
 import Savings from "./Savings";
-import sharedData from "../hooks/data";
+import UseExpenses from "../hooks/UseExpense";
+import PieChart from "./PieChart";
+import useUserId from "../hooks/UseGetUser";
 
 const HomePage = () => {
-  console.log(sharedData);
-  const [error, setError] = useState<string | null>(null);
-
+  const { data : userId} = useUserId();
+  const { data } = UseExpenses(userId);
+  const income = data?.income.income || 0;
+  const Guid = localStorage.getItem("Guid");
+  const expenses = data?.expenses || [];
   const [cash, setCash] = useState({
-    ...sharedData,
     totalSpent: 0,
     remaining: 0,
   });
 
   useEffect(() => {
-    const totalSpent = sharedData.payment.reduce(
-      (acc, payment) => acc + payment.amount,
-      0
-    );
-    const remaining = sharedData.sum - totalSpent;
+    if (data && expenses && income !== undefined) {
+      const totalSpent = expenses.reduce(
+        (acc, payment) => acc + payment.amount,
+        0
+      );
+      const remaining = income - totalSpent;
 
-    setCash((prevState) => ({
-      ...prevState,
-      totalSpent: totalSpent,
-      remaining: remaining,
-    }));
-
-    if (remaining < 0)
-      return setError("Error: You have spent more than your budget!");
-  }, [sharedData.payment, sharedData.sum]);
+      setCash({
+        totalSpent: totalSpent,
+        remaining: remaining,
+      });
+    }
+  }, [data]);
 
   return (
-    <>
-      <Grid
-        templateAreas={{
-          base: `'nav' 'main' 'aside'`,
-          lg: `'nav nav' 'main aside'`,
-        }}
-        templateColumns={{
-          base: "1fr",
-          lg: "3fr 1fr",
-        }}
-      >
-        <GridItem area="aside">
-          <Savings
-            saveGoal={sharedData.saveGoal}
-            payments={sharedData.payment}
-            prevsave={4000}
-            userName={User[0].name}
-            totalSaved={User[0].totalSaving}
-          />
-        </GridItem>
-        <GridItem area="main">
-          <Tables
-            sum={sharedData.sum}
-            payments={sharedData.payment}
-            remaining={sharedData.remaining}
-          />
-          {error && (
-            <Text color="red.500" textAlign="center">
-              {error}
-            </Text>
-          )}
-        </GridItem>
-      </Grid>
-    </>
+    <Grid
+      templateAreas={{
+        base: `'nav' 'main' 'aside'`,
+        lg: `'nav nav' 'main aside'`,
+      }}
+      templateColumns={{
+        base: "1fr",
+        lg: "3fr 1fr",
+      }}
+    >
+      <GridItem area="aside">
+        <Savings />
+        <PieChart expenses={expenses}></PieChart>
+      </GridItem>
+      <GridItem area="main">
+        {Guid && data && <Tables expenses={expenses} income={income} />}
+        {cash.remaining < 0 && (
+          <Text color="red.500" textAlign="center">
+            Error: You have spent more than your budget!
+          </Text>
+        )}
+      </GridItem>
+    </Grid>
   );
 };
 

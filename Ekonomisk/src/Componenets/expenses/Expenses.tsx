@@ -1,20 +1,47 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Expensestables from "./Expensestable";
-import sharedData from "../hooks/data";
-import { Button, Grid, GridItem } from "@chakra-ui/react";
-import NavBar from "../Nav/NavBar";
+import {Grid, GridItem, HStack } from "@chakra-ui/react";
 import Sorting from "./Sorting";
 import MaxSpent from "./MaxSpent";
-import User from "../hooks/user";
 import AddExpenses from "./AddExpenses";
+import UseExpenses from "../hooks/UseExpense";
+import PriceSorting from "./PriceSorting";
+import useUserId from "../hooks/UseGetUser";
 
 const Expenses = () => {
-  const [sortOrder, setSortOrder] = useState<string>("");
-  const filteredPayments = sortOrder
-    ? sharedData.payment.filter((payment) => payment.category === sortOrder)
-    : sharedData.payment;
-  const userLimits = User[0]?.Limits ?? {};
-  console.log(sharedData);
+  const [categorySortOrder, setCategorySortOrder] = useState<string>("");
+  const [priceSortOrder, setPriceSortOrder] = useState<string | null>(null);
+  const Guid = localStorage.getItem("Guid");
+  const { data : userId} = useUserId();
+  const { data } = UseExpenses(userId);
+  const income = data?.income.income || 0;
+  const expenses = data?.expenses || [];
+  
+  
+  const sortedExpenses = useMemo(() => {
+    let filteredExpenses = expenses;
+
+    if (categorySortOrder) {
+      filteredExpenses = filteredExpenses.filter(
+        (expense) => expense.category === categorySortOrder
+      );
+    }
+
+    if (priceSortOrder !== null) {
+      filteredExpenses = filteredExpenses.sort((a, b) => {
+        if (priceSortOrder === "highest") {
+          return b.amount - a.amount;
+        } else if (priceSortOrder === "lowest") {
+          return a.amount - b.amount; 
+        }
+        return 0; 
+      });
+    }
+
+    return filteredExpenses;
+  }, [expenses, categorySortOrder, priceSortOrder]);
+
+
   return (
     <>
       <Grid
@@ -28,22 +55,18 @@ const Expenses = () => {
         }}
       >
         <GridItem area="aside">
-          <MaxSpent
-            spending={sharedData.payment}
-            limits={userLimits}
-          ></MaxSpent>
+          <MaxSpent expenses={expenses} />
         </GridItem>
         <GridItem area="main">
-          <Sorting
-            sortOrder={sortOrder}
-            onSelectSortOrder={(order) => setSortOrder(order)}
-          />
+          <HStack spacing={2}>
+            <PriceSorting onSelectSortOrder={setPriceSortOrder}></PriceSorting>
+            <Sorting
+              sortOrder={categorySortOrder}
+              onSelectSortOrder={setCategorySortOrder}
+            />
+          </HStack>
           <AddExpenses />
-          <Expensestables
-            sum={sharedData.sum}
-            payments={filteredPayments}
-            remaining={sharedData.remaining}
-          />
+          {Guid && data && <Expensestables expenses={sortedExpenses} income={income} />}
         </GridItem>
       </Grid>
     </>

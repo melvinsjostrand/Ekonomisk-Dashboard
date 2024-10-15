@@ -8,31 +8,22 @@ import {
   Tfoot,
   Th,
   Tr,
-  useBreakpointValue,
+  useBreakpointValue
 } from "@chakra-ui/react";
-import Description from "./alert";
+import Description from "./DescriptionPage";
 import categoryColors from "./hooks/categoryColors";
+import { BaseTableProps, Expense } from "./hooks/Inferfaces";
 
-interface BaseTableProps {
-  sum: number;
-  payments: pay[];
-  remaining: number;
-  renderExtraColumn?: (payment: pay, index: number) => React.ReactNode;
-}
-
-export interface pay {
-  category: string;
-  amount: number;
-  desc?: string[];
-  image?: string;
+interface ExtendedBaseTableProps extends BaseTableProps {
+  renderExtraColumn?: (payment: Expense, index: number) => React.ReactNode;
 }
 
 const BaseTable = ({
-  sum,
+  income,
   payments,
   remaining,
   renderExtraColumn,
-}: BaseTableProps) => {
+}: ExtendedBaseTableProps) => {
   const tableSize = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
   const tableFontSize = useBreakpointValue({ base: "s", md: "sm", lg: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -43,12 +34,12 @@ const BaseTable = ({
         variant="simple"
         size={tableSize}
         border="1px"
-        borderColor="gray.200"
+        borderColor="gray.200"        
       >
         <Tbody>
           <Tr>
             <Th fontSize={tableFontSize}>Category</Th>
-            <Th fontSize={tableFontSize}>Income {sum}Kr</Th>
+            <Th fontSize={tableFontSize}>Income {income} Kr</Th>
             {!isMobile && renderExtraColumn && (
               <Th fontSize={tableFontSize}>Manage</Th>
             )}
@@ -56,6 +47,8 @@ const BaseTable = ({
 
           {payments.map((payment, index) => {
             const categoryColor = categoryColors[payment.category] || "#CCC";
+            const imageSrc = payment.image ? `/images/${payment.image}` : "";
+
 
             return (
               <Tr key={index}>
@@ -71,12 +64,14 @@ const BaseTable = ({
                   {payment.category}
                   <Show above="lg">
                     <Description
-                      desc={payment.desc || ["No description available"]}
-                      image={payment.image || ""}
+                      description={
+                        payment.description || ["No description available"]
+                      }
+                      image={imageSrc} // Pass the dynamically determined image source
                     />
                   </Show>
                 </Td>
-                <Td fontSize={tableFontSize}>{payment.amount}kr</Td>
+                <Td fontSize={tableFontSize}>{payment.amount} kr</Td>
                 {!isMobile && renderExtraColumn && (
                   <Td>{renderExtraColumn(payment, index)}</Td>
                 )}
@@ -87,7 +82,7 @@ const BaseTable = ({
         <Tfoot>
           <Tr>
             <Th fontSize={tableFontSize}>Remaining Balance</Th>
-            <Th fontSize={tableFontSize}>{remaining}</Th>
+            <Th fontSize={tableFontSize}>{remaining} Kr</Th>
           </Tr>
         </Tfoot>
       </Table>

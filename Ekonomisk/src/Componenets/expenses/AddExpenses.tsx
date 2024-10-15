@@ -8,68 +8,124 @@ import {
   Select,
   IconButton,
   HStack,
-  Collapse
+  Collapse,
+  useToast,
 } from "@chakra-ui/react";
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
-import { image } from "framer-motion/client";
-
+import usePostExpense from "../hooks/PostExpenses";
+import useUserId from "../hooks/UseGetUser";
 const categories = [
-    "Housing",
-    "Transport",
-    "Food",
-    "Health",
-    "Entertainment",
-    "Accessories",
-    "Other",
+  "Housing",
+  "Transport",
+  "Food",
+  "Health",
+  "Entertainment",
+  "Accessories",
+  "Other",
 ];
 
 const AddExpenses = () => {
   const [category, setCategory] = useState<string>("");
+  const authToken = localStorage.getItem("Guid");
   const [amount, setAmount] = useState<number | "">("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const [descriptions, setDescriptions] = useState<string[]>([]);
-  const [isAddingDescription, setIsAddingDescription] = useState<boolean>(false);
+  const [description, setDescriptions] = useState<string[]>([]);
+  const [isAddingDescription, setIsAddingDescription] =
+    useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [base64Image, setBase64Image] = useState<string | null>(null);
+  
+  const toast = useToast();
+  const { data : userId} = useUserId();
+  console.log(JSON.stringify(userId));
+  const { mutate: postExpense } = usePostExpense();
 
-  const addDescription = () => setDescriptions([...descriptions, ""]);
+  const addDescription = () => setDescriptions([...description, ""]);
   const removeDescription = (index: number) => {
-    setDescriptions(descriptions.filter((_, i) => i !== index));
+    setDescriptions(description.filter((_, i) => i !== index));
   };
-
   const handleDescriptionChange = (index: number, value: string) => {
-    const newDescriptions = [...descriptions];
+    const newDescriptions = [...description];
     newDescriptions[index] = value;
     setDescriptions(newDescriptions);
   };
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files?.[0];
-      if (file) {
-        setSelectedFile(file);
-        setPreview(URL.createObjectURL(file));
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
 
-        // Convert the image to base64
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setBase64Image(reader.result as string); 
-        };
-        console.log(reader.result);
-        reader.readAsDataURL(file); 
-      }
-    };
+      // Convert the image to base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBase64Image(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  console.log("b64: " + base64Image);
 
   const handleSubmit = () => {
-    // Handle form submission, e.g., add expense to a list or send to an API
+    if (!authToken) {
+      toast({
+        title: "not Signed in",
+        description: "You need to sign in to make an expense",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (!category || !amount) {
+      toast({
+        title: "Error",
+        description: "Please fill out all fields before submitting.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
 
-       const data = {
-          image: base64Image,
-          category,
-          amount,
-          descriptions
-       };
-    console.log(JSON.stringify(data));
+    const data = {
+      userId,
+      category,
+      amount,
+      description,
+      image: base64Image || "",
+    };
+
+    postExpense(data, {
+      onSuccess: () => {
+        window.location.reload();
+        toast({
+          title: "Success",
+          description: "Expense added successfully!",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        setIsFormVisible(false);
+        setCategory("");
+        setAmount("");
+        setDescriptions([]);
+        setPreview(null);
+        setSelectedFile(null);
+      },
+      onError: () => {
+        toast({
+          title: "Error",
+          description: "There was an error submitting your expense.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        console.log(JSON.stringify(data));
+      },
+    });
   };
 
   return (
@@ -102,6 +158,12 @@ const AddExpenses = () => {
               onChange={(e) => setAmount(Number(e.target.value))}
             />
           </FormControl>
+          <Button
+            mb={4}
+            onClick={() => setIsAddingDescription(!isAddingDescription)}
+          >
+            {isAddingDescription ? "Hide Descriptions" : "Add Descriptions"}
+          </Button>
           <input type="file" accept="image/*" onChange={handleFileChange} />
           {preview && (
             <img
@@ -110,17 +172,11 @@ const AddExpenses = () => {
               style={{ maxWidth: "200px", marginTop: "10px" }}
             />
           )}
-          <Button
-            mb={4}
-            onClick={() => setIsAddingDescription(!isAddingDescription)}
-          >
-            {isAddingDescription ? "Hide Descriptions" : "Add Descriptions"}
-          </Button>
 
           <Collapse in={isAddingDescription}>
             <FormControl id="descriptions" mb={4}>
               <FormLabel>Descriptions</FormLabel>
-              {descriptions.map((desc, index) => (
+              {description.map((desc, index) => (
                 <HStack key={index} mb={2}>
                   <Input
                     value={desc}
@@ -157,4 +213,4 @@ const AddExpenses = () => {
   );
 };
 
-export default AddExpenses
+export default AddExpenses;

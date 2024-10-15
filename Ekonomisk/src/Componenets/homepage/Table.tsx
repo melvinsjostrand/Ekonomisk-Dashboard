@@ -1,40 +1,41 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
-import sharedData from "../hooks/data";
-import { pay } from "../BaseTable";
+import { Expense } from "../hooks/Inferfaces";
 
-interface Props {
-  sum: number;
-  payments: pay[];
-  remaining: number;
-}
-
-const Tables = ({ sum, payments }: Props) => {
+const Tables = ({
+  income,
+  expenses,
+}: {
+  income: number;
+  expenses: Expense[];
+}) => {
   const [cash, setCash] = useState({
-    ...sharedData,
     totalSpent: 0,
     remaining: 0,
   });
-
+  const [payments] = useState<Expense[]>(expenses);
   useEffect(() => {
-    const totalSpent = sharedData.payment.reduce(
-      (acc, payment) => acc + payment.amount,
-      0
-    );
-    const remainingAmount = sharedData.sum - totalSpent;
+    if (expenses) {
+      const totalSpent = Array.isArray(expenses)
+        ? expenses.reduce((acc, payment) => acc + payment.amount, 0)
+        : 0;
 
-    setCash((prevState) => ({
-      ...prevState,
-      totalSpent: totalSpent,
-      remaining: remainingAmount,
-    }));
-  }, [sharedData.payment, sharedData.sum]);
+      const remainingAmount = income - totalSpent;
+
+      setCash({
+        totalSpent: totalSpent,
+        remaining: remainingAmount,
+      });
+    }
+  }, [expenses]);
 
   return (
     <BaseTable
-      sum={sum}
+      income={income}
       payments={payments}
       remaining={cash.remaining}
+      userId={0}
+      id={0}
     />
   );
 };

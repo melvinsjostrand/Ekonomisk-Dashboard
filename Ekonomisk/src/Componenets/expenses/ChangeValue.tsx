@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from "react";
 import {
   Button,
   HStack,
@@ -8,24 +8,42 @@ import {
   PopoverTrigger,
   useBoolean,
 } from "@chakra-ui/react";
-import sharedData from '../hooks/data';
+import PutUpdateIncome from "../hooks/PutExpense";
 
 type ChangeValueProps = {
-  category: string;
+  id:number;
+  amount: number;
 };
 
-const ChangeValue = ({ category }: ChangeValueProps) => {
+const ChangeValue = ({id, amount}: ChangeValueProps): JSX.Element => {
   const [isEditing, setIsEditing] = useBoolean();
-  const payment = sharedData.payment.find((p) => p.category === category);
-  const [inputValue, setInputValue] = useState<number>(payment?.amount || 0);
+  const [inputValue, setInputValue] = useState<number>(amount);
+
+  const { mutate: updateIncome} = PutUpdateIncome();
 
   useEffect(() => {
-    setInputValue(payment?.amount || 0); // Update inputValue when payment changes
-  }, [payment]);
+    setInputValue(amount);
+  }, [amount]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(Number(e.target.value)); // Update state when input changes
+    setInputValue(Number(e.target.value));
   };
+
+  const handleSave = () => {
+    const updated = {
+      id,
+      amount: inputValue,
+    };
+    updateIncome(updated, {
+      onSuccess: () => {
+        window.location.reload();
+      },
+      onError: () => {
+        console.log("error" + id + updated);
+      },
+    });
+  };
+
   return (
     <Popover
       isOpen={isEditing}
@@ -38,7 +56,7 @@ const ChangeValue = ({ category }: ChangeValueProps) => {
       <HStack>
         <PopoverAnchor>
           <Input
-            color={"white"}
+            color="white"
             w="auto"
             display="inline-flex"
             isDisabled={!isEditing}
@@ -47,7 +65,11 @@ const ChangeValue = ({ category }: ChangeValueProps) => {
           />
         </PopoverAnchor>
         <PopoverTrigger>
-          <Button h="40px" colorScheme="pink">
+          <Button
+            h="40px"
+            colorScheme="pink"
+            onClick={isEditing ? handleSave : setIsEditing.on}
+          >
             {isEditing ? "Save" : "Edit"}
           </Button>
         </PopoverTrigger>
@@ -56,4 +78,4 @@ const ChangeValue = ({ category }: ChangeValueProps) => {
   );
 };
 
-export default ChangeValue
+export default ChangeValue;

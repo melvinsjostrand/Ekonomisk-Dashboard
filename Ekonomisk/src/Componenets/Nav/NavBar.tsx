@@ -14,17 +14,32 @@ import {
   MenuItem,
   IconButton,
   Show,
+  Spinner,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import ColorModeSwitch from "./ColorModeSwitch";
 import logo from "../../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useUserName from "../hooks/UseGetUsername";
+import useUserId from "../hooks/UseGetUser";
 
 const NavBar = () => {
-  const userName = "";
+  const authToken = localStorage.getItem("Guid");
   const logoSize = useBreakpointValue({ base: "60px", md: "80px" });
   const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const { data: userId, isLoading: isUserIdLoading } = useUserId();
+  const { data: username, isLoading: isUsernameLoading } = useUserName(userId);
+  const navigate = useNavigate();
+
+  if (isUserIdLoading || isUsernameLoading) {
+    return <Spinner />;
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("Guid");
+    navigate("/Login");
+  };
 
   return (
     <HStack spacing={4} justifyContent="space-between" p={4} wrap="wrap">
@@ -47,8 +62,8 @@ const NavBar = () => {
             <MenuItem as={Link} to="AddIncome">
               Income
             </MenuItem>
-            {userName ? (
-              <MenuItem>Logout</MenuItem>
+            {authToken ? (
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             ) : (
               <MenuItem as={Link} to="/login">
                 Login
@@ -66,19 +81,26 @@ const NavBar = () => {
           </Button>
           <Button as={Link} to="AddIncome">
             Income
-            </Button>
+          </Button>
+          {authToken && <Button onClick={handleLogout}>
+            Logout
+          </Button>}
         </>
       )}
 
-      <HStack spacing={4} alignItems="center">
+<HStack spacing={4} alignItems="center">
         <Box>
           <WrapItem>
             <VStack spacing={1} align="start">
-              {userName ? (
-                <>
-                  <Avatar name={userName} size="sm" />
-                  <Button size={buttonSize}>Logout</Button>
-                </>
+              {authToken ? (
+                <VStack>
+                  {isUsernameLoading ? (
+                    <Spinner size="sm" />
+                  ) : (
+                    <Avatar name={username} />
+                  )}
+                  
+                </VStack>
               ) : (
                 <Button as={Link} to="/login" size={buttonSize}>
                   Login
@@ -87,7 +109,9 @@ const NavBar = () => {
             </VStack>
           </WrapItem>
         </Box>
-        <Text display={{ base: "none", md: "block" }}>{userName}</Text>
+        {!isUsernameLoading && username && (
+          <Text display={{ base: "none", md: "block" }}>{username}</Text>
+        )}
         <Show above="lg">
           <ColorModeSwitch />
         </Show>

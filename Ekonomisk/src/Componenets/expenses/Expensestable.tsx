@@ -1,49 +1,93 @@
 import { useEffect, useState } from "react";
 import BaseTable from "../BaseTable";
 import ChangeValue from "./ChangeValue";
-import { Button, Hide, Text} from "@chakra-ui/react";
-import sharedData from "../hooks/data";
-import { pay } from "../BaseTable";
+import { Button, Hide, Text, useToast } from "@chakra-ui/react";
+import { Expense } from "../hooks/Inferfaces";
+import DeleteExpense from "../hooks/DeleteExpense";
 
-interface Props {
-  sum: number;
-  payments: pay[];
-  remaining: number;
-}
-
-const Expensestables = ({ sum, payments }: Props) => {
+const Expensestables = ({
+  income,
+  expenses,
+}: {
+  income: number;
+  expenses: Expense[];
+}) => {
   const [cash, setCash] = useState({
-    ...sharedData, // Initial copy of sharedData
-    totalSpent: 0, // This will be calculated
-    remaining: 0, // This will be calculated
+    totalSpent: 0,
+    remaining: 0,
   });
+  const [payments, setPayments] = useState<Expense[]>(expenses);
+  const Guid = localStorage.getItem("Guid");
+  const { mutate: deleteExpense } = DeleteExpense(); 
+  const toast = useToast();
 
   useEffect(() => {
-    const totalSpent = sharedData.payment.reduce(
-      (acc, payment) => acc + payment.amount,
-      0
-    );
-    const remainingAmount = sharedData.sum - totalSpent;
+    if (expenses) {
+      const totalSpent = expenses.reduce(
+        (acc, payment) => acc + payment.amount,
+        0
+      );
+      const remainingAmount = income - totalSpent;
+      setCash({ totalSpent, remaining: remainingAmount });
+      setPayments(expenses);
+    }
+  }, [income, expenses]);
 
-    setCash((prevState) => ({
-      ...prevState,
-      totalSpent: totalSpent,
-      remaining: remainingAmount,
-    }));
-  }, [sharedData.payment, sharedData.sum]);
 
+    const handleRemove = (expenseId: number) => {
+      if(!Guid){
+        toast({
+          title:"error",
+          status:"error",
+          duration:3000,
+          isClosable:true
+        })
+      }
+      if (window.confirm("Are you sure you want to remove this expense?")) {
+        deleteExpense(expenseId, {
+          onSuccess: () => {
+            window.location.reload();
+            setPayments((prevPayments) =>
+              prevPayments.filter((payment) => payment.expenseId !== expenseId)
+            );
+            toast({
+              title: "Expense deleted.",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+          onError: (error) => {
+            toast({
+              title: "Error deleting expense.",
+              description: error?.message || "Something went wrong.",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+        });
+      }
+    };
   return (
     <>
       <BaseTable
-        sum={sum}
+        income={income || 0}
         payments={payments}
         remaining={cash.remaining}
         renderExtraColumn={(payment) => (
           <>
-            <ChangeValue category={payment.category} />
-            <Button>Remove</Button>
+            <ChangeValue id={payment.expenseId} amount={payment.amount} />
+            <Button
+              colorScheme="red"
+              onClick={() => handleRemove(payment.expenseId)}
+            >
+              Remove
+            </Button>
           </>
         )}
+        userId={0}
+        id={0}
       />
       <Hide above="lg">
         <Text px={2}>

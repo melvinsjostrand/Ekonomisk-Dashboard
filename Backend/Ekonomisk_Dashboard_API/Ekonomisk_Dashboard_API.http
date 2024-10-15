@@ -1,0 +1,6 @@
+@Ekonomisk_Dashboard_API_HostAddress = http://localhost:5074
+
+GET {{Ekonomisk_Dashboard_API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

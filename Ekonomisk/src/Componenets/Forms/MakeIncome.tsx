@@ -13,12 +13,9 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import categoryColors from "../hooks/categoryColors";
-import sharedData from "../hooks/data";
-import User from "../hooks/user";
-
-interface MakeIncomeProps {
-  onSubmit: (income: number, categoryLimits: Record<string, number>) => void;
-}
+import UseGetIncome from "../hooks/UseGetIncome";
+import PostmakeIncome from "../hooks/PostMakeIncome";
+import useUserId from "../hooks/UseGetUser";
 
 const categories = [
   "Housing",
@@ -30,44 +27,72 @@ const categories = [
   "Other",
 ];
 
-const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
+const MakeIncome = () => {
   const [income, setIncome] = useState<number>(0);
-  const [categoryLimits, setCategoryLimits] = useState<Record<string, number>>(
-    {}
+  const { data : userIdData} = useUserId();
+  const userId = userIdData;
+  const authToken = localStorage.getItem("Guid");
+  const [categoryLimits, setCategoryLimits] = useState<
+    { userid: number, category: string; spendLimit: number }[]
+  >(
+    categories.map((category) => ({
+      userid: userId,
+      category,
+      spendLimit: 0,
+    }))
   );
-  const [showSaveGoal, setSaveGoal] = useState<number>();
+  const [showSaveGoal, setSaveGoal] = useState<number | undefined>(undefined);
+  const { mutate: postMutation } = PostmakeIncome();
+
+  const { data } = UseGetIncome(userIdData);
   const toast = useToast();
 
   useEffect(() => {
-    const currentUser = User.find((user) => user.Id === sharedData.userId);
+    if (data && data.limits) {
+      setIncome(data.income || 0);
 
-    if (currentUser) {
-      console.log(currentUser);
-      setIncome(sharedData.sum || currentUser.totalSaving);
-      setCategoryLimits(currentUser.Limits);
-      setSaveGoal(sharedData.saveGoal);
+      const limits = data.limits.map(
+        (limit: { userid: number, category: string; spendLimit: number }) => ({
+          userid: userId,
+          category: limit.category,
+          spendLimit: limit.spendLimit,
+        })
+      );
+
+      setCategoryLimits(limits);
+      setSaveGoal(data.saveGoal);
     }
-  }, []);
+  }, [data]);
 
   const handleLimitChange = (category: string, value: string) => {
-    setCategoryLimits((prevLimits) => ({
-      ...prevLimits,
-      [category]: Number(value),
-    }));
+    setCategoryLimits((prevLimits) =>
+      prevLimits.map((limit) =>
+        limit.category === category
+          ? { ...limit, spendLimit: Number(value) }
+          : limit
+      )
+    );
   };
 
   const getTotalLimits = () => {
-    return Object.values(categoryLimits).reduce((acc, limit) => acc + limit, 0);
+    return categoryLimits.reduce((acc, limit) => acc + limit.spendLimit, 0);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const totalLimits = getTotalLimits();
 
-    if (
-      income > 0 &&
-      Object.keys(categoryLimits).length === categories.length
-    ) {
+    if (income > 0 && categoryLimits.length === categories.length) {
+      if (!authToken) {
+        toast({
+          title: "Not signed in",
+          description: "You need to sign in to make an income",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      }
       if (totalLimits > income) {
         toast({
           title: "Over Budget",
@@ -77,7 +102,38 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
           isClosable: true,
         });
       } else {
-        onSubmit(income, categoryLimits);
+        const incomeData = {
+          userId,
+          income,
+          saveGoal: showSaveGoal,
+          limits: categoryLimits.map((limit) => ({
+            userid: userId,
+            category: limit.category,
+            spendLimit: limit.spendLimit,
+          })),
+        };
+
+        postMutation(incomeData, {
+          onSuccess: () => {
+            console.log(incomeData);
+            toast({
+              title: "Success",
+              description: "Income and limits saved successfully!",
+              status: "success",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+          onError: () => {
+            toast({
+              title: "Error",
+              description: "There was an error saving the data.",
+              status: "error",
+              duration: 3000,
+              isClosable: true,
+            });
+          },
+        });
       }
     } else {
       toast({
@@ -111,7 +167,7 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
             <Input
               type="number"
               placeholder="Enter your total income"
-              value={income}
+              value={income || ""}
               onChange={(e) => setIncome(Number(e.target.value))}
             />
           </FormControl>
@@ -133,7 +189,11 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
                     <Input
                       type="number"
                       placeholder={`Limit for ${category}`}
-                      value={categoryLimits[category] || ""}
+                      value={
+                        categoryLimits.find(
+                          (limit) => limit.category === category
+                        )?.spendLimit || ""
+                      }
                       onChange={(e) =>
                         handleLimitChange(category, e.target.value)
                       }
@@ -142,19 +202,23 @@ const MakeIncome = ({ onSubmit }: MakeIncomeProps) => {
                 </HStack>
               </GridItem>
             ))}
-            <FormControl>
-              <FormLabel>Save goal</FormLabel>
-
-              <Input value={showSaveGoal}></Input>
-            </FormControl>
           </Grid>
+
+          <FormControl>
+            <FormLabel>Save Goal</FormLabel>
+            <Input
+              type="number"
+              value={showSaveGoal || ""}
+              onChange={(e) => setSaveGoal(Number(e.target.value))}
+            />
+          </FormControl>
 
           <Box
             textAlign="center"
             color={getTotalLimits() > income ? "red.500" : "green.500"}
             fontWeight="bold"
           >
-            {`Total Limits: ${getTotalLimits()} / ${income} ${
+            {`Total limits: ${getTotalLimits()} / ${income} ${
               getTotalLimits() > income ? "(Over Budget)" : ""
             }`}
           </Box>

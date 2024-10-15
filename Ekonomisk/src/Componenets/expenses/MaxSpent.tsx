@@ -1,25 +1,57 @@
 import { Box, Progress, Text, useBreakpointValue } from "@chakra-ui/react";
-interface Props {
-  spending: { category: string; amount: number }[];
-  limits: { [key: string]: number };
-}
+import UseLimits from "../hooks/UseLimits";
+import { Expense } from "../hooks/Inferfaces";
+import useUserId from "../hooks/UseGetUser";
+
+type Limit = {
+  category: string;
+  spendLimit: number;
+};
 
 const normalizeCategory = (category: string) => {
   const categoryMap: { [key: string]: string } = {
-      "Housing":"Housing",
-      "Transport":"Transport",
-      "Food":"Food",
-      "Health":"Health",
-      "Entertainment":"Entertainment",
-      "Accessories":"Accessories",
-      "Other":"Other"
+    Housing: "Housing",
+    Transport: "Transport",
+    Food: "Food",
+    Health: "Health",
+    Entertainment: "Entertainment",
+    Accessories: "Accessories",
+    Other: "Other",
   };
 
   return categoryMap[category] || category;
 };
 
-const MaxSpent = ({ spending, limits }: Props) => {
-  const aggregatedSpending: { [key: string]: number } = spending.reduce(
+const MaxSpent = ({ expenses }: { expenses: Expense[] }) => {
+  const { data : userId} = useUserId();
+  const { data: userLimitsData } = UseLimits(userId);
+  console.log(JSON.stringify(userLimitsData));
+  const defaultLimits = [
+    { category: "Housing", spendLimit: 0 },
+    { category: "Transport", spendLimit: 0 },
+    { category: "Food", spendLimit: 0 },
+    { category: "Health", spendLimit: 0 },
+    { category: "Entertainment", spendLimit: 0 },
+    { category: "Accessories", spendLimit: 0 },
+    { category: "Other", spendLimit: 0 },
+  ];
+
+  const limits: Limit[] = Array.isArray(userLimitsData)
+    ? userLimitsData
+    : defaultLimits;
+
+  const textSize = useBreakpointValue({ base: "sm", md: "md" });
+  const progressSize = useBreakpointValue({ base: "md", md: "lg" });
+
+  if (!expenses) {
+    return (
+      <Box>
+        <Text>Error loading data, displaying default values:</Text>
+      </Box>
+    );
+  }
+
+  const aggregatedSpending: { [key: string]: number } = expenses.reduce(
     (acc, item) => {
       const normalizedCategory = normalizeCategory(item.category);
       acc[normalizedCategory] = (acc[normalizedCategory] || 0) + item.amount;
@@ -28,19 +60,18 @@ const MaxSpent = ({ spending, limits }: Props) => {
     {} as { [key: string]: number }
   );
 
-  const textSize = useBreakpointValue({ base: "sm", md: "md" });
-  const progressSize = useBreakpointValue({ base: "md", md: "lg" });
-
   return (
     <Box width="100%" px={{ base: 4, md: 6 }} py={{ base: 2, md: 4 }}>
-      {Object.entries(limits).map(([category, limit], index) => {
+      {limits.map((limitObj, index) => {
+        const category = normalizeCategory(limitObj.category);
         const spent = aggregatedSpending[category] || 0;
-        const percentage = (spent / limit) * 100;
+        const percentage =
+          limitObj.spendLimit > 0 ? (spent / limitObj.spendLimit) * 100 : 0;
 
         return (
           <Box key={index} position="relative" mb={5} width="100%">
             <Text mb={2} fontWeight="bold" fontSize={textSize}>
-              {category}: {spent} kr / {limit} kr
+              {category}: {spent} kr / {limitObj.spendLimit} kr
             </Text>
 
             <Box position="relative">
