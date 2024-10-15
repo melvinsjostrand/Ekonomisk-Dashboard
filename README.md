@@ -72,7 +72,7 @@ Prerequisites
 Node.js installed on your machine.
 npm or Yarn as the package manager.
 
-git clone https://github.com/your-username/budget-management-app.git
+git clone https://github.com/melvinsjostrand/Ekonomisk-Dashboard
 cd Ekonomsik
 
 npm install
