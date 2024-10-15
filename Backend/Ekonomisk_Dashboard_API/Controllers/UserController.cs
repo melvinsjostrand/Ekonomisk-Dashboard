@@ -4,6 +4,8 @@ using MySqlX.XDevAPI;
 using Org.BouncyCastle.Asn1.Mozilla;
 using Org.BouncyCastle.Pkix;
 using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace Ekonomisk_Dashboard_API.Controllers
@@ -12,16 +14,25 @@ namespace Ekonomisk_Dashboard_API.Controllers
     [Route("[controller]")]
     public class UserController : Controller
     {
-        MySqlConnection connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=ekonomisk_dashboard_database");
+        private readonly IEmailSender _emailSender;
+        private MySqlConnection connection;
+        public UserController(IEmailSender emailSender)
+        {
+            this._emailSender = emailSender;
+            connection = new MySqlConnection("server=localhost;uid=root;pwd=;database=ekonomisk_dashboard_database");
+
+        }
+        
         int statusCode;
         string? statusMessage;
         public static Hashtable sessionId = new Hashtable();
-
-
-
+        
         [HttpPost]
-        public ActionResult CreateUser(User user)
+        public async Task<IActionResult> CreateUser(User user)
         {
+            var token = Guid.NewGuid().ToString();
+            var tokenExpiry = DateTime.UtcNow.AddMinutes(10);
+
             try
             {
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.password);
@@ -29,12 +40,13 @@ namespace Ekonomisk_Dashboard_API.Controllers
                 connection.Open();
                 MySqlCommand command = connection.CreateCommand();
                 command.Prepare();
-                command.CommandText = "INSERT INTO users (users.username, users.password, users.mail, users.pastSaving) VALUES(@name, @password, @email, @pastsaving)";
+                command.CommandText = "INSERT INTO pendingUser (pendingUser.username, pendingUser.password, pendingUser.mail, pendingUser.pastsavings, pendingUser.Token, pendingUser.TokenExpiry) VALUES(@name, @password, @email, @pastsaving, @token, @tokenExpiry)";
                 command.Parameters.AddWithValue("@name", user.username);
                 command.Parameters.AddWithValue("@email", user.mail);
                 command.Parameters.AddWithValue("@password", hashedPassword);
                 command.Parameters.AddWithValue("@pastsaving", user.pastSavings);
-
+                command.Parameters.AddWithValue("@token", token);
+                command.Parameters.AddWithValue("@tokenExpiry", tokenExpiry);
 
                 if (String.IsNullOrEmpty(user.password) || (String.IsNullOrEmpty(user.username)) || (String.IsNullOrEmpty(user.mail)))
                 {
@@ -47,10 +59,38 @@ namespace Ekonomisk_Dashboard_API.Controllers
                     return StatusCode(401, "Failed to create user, email or username already in use");
                 }
 
-                command.ExecuteNonQuery();
+                if(IsValidEmail(user.mail))
+                {
+                    command.ExecuteNonQuery();
 
-                statusCode = 200;
-                statusMessage = "Successfully created user";
+                } else
+                {
+                    return StatusCode(400, "email is bad");
+                }
+
+
+                
+
+
+                var receiver = user.mail;
+                var subject = "Confirm Your Account Creation";
+                var confirmationLink = Url.Action("ConfirmUser", "User", new { token = token }, Request.Scheme);
+
+                Console.WriteLine("confirmationlink: " + confirmationLink);
+
+                var bodyMessage = $@"
+                    <p>Dear {user.username},</p>
+                    <p>Thank you for signing up! To complete your registration and activate your account, please verify your email by clicking the button below</p>
+                    <a href='{confirmationLink}' style='color:blue;text-decoration:none;font-weight:bold;cursor:pointer;'>Confirm</a>
+                    <p> If you did not create an account with us, you can safely ignore this email. Thank you</p>
+                    <p>This link will expire in 10 minutes</p>";
+
+                await _emailSender.SendEmailAsync(receiver, subject, bodyMessage);
+
+                return StatusCode(200, "Confirmation email sent. Please confirm within 10 minutes.");
+
+                //statusCode = 200;
+                //statusMessage = "Successfully created user";
             }
             catch(Exception exception)
             {
@@ -65,7 +105,93 @@ namespace Ekonomisk_Dashboard_API.Controllers
             return StatusCode(statusCode, statusMessage);
         }
 
-        [HttpPost("SavingsNewUser")]
+        [HttpGet("ConfirmUser")]
+        public async Task<IActionResult> ConfirmUser(string token)
+        {
+            try
+            {
+                connection.Open();
+                MySqlCommand query = connection.CreateCommand();
+                query.CommandText = "SELECT * FROM pendinguser WHERE Token = @token AND TokenExpiry > @currentDate";
+                query.Parameters.AddWithValue("@token", token);
+                query.Parameters.AddWithValue("@currentDate", DateTime.UtcNow);
+
+                var data = query.ExecuteReader();
+                if (data.Read())
+                {
+                    // Token is valid, proceed with account creation
+                    string username = data.GetString("username");
+                    string passwordHash = data.GetString("password");
+                    string mail = data.GetString("mail");
+
+                    data.Close();
+
+                    // Create user in the actual user table
+                    query.CommandText = "INSERT INTO users (username, password, mail) " +
+                                        "VALUES(@username, @password, @mail)";
+                    query.Parameters.Clear();
+                    query.Parameters.AddWithValue("@username", username);
+                    query.Parameters.AddWithValue("@password", passwordHash);
+                    query.Parameters.AddWithValue("@mail", mail);
+
+                    query.ExecuteNonQuery();
+
+                    // Delete pending user
+                    query.CommandText = "DELETE FROM pendinguser WHERE Token = @token";
+                    query.Parameters.AddWithValue("@token", token);
+                    query.ExecuteNonQuery();
+
+                    // Return a success message with auto-close functionality
+                    return Content(@"
+                <html>
+                    <head>
+                        <title>Account Confirmed</title>
+                    </head>
+                    <body>
+                        <p>Your account has been confirmed and created successfully.</p>
+                        <p>This window will close automatically in 1 seconds.</p>
+                        <script>
+                            setTimeout(function() {
+                                window.close();
+                            }, 1000); // Close the window after 1 seconds
+                        </script>
+                    </body>
+                </html>", "text/html");
+                }
+                else
+                {
+                    return BadRequest("Invalid or expired token.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+
+
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    
+
+
+    [HttpPost("SavingsNewUser")]
         public ActionResult CreateSavingsRow(int userId, int prevSave)
         {
             try
@@ -78,11 +204,14 @@ namespace Ekonomisk_Dashboard_API.Controllers
                 command.Parameters.AddWithValue("@totalsaving", prevSave);
                 command.ExecuteNonQuery();
 
-                statusCode= 201;
+                connection.Close();
+
+                statusCode = 201;
                 statusMessage = "Successfully created row for user in savings";
             }
             catch(Exception exception)
             {
+                connection.Close();
                 statusCode = 500;
                 statusMessage = "Failed to create row for user in savings, server error: " + exception.Message;
             }
@@ -107,12 +236,13 @@ namespace Ekonomisk_Dashboard_API.Controllers
                         userId = data.GetInt32("userid");
                     }
                 }
-
+                connection.Close();
                 return userId;
             }
             catch(Exception exception)
             {
                 Console.WriteLine("Could not fetch userid by mail, server error: " + exception.Message);
+                connection.Close();
                 return 0;
             }
         }

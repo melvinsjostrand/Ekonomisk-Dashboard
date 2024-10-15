@@ -72,7 +72,7 @@ const CreateForm = () => {
         toast({
           title: "Success",
           description:"Please check your email to verify your account.\n\n" +
-                      "We've sent a verification link to [user's email address].\n" +
+                      "We've sent a verification link to "+JSON.stringify(mail)+".\n" +
                       "Click the link in the email to activate your account.\n\n" +
                       "Didn't receive the email?\n" +
                       "Check your spam or junk folder.",

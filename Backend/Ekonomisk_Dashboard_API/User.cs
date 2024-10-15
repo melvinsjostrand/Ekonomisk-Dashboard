@@ -8,5 +8,7 @@
         public string mail { get; set; } = string.Empty;
 
         public int pastSavings { get; set; }
+
+        
     }
 }
