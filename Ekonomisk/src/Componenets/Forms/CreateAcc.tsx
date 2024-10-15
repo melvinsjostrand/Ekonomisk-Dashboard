@@ -71,9 +71,13 @@ const CreateForm = () => {
       onSuccess: () => {
         toast({
           title: "Success",
-          description: "Account created",
+          description:"Please check your email to verify your account.\n\n" +
+                      "We've sent a verification link to [user's email address].\n" +
+                      "Click the link in the email to activate your account.\n\n" +
+                      "Didn't receive the email?\n" +
+                      "Check your spam or junk folder.",
           status: "success",
-          duration: 3000,
+          duration: 5000,
           isClosable: true,
         });
       },

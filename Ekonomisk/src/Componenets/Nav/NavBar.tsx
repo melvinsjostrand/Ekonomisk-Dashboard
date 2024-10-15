@@ -19,7 +19,7 @@ import {
 import { HamburgerIcon } from "@chakra-ui/icons";
 import ColorModeSwitch from "./ColorModeSwitch";
 import logo from "../../assets/logo.png";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useUserName from "../hooks/UseGetUsername";
 import useUserId from "../hooks/UseGetUser";
 
@@ -95,7 +95,7 @@ const NavBar = () => {
               {authToken ? (
                 <VStack>
                   {isUsernameLoading ? (
-                    <Spinner size="sm" /> // Show loading spinner while username is being fetched
+                    <Spinner size="sm" />
                   ) : (
                     <Avatar name={username} />
                   )}
