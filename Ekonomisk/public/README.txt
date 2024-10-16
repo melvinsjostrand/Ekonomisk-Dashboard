@@ -1,0 +1,1 @@
+This is the Image folder, when uploading an expense with an image in it here is where you find it
