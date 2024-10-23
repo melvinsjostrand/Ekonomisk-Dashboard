@@ -11,6 +11,26 @@
       "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\controllers\\limitscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\controllers\\limitscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\limitsincome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\limitsincome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\controllers\\savingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\controllers\\savingscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\iemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\iemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,36 +39,16 @@
       "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\expenses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\controllers\\expensescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\controllers\\expensescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\iemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\iemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\controllers\\limitscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\controllers\\limitscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\updatemonthlysavingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\updatemonthlysavingsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|c:\\users\\erikf\\source\\repos\\ekonomisk_dashboard_api\\ekonomisk_dashboard_api\\limitsincome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D8B89157-F917-4827-8C36-0E147FB91074}|Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API.csproj|solutionrelative:ekonomisk_dashboard_api\\limitsincome.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,44 +58,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Expenses.cs",
-              "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Expenses.cs",
-              "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\Expenses.cs",
-              "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Expenses.cs",
-              "RelativeToolTip": "Ekonomisk_Dashboard_API\\Expenses.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-15T19:47:02.62Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Program.cs",
-              "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\Program.cs",
-              "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Program.cs",
-              "RelativeToolTip": "Ekonomisk_Dashboard_API\\Program.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAAAIAAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-15T19:45:40.208Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\User.cs",
-              "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\User.cs",
-              "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\User.cs",
-              "RelativeToolTip": "Ekonomisk_Dashboard_API\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAArAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-15T19:31:12.468Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -106,7 +70,7 @@
               "RelativeToolTip": "Ekonomisk_Dashboard_API\\appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-15T19:28:00.087Z",
+              "WhenOpened": "2024-10-23T18:25:52.814Z",
               "EditorCaption": ""
             },
             {
@@ -119,23 +83,12 @@
               "RelativeToolTip": "Ekonomisk_Dashboard_API\\appsettings.Development.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-15T19:27:58.832Z"
+              "WhenOpened": "2024-10-23T18:25:50.894Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "EmailSender.cs",
-              "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\EmailSender.cs",
-              "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\EmailSender.cs",
-              "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\EmailSender.cs",
-              "RelativeToolTip": "Ekonomisk_Dashboard_API\\EmailSender.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAQwBYAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-15T19:27:25.837Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "IEmailSender.cs",
               "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\IEmailSender.cs",
               "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\IEmailSender.cs",
@@ -147,19 +100,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "UserController.cs",
               "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\Controllers\\UserController.cs",
               "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Controllers\\UserController.cs",
               "RelativeToolTip": "Ekonomisk_Dashboard_API\\Controllers\\UserController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAB1AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIwAAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T17:52:31.665Z"
+              "WhenOpened": "2024-10-14T17:52:31.665Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "ExpensesController.cs",
               "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Controllers\\ExpensesController.cs",
               "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\Controllers\\ExpensesController.cs",
@@ -171,7 +125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "UpdateMonthlySavingsService.cs",
               "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\UpdateMonthlySavingsService.cs",
               "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\UpdateMonthlySavingsService.cs",
@@ -183,7 +137,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 4,
               "Title": "LimitsIncome.cs",
               "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\LimitsIncome.cs",
               "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\LimitsIncome.cs",
@@ -195,15 +149,63 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
               "Title": "LimitsController.cs",
               "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Controllers\\LimitsController.cs",
               "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\Controllers\\LimitsController.cs",
               "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Controllers\\LimitsController.cs",
               "RelativeToolTip": "Ekonomisk_Dashboard_API\\Controllers\\LimitsController.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAIBJwCIAAABEAAAA",
+              "ViewState": "AQIAABMBAAAAAAAAAAAMwCMBAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-14T15:38:40.154Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\User.cs",
+              "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\User.cs",
+              "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\User.cs",
+              "RelativeToolTip": "Ekonomisk_Dashboard_API\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-15T19:31:12.468Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Program.cs",
+              "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\Program.cs",
+              "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Program.cs",
+              "RelativeToolTip": "Ekonomisk_Dashboard_API\\Program.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAAIAAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-15T19:45:40.208Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SavingsController.cs",
+              "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Controllers\\SavingsController.cs",
+              "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\Controllers\\SavingsController.cs",
+              "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Controllers\\SavingsController.cs",
+              "RelativeToolTip": "Ekonomisk_Dashboard_API\\Controllers\\SavingsController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-23T18:12:57.139Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Expenses.cs",
+              "DocumentMoniker": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Expenses.cs",
+              "RelativeDocumentMoniker": "Ekonomisk_Dashboard_API\\Expenses.cs",
+              "ToolTip": "C:\\Users\\erikf\\source\\repos\\Ekonomisk_Dashboard_API\\Ekonomisk_Dashboard_API\\Expenses.cs",
+              "RelativeToolTip": "Ekonomisk_Dashboard_API\\Expenses.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-15T19:47:02.62Z"
             }
           ]
         }
