@@ -99,8 +99,7 @@ namespace Ekonomisk_Dashboard_API.Controllers
             }
             connection.Close();
 
-            int userId = GetUserIdbyMail(user.mail);
-            CreateSavingsRow(userId, user.pastSavings);
+            
 
             return StatusCode(statusCode, statusMessage);
         }
@@ -111,37 +110,46 @@ namespace Ekonomisk_Dashboard_API.Controllers
             try
             {
                 connection.Open();
-                MySqlCommand query = connection.CreateCommand();
-                query.CommandText = "SELECT * FROM pendinguser WHERE Token = @token AND TokenExpiry > @currentDate";
-                query.Parameters.AddWithValue("@token", token);
-                query.Parameters.AddWithValue("@currentDate", DateTime.UtcNow);
+                MySqlCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM pendinguser WHERE Token = @token AND TokenExpiry > @currentDate";
+                command.Parameters.AddWithValue("@token", token);
+                command.Parameters.AddWithValue("@currentDate", DateTime.UtcNow);
 
-                var data = query.ExecuteReader();
+                var data = command.ExecuteReader();
                 if (data.Read())
                 {
                     // Token is valid, proceed with account creation
-                    string username = data.GetString("username");
-                    string passwordHash = data.GetString("password");
-                    string mail = data.GetString("mail");
+                    User user = new User();
+                    user.username = data.GetString("username");
+                    user.password = data.GetString("password");
+                    user.mail = data.GetString("mail");
+                    user.pastSavings = data.GetInt32("pastsavings");
 
                     data.Close();
 
-                    // Create user in the actual user table
-                    query.CommandText = "INSERT INTO users (username, password, mail) " +
-                                        "VALUES(@username, @password, @mail)";
-                    query.Parameters.Clear();
-                    query.Parameters.AddWithValue("@username", username);
-                    query.Parameters.AddWithValue("@password", passwordHash);
-                    query.Parameters.AddWithValue("@mail", mail);
+                    // Create user in the user table
+                    command.CommandText = "INSERT INTO users (username, password, mail, pastSaving) "+"VALUES(@username, @password, @mail, @pastSaving)";
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@username", user.username);
+                    command.Parameters.AddWithValue("@password", user.password);
+                    command.Parameters.AddWithValue("@mail", user.mail);
+                    command.Parameters.AddWithValue("@pastSaving", user.pastSavings);
 
-                    query.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
 
                     // Delete pending user
-                    query.CommandText = "DELETE FROM pendinguser WHERE Token = @token";
-                    query.Parameters.AddWithValue("@token", token);
-                    query.ExecuteNonQuery();
+                    command.CommandText = "DELETE FROM pendinguser WHERE Token = @token";
+                    command.Parameters.AddWithValue("@token", token);
 
-                    // Return a success message with auto-close functionality
+                    command.ExecuteNonQuery();
+
+                    data.Close();
+                    connection.Close();
+
+                    int userId = GetUserIdbyMail(user.mail);
+                    CreateSavingsRow(userId, user.pastSavings);
+
+
                     return Content(@"
                 <html>
                     <head>
@@ -236,6 +244,20 @@ namespace Ekonomisk_Dashboard_API.Controllers
                         userId = data.GetInt32("userid");
                     }
                 }
+
+                if(userId == 0)
+                {
+                    command.CommandText = "SELECT id FROM pendinguser WHERE mail = @mail";
+                    command.Parameters.AddWithValue("@mail", mail);
+                    using (MySqlDataReader data = command.ExecuteReader())
+                    {
+                        while (data.Read())
+                        {
+                            userId = data.GetInt32("userid");
+                        }
+                    }
+                }
+
                 connection.Close();
                 return userId;
             }
